@@ -1,0 +1,34 @@
+{
+  "root": true,
+  "indent": {
+    "value": "    "
+  },
+  "quotes": {
+    "type": "single",
+    "avoidEscape": false
+  },
+  "whiteSpace": {
+    "before": {
+      "FunctionName": 1,
+      "FunctionDeclarationOpeningBrace": 1,
+      "FunctionDeclarationClosingBrace": 1,
+      "FunctionExpressionOpeningBrace": 1,
+      "FunctionExpressionClosingBrace": 1,
+      "FunctionGeneratorAsterisk": 0,
+      "FunctionExpressionOpeningBrace": 1,
+      "FunctionExpressionClosingBrace": 1
+    },
+    "after": {
+      "FunctionExpressionOpeningBrace": 1,
+      "FunctionExpressionClosingBrace": -1
+    }
+  },
+  "plugins": [
+    "esformatter-semicolons",
+    "esformatter-remove-trailing-commas",
+    "esformatter-jquery-chain",
+    "esformatter-quotes",
+    "esformatter-spaced-lined-comment",
+    "esformatter-eol-last"
+  ]
+}
