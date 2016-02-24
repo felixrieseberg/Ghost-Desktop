@@ -1,0 +1,15 @@
+/* Main viewport, contains main content, and alerts */
+.gh-app {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: hidden;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+[data-ember-action] {
+    cursor: pointer;
+}

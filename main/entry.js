@@ -4,7 +4,7 @@
 const electron         = require('electron');
 const app              = electron.app;
 const BrowserWindow    = electron.BrowserWindow;
-const emberAppLocation = `file://${__dirname}/dist/index.html`;
+const emberAppLocation = `file://${__dirname}/../dist/index.html`;
 
 let mainWindow = null;
 
@@ -18,8 +18,9 @@ app.on('window-all-closed', function onWindowAllClosed() {
 
 app.on('ready', function onReady() {
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600
+        width: 1000,
+        height: 800,
+        show: false
     });
 
     delete mainWindow.module;
@@ -34,8 +35,6 @@ app.on('ready', function onReady() {
     mainWindow.webContents.on('did-fail-load', () => {
         mainWindow.loadURL(emberAppLocation);
     });
-
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-    });
+    mainWindow.on('closed', () => mainWindow = null);
+    mainWindow.webContents.on('did-finish-load', () => mainWindow.show());
 });

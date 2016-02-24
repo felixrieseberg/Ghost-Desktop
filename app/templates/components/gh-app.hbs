@@ -1,0 +1,8 @@
+{{#if blogs}}
+    {{gh-switcher blogs=blogs switchToBlog="switchToBlog" showAddBlog="showAddBlog" }}
+{{/if}}
+{{#if isAddBlogVisible}}
+    {{gh-add-blog}}
+{{else if selectedBlog}}
+    {{gh-instance-host blog=selectedBlog}}
+{{/if}}

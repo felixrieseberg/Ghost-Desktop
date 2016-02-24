@@ -1,1 +1,10 @@
-{{yield}}
+<ul>
+    {{#each blogs as |blog|}}
+        <li class="switch-btn {{if blog.isSelected "isSelected"}}" {{action "switchToBlog" blog}}>
+            <span>{{first-letter blog.name}}</span>
+        </li>
+    {{/each}}
+</ul>
+<div {{action "showAddBlog"}} class="add-blog-button switch-btn">
+    <span>+</span>
+</div>

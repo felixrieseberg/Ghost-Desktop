@@ -1,0 +1,49 @@
+.switcher {
+    width: 100px;
+    background-color: #282D31;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.switcher ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.switcher .switch-btn {
+    height: 60px;
+    width: 60px;
+    margin: 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.switcher li {
+    box-sizing: border-box;
+    background-color: var(--lightgrey);
+    opacity: .3;
+}
+
+.switcher li:hover {
+    box-sizing: border-box;
+    border: 4px solid var(--midgrey);
+    background-color: var(--lightgrey);
+}
+
+.switcher li.isSelected {
+    opacity: 1;
+}
+
+.switcher .add-blog-button {
+    color: var(--lightgrey);
+}
+
+.switcher .add-blog-button:hover {
+    background-color: #51575D;
+}

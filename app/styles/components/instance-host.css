@@ -1,0 +1,24 @@
+.instance-host {
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+}
+.instance-host webview.host {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity .2s ease-in;
+}
+
+.instance-host webview.host.loaded {
+    opacity: 1;
+}
+
+.instance-host .loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}

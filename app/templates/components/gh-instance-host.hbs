@@ -1,1 +1,2 @@
-<webview id="foo" src="https://www.felixrieseberg.com/ghost" autosize="on" allowpopups></webview>
+<webview id="ghost-blog-host" src="{{blog.url}}" class="host {{if isInstanceLoaded "loaded"}}" allowpopups></webview>
+<img class="loading {{if isInstanceLoaded "hidden"}}" src="assets/img/loadingcat.gif">

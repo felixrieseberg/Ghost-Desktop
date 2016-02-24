@@ -1,0 +1,37 @@
+/* Add blog
+/* ---------------------------------------------------------- */
+
+.gh-add-blog {
+    text-align: center;
+}
+
+.gh-add-blog {
+    position: relative;
+    margin: 30px auto;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    border: #dae1e3 1px solid;
+    background: #f8fbfd;
+    border-radius: 5px;
+    text-align: left;
+    height: 280px;
+    align-self: center;
+}
+
+.gh-add-blog .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.gh-add-blog .btn {
+    margin: 0;
+    padding: 12px;
+}
+
+.gh-add-blog input {
+    margin-bottom: 1.5rem;
+}
+
+.gh-add-blog .gh-flow-content-wrap:first {
+    padding-bottom: 0;
+}
