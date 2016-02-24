@@ -1,6 +1,9 @@
+import Ember from 'ember';
+
 export default function setup() {
-    const Menu = requireNode('electron').remote.Menu;
-    const template = [
+    let {remote} = requireNode('electron');
+    let {Menu} = remote;
+    let template = [
         {
             label: 'Edit',
             submenu: [
@@ -64,20 +67,6 @@ export default function setup() {
                             focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
                         }
                     }
-                },
-                {
-                    label: 'Toggle Developer Tools',
-                    accelerator: (function accelerator() {
-                        if (process.platform === 'darwin') {
-                            return 'Alt+Command+I';
-                        }
-                        return 'Ctrl+Shift+I';
-                    }()),
-                    click(item, focusedWindow) {
-                        if (focusedWindow) {
-                            focusedWindow.toggleDevTools();
-                        }
-                    }
                 }
             ]
         },
@@ -94,6 +83,63 @@ export default function setup() {
                     label: 'Close',
                     accelerator: 'CmdOrCtrl+W',
                     role: 'close'
+                }
+            ]
+        },
+        {
+            label: 'Developer',
+            submenu: [
+                {
+                    label: 'Toggle Developer Tools (Ghost Desktop)',
+                    accelerator: (function accelerator() {
+                        if (process.platform === 'darwin') {
+                            return 'Alt+Command+I';
+                        }
+                        return 'Ctrl+Shift+I';
+                    }()),
+                    click(item, focusedWindow) {
+                        if (focusedWindow) {
+                            focusedWindow.toggleDevTools();
+                        }
+                    }
+                },
+                {
+                    label: 'Toggle Developer Tools (Current Blog)',
+                    accelerator: (function accelerator() {
+                        if (process.platform === 'darwin') {
+                            return 'Alt+Command+Shift+I';
+                        }
+                        return 'Ctrl+Alt+Shift+I';
+                    }()),
+                    click(item, focusedWindow) {
+                        if (focusedWindow) {
+                            Ember.$('div.instance-host').each((i, element) => {
+                                let webviews = Ember.$(element).find('webview');
+
+                                if (!webviews || webviews.length < 1 || !webviews.hasClass('focussed')) {
+                                    return;
+                                }
+
+                                if (webviews[0].isDevToolsOpened()) {
+                                    webviews[0].closeDevTools();
+                                } else {
+                                    webviews[0].openDevTools();
+                                }
+                            });
+                        }
+                    }
+                },
+                {
+                    label: 'Repository',
+                    click() {
+                        require('electron').shell.openExternal('http://github.com/tryghost/ghost-desktop');
+                    }
+                },
+                {
+                    label: 'Report Issues',
+                    click() {
+                        require('electron').shell.openExternal('http://github.com/tryghost/ghost-desktop/issues');
+                    }
                 }
             ]
         },
@@ -131,7 +177,7 @@ export default function setup() {
                     type: 'separator'
                 },
                 {
-                    label: 'Hide ' + name,
+                    label: `Hide ${name}`,
                     accelerator: 'Command+H',
                     role: 'hide'
                 },
@@ -168,7 +214,7 @@ export default function setup() {
         );
     }
 
-    const builtMenu = Menu.buildFromTemplate(template);
-
+    let builtMenu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(builtMenu);
+    return builtMenu;
 }
