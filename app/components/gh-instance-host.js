@@ -4,7 +4,7 @@ const {Component} = Ember;
 
 export default Component.extend({
     classNames: ['instance-host'],
-    isFocussed: true,
+    classNameBindings: ['blog.isSelected:selected'],
 
     didReceiveAttrs() {
         this._super(...arguments);
