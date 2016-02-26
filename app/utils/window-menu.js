@@ -113,19 +113,18 @@ export default function setup() {
                     }()),
                     click(item, focusedWindow) {
                         if (focusedWindow) {
-                            Ember.$('div.instance-host').each((i, element) => {
-                                let webviews = Ember.$(element).find('webview');
+                            let host = Ember.$('div.instance-host.selected');
+                            let webviews = host ? Ember.$(host).find('webview') : null;
 
-                                if (!webviews || webviews.length < 1 || !webviews.hasClass('focussed')) {
-                                    return;
-                                }
+                            if (!webviews || !webviews[0]) {
+                                return;
+                            }
 
-                                if (webviews[0].isDevToolsOpened()) {
-                                    webviews[0].closeDevTools();
-                                } else {
-                                    webviews[0].openDevTools();
-                                }
-                            });
+                            if (webviews[0].isDevToolsOpened()) {
+                                webviews[0].closeDevTools();
+                            } else {
+                                webviews[0].openDevTools();
+                            }
                         }
                     }
                 },
