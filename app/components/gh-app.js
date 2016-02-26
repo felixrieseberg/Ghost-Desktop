@@ -35,18 +35,19 @@ export default Component.extend({
             let previousBlog = this.get('selectedBlog');
 
             if (previousBlog) {
-                previousBlog.set('isSelected', false);
-                previousBlog.save();
+                previousBlog.unselect();
             }
 
-            blog.set('isSelected', true);
-            blog.save();
+            blog.select();
             this.set('selectedBlog', blog);
-
             this.set('isAddBlogVisible', false);
         },
 
         showAddBlog() {
+            if (this.get('selectedBlog')) {
+                this.get('selectedBlog').unselect();
+            }
+
             this.set('isAddBlogVisible', true);
         }
     }
