@@ -7,11 +7,11 @@ export default DS.Model.extend({
     url: attr('string'),
     isSelected: attr('boolean'),
 
-    select: function () {
+    select() {
         this.set('isSelected', true);
         this.save();
     },
-    unselect: function () {
+    unselect() {
         this.set('isSelected', false);
         this.save();
     }
