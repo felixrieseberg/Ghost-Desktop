@@ -16,14 +16,28 @@ export default Component.extend({
 
         this.$('webview')
             .off('did-finish-load')
-            .on('did-finish-load', () => {
-                this.set('isInstanceLoaded', true);
-            })
+            .on('did-finish-load', () => this._handleLoaded())
             .off('new-window')
-            .on('new-window', (e) => {
-                if (e && e.originalEvent && e.originalEvent.url) {
-                    require('electron').shell.openExternal(e.originalEvent.url);
-                }
-            });
+            .on('new-window', (e) => this._handleNewWindow(e));
+    },
+
+    _handleLoaded() {
+        let keytar = requireNode('keytar');
+        let $webview = this.$('webview')[0];
+        let title = $webview.getTitle();
+
+        if (title.includes('Sign In')) {
+            let username = this.get('blog.username');
+            let password = this.get('blog.password');
+            console.log(username, password);
+        } else {
+            this.set('isInstanceLoaded', true);
+        }
+    },
+
+    _handleNewWindow(e) {
+        if (e && e.originalEvent && e.originalEvent.url) {
+            requireNode('electron').shell.openExternal(e.originalEvent.url);
+        }
     }
 });

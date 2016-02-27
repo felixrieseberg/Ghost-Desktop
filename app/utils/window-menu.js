@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default function setup() {
+export function setup() {
     let {remote} = requireNode('electron');
     let {Menu} = remote;
     let template = [
