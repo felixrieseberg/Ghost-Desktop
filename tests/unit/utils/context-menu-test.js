@@ -1,7 +1,7 @@
 import { setup } from 'ghost-desktop/utils/context-menu';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | window menu');
+module('Unit | Utility | context menu');
 
 test('creates a menu', function(assert) {
     let result = setup();

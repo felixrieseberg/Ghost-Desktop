@@ -1,7 +1,7 @@
 export function setup() {
     let {remote} = requireNode('electron');
     let {Menu} = remote;
-    let buildEditorContextMenu = remote.require('electron-editor-context-menu');
+    let editorMenu = remote.require('electron-editor-context-menu')();
 
     window.addEventListener('contextmenu', (e) => {
         e.preventDefault();
@@ -11,7 +11,6 @@ export function setup() {
 
         while (node) {
             if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
-                let editorMenu = buildEditorContextMenu();
                 editorMenu.popup(remote.getCurrentWindow());
                 break;
             }
@@ -19,4 +18,6 @@ export function setup() {
             node = node.parentNode;
         }
     });
+
+    return editorMenu;
 };

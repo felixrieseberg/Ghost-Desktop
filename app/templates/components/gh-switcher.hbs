@@ -1,6 +1,6 @@
 <ul>
     {{#each blogs as |blog|}}
-        <li class="switch-btn {{if blog.isSelected "isSelected"}}" {{action "switchToBlog" blog}}>
+        <li class="switch-btn {{if blog.isSelected "isSelected"}}" {{action "switchToBlog" blog}} data-blog={{blog.id}}>
             <span>{{first-letter blog.name}}</span>
         </li>
     {{/each}}
