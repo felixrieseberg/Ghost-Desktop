@@ -1,7 +1,7 @@
 export function setup() {
     let {remote} = requireNode('electron');
-    let {Menu} = remote;
     let editorMenu = remote.require('electron-editor-context-menu')();
+    let {Menu} = remote;
 
     window.addEventListener('contextmenu', (e) => {
         e.preventDefault();

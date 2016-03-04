@@ -1,14 +1,21 @@
 ---
 language: node_js
 node_js:
-  - "5.0"
+  - "5.1"
 
 sudo: false
 
+env:
+  - CXX=g++-4.8
+
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
       - xvfb
+      - libgnome-keyring-dev
+      - g++-4.8
 
 cache:
   directories:
@@ -17,9 +24,9 @@ cache:
 before_install:
   - "npm config set spin false"
   - "npm install -g grunt-cli"
+  - "npm install -g bower"
 
 install:
-  - npm install -g bower
   - npm install
   - bower install
   - export DISPLAY=':99.0'
