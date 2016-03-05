@@ -2,9 +2,17 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { blogs } from '../../fixtures/blogs';
 
+/**
+ * Test Preparation
+ */
+
 moduleForComponent('gh-app', 'Integration | Component | gh app', {
     integration: true
 });
+
+/**
+ * Tests
+ */
 
 test('displays the "add new blog" UI if no blog is added', function(assert) {
     this.render(hbs`{{gh-app}}`);
@@ -23,18 +31,28 @@ test('renders all existing blogs in a webview', function (assert) {
 });
 
 test('displays the first blog if it has blogs (none selected)', function(assert) {
-    this.set('_blogs', blogs);
-    this.render(hbs`{{gh-app blogs=_blogs}}`);
+    let blogContent = blogs;
+    blogContent.content = blogs;
+    blogContent.firstObject = blogs[0];
+    blogContent.find = blogs.find;
 
-    const instanceHost = this.$('.instance-host')[0];
-    //assert.ok(this.$(instanceHost).hasClass('selected'));
-    assert.ok(true);
+    Ember.run(() => {
+        this.set('_blogs', blogContent);
+        this.render(hbs`{{gh-app blogs=_blogs}}`);
+
+        const instanceHost = this.$('.instance-host')[0];
+        assert.ok(this.$(instanceHost).hasClass('selected'));
+    });
 });
 
 test('displays the selected blog if it has blogs (one selected)', function(assert) {
     blogs[1].select();
+    let blogContent = blogs;
+    blogContent.content = blogs;
+    blogContent.firstObject = blogs[0];
+    blogContent.find = blogs.find;
 
-    this.set('_blogs', blogs);
+    this.set('_blogs', blogContent);
     this.render(hbs`{{gh-app blogs=_blogs}}`);
 
     const instanceHost = this.$('.instance-host')[1];

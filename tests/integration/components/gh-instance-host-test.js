@@ -2,9 +2,17 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { blogs } from '../../fixtures/blogs';
 
+/**
+ * Test Preparation
+ */
+
 moduleForComponent('gh-instance-host', 'Integration | Component | gh instance host', {
     integration: true
 });
+
+/**
+ * Tests
+ */
 
 test('it renders', function(assert) {
     // Set any properties with this.set('myProperty', 'value');
