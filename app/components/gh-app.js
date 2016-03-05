@@ -5,8 +5,15 @@ const {Component} = Ember;
 export default Component.extend({
     classNames: ['gh-app'],
 
+    hasBlogs: Ember.computed('blogs', {
+        get() {
+            let b = this.get('blogs');
+            return (b && b.content && b.content.length && b.content.length > 0);
+        }
+    }),
+
     didReceiveAttrs() {
-        if (this.get('blogs') && !this.get('selectedBlog')) {
+        if (this.get('hasBlogs') && !this.get('selectedBlog')) {
             this.send('switchToBlog', this.findSelectedBlog() || this.get('blogs.firstObject'));
         } else {
             this.set('isAddBlogVisible', true);

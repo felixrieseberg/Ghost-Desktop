@@ -1,11 +1,13 @@
 import Ember from 'ember';
-import setupMenu from '../utils/window-menu';
+import { setup as setupWindowMenu } from '../utils/window-menu';
+import { setup as setupContextMenu } from '../utils/context-menu';
 
 const {Route} = Ember;
 
 export default Route.extend({
     beforeModel() {
-        setupMenu();
+        setupWindowMenu();
+        setupContextMenu();
     },
 
     model() {
