@@ -1,5 +1,5 @@
 .switcher {
-    width: 100px;
+    width: 60px;
     background-color: #282D31;
     display: flex;
     flex-direction: column;
@@ -13,14 +13,14 @@
 }
 
 .switcher .switch-btn {
-    height: 60px;
-    width: 60px;
-    margin: 20px;
+    height: 40px;
+    width: 40px;
+    margin: 10px;
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2em;
+    font-size: 1.8em;
     font-weight: bold;
 }
 
@@ -28,6 +28,7 @@
     box-sizing: border-box;
     background-color: var(--lightgrey);
     opacity: .3;
+    border-radius: 5px;
 }
 
 .switcher li:hover {
