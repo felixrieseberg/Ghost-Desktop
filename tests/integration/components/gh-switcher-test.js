@@ -56,7 +56,6 @@ test('it renders all blogs with the id in the data attribute', function(assert) 
     assert.equal(this.$('li').data('blog'), 0);
 });
 
-
 test('a click on a blog initiates blog navigation', function(assert) {
     this.set('_blogs', blogs);
     this.set('_switchToBlog', (blog) => {
