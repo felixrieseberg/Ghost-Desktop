@@ -2,6 +2,10 @@ import { moduleForComponent } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import test from 'ghost-desktop/tests/ember-sinon-qunit/test';
 
+/**
+ * Test Preparation
+ */
+
 let recordCreated = false;
 let recordSaved = false;
 
@@ -27,6 +31,10 @@ moduleForComponent('gh-add-blog', 'Integration | Component | gh add blog', {
         this.inject.service('store');
     }
 });
+
+/**
+ * Tests
+ */
 
 test('it renders', function(assert) {
     // Set any properties with this.set('myProperty', 'value');
