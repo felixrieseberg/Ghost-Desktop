@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 const {Component} = Ember;
 
+/**
+ * The instance host component contains a webview, displaying a Ghost blog
+ * inside an isolated container without Node integration.
+ */
 export default Component.extend({
     classNames: ['instance-host'],
     classNameBindings: ['blog.isSelected:selected'],
