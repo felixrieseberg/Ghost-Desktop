@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 const {Component} = Ember;
 
+/**
+ * The switcher component is a Slack-like quick switcher on the left side of
+ * the app, allowing users to quickly switch between blogs.
+ */
 export default Component.extend({
     store: Ember.inject.service(),
     classNames: ['switcher'],
@@ -11,6 +15,10 @@ export default Component.extend({
         this._setupContextMenu();
     },
 
+    /**
+     * In addition to the app-wide context menu, a context menu allowing
+     * interaction with the blog below is setup.
+     */
     _setupContextMenu() {
         let {remote} = requireNode('electron');
         let {Menu} = remote;
