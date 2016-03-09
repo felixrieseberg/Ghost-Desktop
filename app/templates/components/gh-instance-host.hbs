@@ -1,2 +1,8 @@
 <webview src="{{blog.url}}" class="host {{if isInstanceLoaded "loaded"}}" allowpopups></webview>
-<img class="loading {{if isInstanceLoaded "hidden"}}" src="assets/img/loadingcat.gif">
+
+<div class="gh-app {{if isInstanceLoaded "hidden"}}">
+        <div class="gh-loading-side"></div>
+        <div class="gh-loading-content">
+            <div class="gh-loading-spinner"></div>
+        </div>
+</div>
