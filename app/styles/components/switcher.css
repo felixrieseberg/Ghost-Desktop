@@ -1,50 +1,81 @@
 .switcher {
-    width: 60px;
+    width: 65px;
+    padding: 15px 0 0;
     background-color: #282D31;
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;
 }
 
-.switcher ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.switcher-blog {
+    margin-bottom: 12px;
 }
 
-.switcher .switch-btn {
-    height: 40px;
-    width: 40px;
-    margin: 10px;
-    border-radius: 5px;
+.switch-btn {
+    position: relative;
+    height: 34px;
+    width: 34px;
+    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8em;
+    font-size: 1.6rem;
     font-weight: bold;
-}
-
-.switcher li {
-    box-sizing: border-box;
     background-color: var(--lightgrey);
-    opacity: .3;
-    border-radius: 5px;
+    border-radius: 3px;
+    opacity: 0.4;
+    transition: box-shadow 0.7s ease;
 }
 
-.switcher li:hover {
-    box-sizing: border-box;
-    border: 4px solid var(--midgrey);
-    background-color: var(--lightgrey);
+.switch-btn:hover {
+    box-shadow: rgba(255,255,255,0.25) 0 0 0 4px;
+    transition: box-shadow 0.1s ease;
 }
 
-.switcher li.isSelected {
+.switcher-blog.isSelected .switch-btn {
     opacity: 1;
 }
 
+.switcher-blog.isSelected .switch-btn:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -16px;
+    height: 34px;
+    width: 4px;
+    border-radius: 0 3px 3px 0;
+    background: #fff;
+}
+
+.switch-shortcut {
+    font-size: 1.1rem;
+    color: #fff;
+    opacity: 0.3;
+    text-align: center;
+}
+.switch-shortcut:hover {
+    cursor: default;
+}
+
 .switcher .add-blog-button {
+    margin-bottom: 5px;
     color: var(--lightgrey);
+    font-size: 2.4rem;
+    background: transparent;
+    transition: opacity 0.3s ease;
 }
 
 .switcher .add-blog-button:hover {
-    background-color: #51575D;
+    color: #fff;
+    opacity: 0.7;
+    box-shadow: none;
 }
