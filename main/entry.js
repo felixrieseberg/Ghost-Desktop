@@ -10,12 +10,6 @@ let mainWindow = null;
 
 electron.crashReporter.start();
 
-app.on('window-all-closed', function onWindowAllClosed() {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
-});
-
 app.on('ready', function onReady() {
     mainWindow = new BrowserWindow({
         width: 1000,
@@ -35,6 +29,6 @@ app.on('ready', function onReady() {
     mainWindow.webContents.on('did-fail-load', () => {
         mainWindow.loadURL(emberAppLocation);
     });
-    mainWindow.on('closed', () => mainWindow = null);
+    mainWindow.on('closed', () => app.quit());
     mainWindow.webContents.on('did-finish-load', () => mainWindow.show());
 });
