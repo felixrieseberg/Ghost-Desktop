@@ -67,12 +67,13 @@ export default Component.extend({
 
         removeBlog(id) {
             if (id) {
-                this.get('store').findRecord('blog', id).then((result) => {
-                    if (result) {
-                        result.deleteRecord();
-                        result.save();
-                    }
-                });
+                this.get('store').findRecord('blog', id)
+                    .then((result) => {
+                        if (result) {
+                            result.deleteRecord();
+                            result.save().then(() => this.sendAction('blogRemoved'));
+                        }
+                    });
             }
         }
     }

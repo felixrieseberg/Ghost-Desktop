@@ -1,13 +1,18 @@
 {{!-- Left "Quick Swich" Area  --}}
 
 {{#if blogs}}
-    {{gh-switcher blogs=blogs switchToBlog="switchToBlog" showAddBlog="showAddBlog"}}
+    {{gh-switcher 
+        blogs=blogs
+        switchToBlog="switchToBlog"
+        showAddBlog="showAddBlog"
+        blogRemoved="blogRemoved"
+    }}
 {{/if}}
 
 {{!-- Right Side: Main Content Area  --}}
 
 {{#if isAddBlogVisible}}
-    {{gh-add-blog}}
+    {{gh-add-blog blogAdded="blogAdded"}}
 {{/if}}
 
 {{#if blogs}}
