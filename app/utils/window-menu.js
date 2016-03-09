@@ -90,7 +90,7 @@ export function setup() {
             label: 'Developer',
             submenu: [
                 {
-                    label: 'Toggle Developer Tools (Ghost Desktop)',
+                    label: 'Toggle Developer Tools',
                     accelerator: (function accelerator() {
                         if (process.platform === 'darwin') {
                             return 'Alt+Command+I';
@@ -158,10 +158,10 @@ export function setup() {
 
     if (process.platform === 'darwin') {
         template.unshift({
-            label: 'Ghost Desktop',
+            label: 'Ghost',
             submenu: [
                 {
-                    label: 'About Ghost Desktop',
+                    label: 'About Ghost',
                     role: 'about'
                 },
                 {
