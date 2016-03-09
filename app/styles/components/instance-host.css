@@ -24,9 +24,3 @@
 .instance-host webview.host.loaded {
     opacity: 1;
 }
-
-.instance-host .loading {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-}
