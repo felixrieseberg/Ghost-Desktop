@@ -5,6 +5,7 @@
 // **Usage instructions:** can be found in the by running `grunt --help`.
 //
 // **Debug tip:** If you have any problems with any Grunt tasks, try running them with the `--verbose` command
+
 const configureGrunt = function(grunt) {
     // #### Load all grunt tasks
     //
@@ -38,6 +39,9 @@ const configureGrunt = function(grunt) {
         shell: {
             test: {
                 command: 'ember electron:test'
+            },
+            build: {
+                command: `ember electron:package --platform ${process.platform} --overwrite`
             }
         }
     };
@@ -45,6 +49,7 @@ const configureGrunt = function(grunt) {
     grunt.initConfig(config);
 
     grunt.registerTask('validate', 'Test Code Style and App', ['jscs:app', 'shell:test']);
+    grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
 };
 
 module.exports = configureGrunt;

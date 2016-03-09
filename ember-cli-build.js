@@ -27,6 +27,9 @@ module.exports = function(defaults) {
             blacklist: blacklist,
             comments: false,
         },
+        fingerprint: {
+            enabled: false
+        },
         hinting: false,
         minifyJS: {
             enabled: false
@@ -40,7 +43,7 @@ module.exports = function(defaults) {
             browsers: 'last 2 Chrome versions',
             sourcemap: true,
             compress: mythCompress,
-            outputFile: isProduction ? 'ghost-desktop.min.css' : 'ghost-desktop.css'
+            outputFile: 'ghost-desktop.css'
         },
     });
 
