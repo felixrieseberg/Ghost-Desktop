@@ -39,7 +39,7 @@ export default DS.Model.extend({
      */
     setPassword(value) {
         let keytar = requireNode('keytar');
-        return keytar.addPassword(this.get('url'), this.get('identification'), value);
+        return keytar.replacePassword(this.get('url'), this.get('identification'), value);
     },
 
     /**

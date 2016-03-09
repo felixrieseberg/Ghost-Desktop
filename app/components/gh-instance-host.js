@@ -25,7 +25,9 @@ export default Component.extend({
             .off('did-finish-load')
             .on('did-finish-load', () => this._handleLoaded())
             .off('new-window')
-            .on('new-window', (e) => this._handleNewWindow(e));
+            .on('new-window', (e) => this._handleNewWindow(e))
+            .off('console-message')
+            .on('console-message', (e) => this._handleConsole(e));
     },
 
     /**
@@ -36,10 +38,8 @@ export default Component.extend({
         // soon as all assets are loaded. The app however still has to boot up.
         // To make things "feel" more snappy, we're hiding the loading from the
         // user.
-        //
-        // TODO: Acutally wait for the app to load, instead of this shameful
-        // excuse for a hack.
-        setTimeout(() => this.set('isInstanceLoaded', true), 1200);
+
+        this.set('isInstanceLoaded', true);
     },
 
     /**
@@ -68,6 +68,7 @@ export default Component.extend({
         // Execute the commands. Once done, the load handler will
         // be called again, and the instance set to loaded.
         $webviews[0].executeJavaScript(commands.join(''));
+        this.set('isAttemptedSignin', true);
     },
 
     /**
@@ -79,21 +80,36 @@ export default Component.extend({
 
         // Check if we're on the sign in page, and if so, attempt to
         // login automatically (without bothering the user)
-        if (title.includes('Sign In')) {
+        if (title.includes('Sign In') && !this.get('isAttemptedSignin')) {
             this.signin();
-        } else {
-            this.show();
         }
     },
 
     /**
      * Handles "new window" requests from the Ghost blog, piping them
      * through to the operating system's default browser
-     * @param  {Object} e - Event
+     * @param  {Object} e - jQuery Event
      */
     _handleNewWindow(e) {
         if (e && e.originalEvent && e.originalEvent.url) {
             requireNode('electron').shell.openExternal(e.originalEvent.url);
+        }
+    },
+
+    /**
+     * Handles console messages logged in the webview
+     * @param  {Object} e - jQuery Event
+     */
+    _handleConsole(e) {
+        if (e.originalEvent.message.includes('login-error')) {
+            let errorNotify = new Notification('Login failed: Please update your credentials.');
+
+            // TODO: Show "update credentials screen here"
+            return this.set('isInstanceLoaded', true);
+        }
+
+        if (e.originalEvent.message.includes('loaded')) {
+            this.set('isInstanceLoaded', true);
         }
     }
 });

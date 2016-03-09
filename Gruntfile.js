@@ -6,6 +6,8 @@
 //
 // **Debug tip:** If you have any problems with any Grunt tasks, try running them with the `--verbose` command
 
+const package = require('./package.json');
+
 const configureGrunt = function(grunt) {
     // #### Load all grunt tasks
     //
@@ -41,7 +43,7 @@ const configureGrunt = function(grunt) {
                 command: 'ember electron:test'
             },
             build: {
-                command: `ember electron:package --platform ${process.platform} --overwrite`
+                command: `ember electron:package --platform ${process.platform} --app-version ${package.version} --overwrite`
             }
         }
     };

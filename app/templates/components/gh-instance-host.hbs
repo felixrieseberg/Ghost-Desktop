@@ -1,6 +1,6 @@
-<webview src="{{blog.url}}" class="host {{if isInstanceLoaded "loaded"}}" allowpopups></webview>
+<webview src="{{blog.url}}" class="host {{if isInstanceLoaded "loaded"}}" allowpopups preload="../main/preload.js"></webview>
 
-<div class="gh-app {{if isInstanceLoaded "hidden"}}">
+<div class="gh-app">
         <div class="gh-loading-side"></div>
         <div class="gh-loading-content">
             <div class="gh-loading-spinner"></div>
