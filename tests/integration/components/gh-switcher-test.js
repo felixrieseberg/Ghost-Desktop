@@ -47,13 +47,13 @@ test('it renders', function(assert) {
 test('it renders all blogs as single-letter buttons', function(assert) {
     this.set('_blogs', blogs);
     this.render(hbs`{{gh-switcher blogs=_blogs}}`);
-    assert.equal(this.$().text().trim().replace(/(\r\n|\n|\r| )/gm,''), 'TTT+');
+    assert.equal(this.$().text().trim().replace(/(\r\n|\n|\r| )/gm,''), 'T⌘0T⌘1T⌘2+');
 });
 
 test('it renders all blogs with the id in the data attribute', function(assert) {
     this.set('_blogs', blogs);
     this.render(hbs`{{gh-switcher blogs=_blogs}}`);
-    assert.equal(this.$('li').data('blog'), 0);
+    assert.equal(this.$('.switch-btn').data('blog'), 0);
 });
 
 test('a click on a blog initiates blog navigation', function(assert) {
@@ -63,7 +63,7 @@ test('a click on a blog initiates blog navigation', function(assert) {
     });
 
     this.render(hbs`{{gh-switcher blogs=_blogs switchToBlog=(action _switchToBlog)}}`);
-    this.$('li')[0].click();
+    this.$('.switch-btn')[0].click();
 });
 
 test('a click on the "add blog" sign requests "add blog" ui', function(assert) {
@@ -74,7 +74,7 @@ test('a click on the "add blog" sign requests "add blog" ui', function(assert) {
     });
 
     this.render(hbs`{{gh-switcher blogs=_blogs showAddBlog=(action _showAddBlog)}}`);
-    this.$('div.add-blog-button').click();
+    this.$('.add-blog-button').click();
 });
 
 test('calling removeBlog attempts to remove the blog', function(assert) {
@@ -87,7 +87,7 @@ test('calling removeBlog attempts to remove the blog', function(assert) {
     // we briefly replace the switchToBlog action with the removeAction, since we
     // can invoke a click Programmatically.
     this.render(hbs`{{gh-switcher blogs=_blogs switchToBlog=removeBlog}}`);
-    this.$('li')[0].click();
+    this.$('.switch-btn')[0].click();
 
     assert.ok(recordsSearched);
     assert.ok(recordDeleted);
