@@ -75,7 +75,7 @@
     "build-version": null,
     "cache": null,
     "helper-bundle-id": null,
-    "icon": null,
+    "icon": "assets/icons/ghost",
     "ignore": null,
     "out": null,
     "overwrite": null,

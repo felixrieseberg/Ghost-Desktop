@@ -7,7 +7,7 @@ os:
 osx_image: xcode7
 
 env:
-  - CXX=g++-4.8 NODE_VERSION=5.1 TARGET_ARCH=x64
+  - NODE_VERSION=5.1 TARGET_ARCH=x64
 
 addons:
   apt:
@@ -23,6 +23,7 @@ cache:
     - node_modules
 
 before_install:
+  # OS X ---------------------------------------------------------------------
   # nvm is not yet supported on osx, manually install
   - rm -rf ~/.nvm
   - git clone https://github.com/creationix/nvm.git /tmp/.nvm
@@ -30,7 +31,9 @@ before_install:
   - nvm install $NODE_VERSION
   - nvm use --delete-prefix $NODE_VERSION
   - node --version && npm --version
-  # Continue with our normally scheduled program
+  # LINUX --------------------------------------------------------------------
+  - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then export CXX=g++-4.8; fi
+  # Continue with our normally scheduled program -----------------------------
   - "npm config set spin false"
   - "npm install -g grunt-cli"
   - "npm install -g bower"

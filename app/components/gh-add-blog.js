@@ -82,22 +82,21 @@ export default Component.extend({
      */
     _createBlogIfNotExists(url = '', name = '', identification = '') {
         return new Promise(async (resolve) => {
-            let oldRecord = await this._ensureSingleRecord(url);
+            let record = await this._ensureSingleRecord(url);
 
-            if (!oldRecord) {
+            if (!record) {
                 // If the blog doesn't already exist, create it
-                let newRecord = this.get('store').createRecord('blog', {
-                    url,
-                    name,
-                    identification
-                });
-
-                // Set the password in an extra step, because it's a native call
-                newRecord.setPassword(this.get('password'));
-                newRecord.save().then((savedBlog) => resolve(savedBlog));
-            } else {
-                resolve(oldRecord);
+                record = this.get('store').createRecord('blog', {url});
             }
+
+            record.setProperties({
+                name,
+                identification
+            });
+
+            // Set the password in an extra step, because it's a native call
+            record.setPassword(this.get('password'));
+            record.save().then((savedBlog) => resolve(savedBlog));
         });
     },
 
