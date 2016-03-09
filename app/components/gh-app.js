@@ -3,7 +3,12 @@ import Ember from 'ember';
 const {Component} = Ember;
 
 export default Component.extend({
+    store: Ember.inject.service(),
     classNames: ['gh-app'],
+
+    didReceiveAttrs() {
+        this.setup();
+    },
 
     hasBlogs: Ember.computed('blogs', {
         get() {
@@ -12,8 +17,8 @@ export default Component.extend({
         }
     }),
 
-    didReceiveAttrs() {
-        if (this.get('hasBlogs') && !this.get('selectedBlog')) {
+    setup() {
+        if (this.get('hasBlogs')) {
             this.send('switchToBlog', this.findSelectedBlog() || this.get('blogs.firstObject'));
         } else {
             this.set('isAddBlogVisible', true);
@@ -30,9 +35,21 @@ export default Component.extend({
         });
     },
 
+    refreshBlogs() {
+        this.get('store').findAll('blog')
+            .then((result) => {
+                this.set('blogs', result);
+                this.setup();
+            });
+    },
+
     actions: {
         switchToBlog(blog) {
             let previousBlog = this.get('selectedBlog');
+
+            if (!blog) {
+                return;
+            }
 
             if (previousBlog) {
                 previousBlog.unselect();
@@ -49,6 +66,14 @@ export default Component.extend({
             }
 
             this.set('isAddBlogVisible', true);
+        },
+
+        blogAdded(blog) {
+            this.send('switchToBlog', blog);
+        },
+
+        blogRemoved() {
+            this.refreshBlogs();
         }
     }
 });

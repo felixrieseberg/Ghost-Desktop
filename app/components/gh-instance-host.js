@@ -41,7 +41,7 @@ export default Component.extend({
         //
         // TODO: Ask the user for credentials and add them back to the OS
         // keystore
-        if (!username || !password || !webviews || !webviews[0]) {
+        if (!username || !password || !$webviews || !$webviews[0]) {
             return this.set('isInstanceLoaded', true);
         }
 

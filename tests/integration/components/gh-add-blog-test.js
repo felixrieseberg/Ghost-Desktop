@@ -16,6 +16,7 @@ const store = Ember.Service.extend({
             setPassword() {},
             save() {
                 recordSaved = true;
+                return new Promise((resolve, reject) => resolve());
             }
         }
     }

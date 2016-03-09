@@ -56,7 +56,7 @@ export default Component.extend({
                 });
 
                 record.setPassword(this.get('password'));
-                record.save();
+                record.save().then((savedBlog) => this.sendAction('blogAdded', savedBlog));
             }
 
             this.set('isSubmitting', false);
