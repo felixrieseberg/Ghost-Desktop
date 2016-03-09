@@ -10,6 +10,9 @@ export default Component.extend({
         this.setup();
     },
 
+    /**
+     * Boolean value that returns true if there are any blogs
+     */
     hasBlogs: Ember.computed('blogs', {
         get() {
             let b = this.get('blogs');
@@ -17,6 +20,9 @@ export default Component.extend({
         }
     }),
 
+    /**
+     * Setup method, determining which blog to display.
+     */
     setup() {
         if (this.get('hasBlogs')) {
             this.send('switchToBlog', this.findSelectedBlog() || this.get('blogs.firstObject'));
@@ -25,6 +31,11 @@ export default Component.extend({
         }
     },
 
+    /**
+     * Finds the first blog marked as "selected"
+     *
+     * @returns {Object} blog
+     */
     findSelectedBlog() {
         if (!this.get('hasBlogs')) {
             return null;
@@ -35,6 +46,9 @@ export default Component.extend({
         });
     },
 
+    /**
+     * Reloads the blogs from the local databse
+     */
     refreshBlogs() {
         this.get('store').findAll('blog')
             .then((result) => {
@@ -44,15 +58,18 @@ export default Component.extend({
     },
 
     actions: {
+        /**
+         * Switches to a given blog
+         *
+         * @param {Object} blog - Blog to switch to
+         */
         switchToBlog(blog) {
-            let previousBlog = this.get('selectedBlog');
-
             if (!blog) {
                 return;
             }
 
-            if (previousBlog) {
-                previousBlog.unselect();
+            if (this.get('previousBlog')) {
+                this.get('previousBlog').unselect();
             }
 
             blog.select();
@@ -60,6 +77,9 @@ export default Component.extend({
             this.set('isAddBlogVisible', false);
         },
 
+        /**
+         * Displays the "add blog" UI
+         */
         showAddBlog() {
             if (this.get('selectedBlog')) {
                 this.get('selectedBlog').unselect();
@@ -68,10 +88,18 @@ export default Component.extend({
             this.set('isAddBlogVisible', true);
         },
 
+        /**
+         * Handles an added blog
+         *
+         * @param {Object} blog - Added blog
+         */
         blogAdded(blog) {
             this.send('switchToBlog', blog);
         },
 
+        /**
+         * Handles the removal of a blog
+         */
         blogRemoved() {
             this.refreshBlogs();
         }

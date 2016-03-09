@@ -29,6 +29,20 @@ export default Component.extend({
     },
 
     /**
+     * Makes the instance visible, overlaying the loading cat in the process
+     */
+    show() {
+        // Fun fact: Chrome's loading apis will consider the website loaded as
+        // soon as all assets are loaded. The app however still has to boot up.
+        // To make things "feel" more snappy, we're hiding the loading from the
+        // user.
+        //
+        // TODO: Acutally wait for the app to load, instead of this shameful
+        // excuse for a hack.
+        setTimeout(() => this.set('isInstanceLoaded', true), 1200);
+    },
+
+    /**
      * Programmatically attempt to login
      */
     signin() {
@@ -42,7 +56,7 @@ export default Component.extend({
         // TODO: Ask the user for credentials and add them back to the OS
         // keystore
         if (!username || !password || !$webviews || !$webviews[0]) {
-            return this.set('isInstanceLoaded', true);
+            return this.show();
         }
 
         let commands = [
@@ -68,7 +82,7 @@ export default Component.extend({
         if (title.includes('Sign In')) {
             this.signin();
         } else {
-            this.set('isInstanceLoaded', true);
+            this.show();
         }
     },
 

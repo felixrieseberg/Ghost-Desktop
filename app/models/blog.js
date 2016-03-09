@@ -12,6 +12,10 @@ export default DS.Model.extend({
      * Convenience method, marking the blog as selected (and saving)
      */
     select() {
+        if (this.isDestroying || this.isDestroyed) {
+            return;
+        }
+
         this.set('isSelected', true);
         this.save();
     },
@@ -20,6 +24,10 @@ export default DS.Model.extend({
      * Convenience method, marking the blog as unselected (and saving)
      */
     unselect() {
+        if (this.isDestroying || this.isDestroyed) {
+            return;
+        }
+
         this.set('isSelected', false);
         this.save();
     },
