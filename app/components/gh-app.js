@@ -68,8 +68,8 @@ export default Component.extend({
                 return;
             }
 
-            if (this.get('previousBlog')) {
-                this.get('previousBlog').unselect();
+            if (this.get('selectedBlog')) {
+                this.get('selectedBlog').unselect();
             }
 
             blog.select();
