@@ -1,6 +1,6 @@
 <a href="https://github.com/TryGhost/Ghost"><img src="https://cloud.githubusercontent.com/assets/120485/6622822/c4c639fe-c8e7-11e4-9e64-5bec06c8b4c3.png" alt="Ghost" /></a><a href="https://travis-ci.org/TryGhost/Ghost-Desktop"><img align="right" src="https://travis-ci.org/TryGhost/Ghost-Desktop.svg?branch=master" alt="Build status" /></a>
 
-![Ghost Screenshot](.github/screenshot.jpg)
+![Ghost Screenshot](https://cloud.githubusercontent.com/assets/1426799/13665768/fb6df440-e6e8-11e5-87db-e27527a7e4b4.jpg)
 
 ![Ghost is a simple, powerful publishing platform that allows you to share your stories with the world.](https://cloud.githubusercontent.com/assets/120485/6626501/b2bb072c-c8ff-11e4-8e1a-2e78e68fd5c3.png)
 
