@@ -30,6 +30,3 @@ The development workflow is enabled by [Ember-Electron](https://github.com/felix
  * `npm run test` or `grunt validate` runs JSCS (a code style checker) and the QUnit tests together. It is also what our CI system runs whenever you make a pull request.
  * `npm run build` or `grunt build` compiles Ghost Desktop into a standalone binary (.exe on Windows, .app on OS X).
  * `npm run build-native-deps` compiles native dependencies using the Electron headers. It should be run whenever you run `npm install`.
- 
- #### Native Dependencies
-Ghost Desktop isn't just a dumb alternative to a web browser - it tries to enhance the user's experience 
