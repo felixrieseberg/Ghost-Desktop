@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export function setup() {
     let {remote} = requireNode('electron');
-    let {Menu} = remote;
+    let {Menu, app} = remote;
     let template = [
         {
             label: 'Edit',
@@ -196,7 +196,7 @@ export function setup() {
                     label: 'Quit',
                     accelerator: 'Command+Q',
                     click() {
-                        shutdown();
+                        app.quit();
                     }
                 }
             ]

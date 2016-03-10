@@ -45,6 +45,25 @@ const configureGrunt = function(grunt) {
             build: {
                 command: `ember electron:package --platform ${process.platform} --app-version ${package.version} --overwrite`
             }
+        },
+
+        'create-windows-installer': {
+            x64: {
+                appDirectory: './electron-builds/Ghost-win32-x64',
+                outputDirectory: './electron-builds/win-installer64',
+                authors: 'Ghost Foundation',
+                exe: 'ghost.exe',
+                iconUrl: './assets/icons/ghost.ico',
+                setupIcon: './assets/icons/ghost.ico'
+            },
+            ia32: {
+                appDirectory: './electron-builds/Ghost-win32-ia32',
+                outputDirectory: './electron-builds/win-installer32',
+                authors: 'Ghost Foundation',
+                exe: 'ghost.exe',
+                iconUrl: './assets/icons/ghost.ico',
+                setupIcon: './assets/icons/ghost.ico'
+            }
         }
     };
 
@@ -52,6 +71,7 @@ const configureGrunt = function(grunt) {
 
     grunt.registerTask('validate', 'Test Code Style and App', ['jscs:app', 'shell:test']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
+    grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['shell:build', 'create-windows-installer'])
 };
 
 module.exports = configureGrunt;

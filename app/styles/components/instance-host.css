@@ -6,6 +6,10 @@
     visibility: collapse;
 }
 
+.instance-host webview {
+    z-index: 10;
+}
+
 .instance-host.selected {
     display: block;
     visibility: visible;
