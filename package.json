@@ -1,7 +1,7 @@
 {
   "name": "ghost-desktop",
   "version": "0.0.0",
-  "description": "",
+  "description": "Desktop Client for Ghost",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -11,11 +11,12 @@
     "build": "grunt build",
     "start": "ember electron",
     "test": "grunt validate",
-    "build-deps": "electron-rebuild"
+    "build-native-deps": "electron-rebuild -a ia32 -w keytar",
+    "installer": "grunt installer"
   },
   "repository": "",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 5.0"
   },
   "author": "",
   "license": "MIT",
@@ -51,6 +52,7 @@
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.7.0",
     "grunt-contrib-jshint": "^1.0.0",
+    "grunt-electron-installer": "^1.2.3",
     "grunt-jscs": "2.7.0",
     "grunt-shell": "^1.1.2",
     "loader.js": "^4.0.0",
@@ -62,7 +64,7 @@
       "package.json",
       "main/*"
     ],
-    "name": "Ghost Desktop",
+    "name": "Ghost",
     "platform": null,
     "arch": null,
     "version": null,

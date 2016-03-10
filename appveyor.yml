@@ -1,0 +1,49 @@
+# Fix line endings in Windows. (runs before repo cloning)
+init:
+  - git config --global core.autocrlf true
+
+clone_depth: 1
+
+environment:
+  matrix:
+    - nodejs_version: "5.1"
+
+platform:
+  - x64
+
+cache:
+  - bower_components
+  - node_modules
+  - '%APPDATA%\npm-cache'
+  - '%APPDATA%\Roaming\bower'
+
+branches:
+  only:
+    - master
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Let's try to get things working
+  # Install Node 5 ---------------------------------------------------------
+  - ps: Install-Product node 5.1
+  # Typical npm stuff ------------------------------------------------------
+  - md C:\nc
+  - npm version
+  - npm config set cache C:\nc
+  # Installation, globals --------------------------------------------------
+  - npm install -g --no-color --no-progress bower 
+  - npm install -g --no-color --no-progress node-gyp 
+  - npm install --no-color --no-progress electron-prebuilt
+  # Installation, deps -----------------------------------------------------
+  - npm install --no-optional --no-color --no-progress --ignore-scripts
+  - bower install
+  # Rebuild native dependencies with Electron headers ----------------------
+  - npm run build-native-deps
+
+test_script:
+  - npm run test
+  
+build: off
+
+# Set build version format here instead of in the admin panel.
+version: "{build}"
