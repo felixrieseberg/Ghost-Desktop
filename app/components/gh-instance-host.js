@@ -1,6 +1,9 @@
 import Ember from 'ember';
+import {injectCss} from '../utils/inject-css';
 
-const {Component} = Ember;
+const {
+    Component
+} = Ember;
 
 /**
  * The instance host component contains a webview, displaying a Ghost blog
@@ -28,6 +31,9 @@ export default Component.extend({
             .on('new-window', (e) => this._handleNewWindow(e))
             .off('console-message')
             .on('console-message', (e) => this._handleConsole(e));
+
+        // Inject CSS
+        this._insertCss();
     },
 
     /**
@@ -69,6 +75,24 @@ export default Component.extend({
         // be called again, and the instance set to loaded.
         $webviews[0].executeJavaScript(commands.join(''));
         this.set('isAttemptedSignin', true);
+    },
+
+    /**
+     * Injects CSS files into the webview, one for each OS
+     *
+     * CSS files can be found in /public/assets/inject/css/*
+     */
+    _insertCss() {
+        let $webviews = this.$('webview');
+
+        if (!$webviews || !$webviews[0]) {
+            return;
+        }
+
+        // Inject a CSS file for the specific platform (OS X; Windows)
+        injectCss($webviews[0], process.platform);
+        // Inject a CSS file for all platforms (all.css)
+        injectCss($webviews[0], 'all');
     },
 
     /**
