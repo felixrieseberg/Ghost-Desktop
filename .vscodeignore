@@ -8,3 +8,4 @@ bower_components/**
 connect.lock/**
 coverage/*/**
 libpeerconnection.log
+electron-builds/

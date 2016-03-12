@@ -48,25 +48,19 @@ const configureGrunt = function(grunt) {
         },
 
         'create-windows-installer': {
-            x64: {
-                appDirectory: './electron-builds/Ghost-win32-x64',
-                outputDirectory: './electron-builds/win-installer64',
-                authors: 'Ghost Foundation',
-                exe: 'ghost.exe',
-                iconUrl: './assets/icons/ghost.ico',
-                setupIcon: './assets/icons/ghost.ico'
-            },
             ia32: {
                 appDirectory: './electron-builds/Ghost-win32-ia32',
                 outputDirectory: './electron-builds/win-installer32',
                 authors: 'Ghost Foundation',
-                exe: 'ghost.exe',
-                iconUrl: './assets/icons/ghost.ico',
-                setupIcon: './assets/icons/ghost.ico'
+                exe: 'Ghost.exe',
+                iconUrl: `https://raw.githubusercontent.com/TryGhost/Ghost-Desktop/master/assets/icons/ghost.ico`,
+                setupIcon: `${__dirname}/assets/icons/ghost.ico`,
+                title: 'Ghost',
+                noMsi: true
             }
         }
     };
-
+    
     grunt.initConfig(config);
 
     grunt.registerTask('validate', 'Test Code Style and App', ['jscs:app', 'shell:test']);
