@@ -38,6 +38,18 @@ const configureGrunt = function(grunt) {
             }
         },
 
+        eslint: {
+            configFile: '.eslintrc.json',
+            target: [
+                'app/**/*.js',
+                '!node_modules/**/*.js',
+                '!bower_components/**/*.js',
+                '!tests/**/*.js',
+                '!tmp/**/*.js',
+                '!dist/**/*.js'
+            ]
+        },
+
         shell: {
             test: {
                 command: 'ember electron:test'
@@ -69,7 +81,7 @@ const configureGrunt = function(grunt) {
 
     grunt.initConfig(config);
 
-    grunt.registerTask('validate', 'Test Code Style and App', ['jscs:app', 'shell:test']);
+    grunt.registerTask('validate', 'Test Code Style and App', ['eslint', 'jscs:app', 'shell:test']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
     grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['shell:build', 'create-windows-installer'])
 };

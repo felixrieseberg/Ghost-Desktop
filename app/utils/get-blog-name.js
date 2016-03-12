@@ -14,7 +14,7 @@ export function getBlogName(url) {
         Ember.$.get(url)
             .then((response) => {
                 let titleResult = response.match('<title>(.*)</title>');
-                let title = (titleResult && titleResult.length > 1) ? titleResult[1] : blogUrl;
+                let title = (titleResult && titleResult.length > 1) ? titleResult[1] : url;
 
                 resolve(title);
             })

@@ -1,6 +1,8 @@
 import DS from 'ember-data';
 
+/*eslint-disable no-unused-vars*/
 const {Model, attr, hasMany} = DS;
+/*eslint-enable no-unused-vars*/
 
 export default DS.Model.extend({
     name: attr('string'),

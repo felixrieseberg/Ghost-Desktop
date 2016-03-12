@@ -27,7 +27,12 @@ export default Component.extend({
 
         let removeTeamMenu = Menu.buildFromTemplate([{
             label: 'Remove Blog',
-            click(item, focusedWindow) {
+            click(
+               item,
+               /*eslint-disable no-unused-vars*/
+               focusedWindow
+               /*eslint-enable no-unused-vars*/
+            ) {
                 if (selectedBlog) {
                     self.send('removeBlog', selectedBlog);
                 }
