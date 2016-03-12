@@ -4,10 +4,15 @@
 const electron         = require('electron');
 const app              = electron.app;
 const BrowserWindow    = electron.BrowserWindow;
+const globalShortcut   = electron.globalShortcut;
 const emberAppLocation = `file://${__dirname}/../dist/index.html`;
 
-let mainWindow = null;
+// Before we do anything else, handle Squirrel Events
+if (require('./squirrel')) {
+    return;
+}
 
+let mainWindow = null;
 electron.crashReporter.start();
 
 app.on('ready', function onReady() {
@@ -21,14 +26,16 @@ app.on('ready', function onReady() {
 
     // If you want to open up dev tools programmatically, call
     // mainWindow.openDevTools();
-
     mainWindow.loadURL(emberAppLocation);
 
     // If a loading operation goes wrong, we'll send Electron back to
     // Ember App entry point
-    mainWindow.webContents.on('did-fail-load', () => {
-        mainWindow.loadURL(emberAppLocation);
-    });
-    mainWindow.on('closed', () => app.quit());
+    mainWindow.webContents.on('did-fail-load', () => mainWindow.loadURL(emberAppLocation));
     mainWindow.webContents.on('did-finish-load', () => mainWindow.show());
+    mainWindow.on('closed', () => app.quit());
+    
+    // Setup Dev Shortcut on Windows (on Mac, the App Menu will take care of it)
+    if (process.platform === 'win32') {
+        globalShortcut.register('Ctrl+Shift+I', () => mainWindow.toggleDevTools());
+    }
 });
