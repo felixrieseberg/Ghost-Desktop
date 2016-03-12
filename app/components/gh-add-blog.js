@@ -40,7 +40,11 @@ export default Component.extend({
 
                 return is;
             })
-            .catch((error) => {
+            .catch((
+                /*eslint-disable no-unused-vars*/
+                error
+                /*eslint-enable no-unused-vars*/
+            ) => {
                 // We failed to reach the page, mark it as invalid
                 this.set('isUrlInvalid', true);
                 this.set('urlError', Phrases.urlNotReachable);
@@ -55,7 +59,12 @@ export default Component.extend({
      * @returns {Promise}
      */
     _ensureSingleRecord(url = '') {
-        return new Promise((resolve, reject) => {
+        return new Promise((
+              resolve,
+              /*eslint-disable no-unused-vars*/
+              reject
+              /*eslint-enable no-unused-vars*/
+        ) => {
             this.get('store')
                 .findAll('blog')
                 .then((blogs) => {
@@ -68,7 +77,11 @@ export default Component.extend({
                     // or undefined
                     resolve(blogs.find((b) => (b.get('url') === url)));
                 })
-                .catch((err) => resolve(null));
+                .catch(
+                    /*eslint-disable no-unused-vars*/
+                    (err) => resolve(null)
+                    /*eslint-enable no-unused-vars*/
+                );
         });
     },
 

@@ -126,7 +126,9 @@ export default Component.extend({
      */
     _handleConsole(e) {
         if (e.originalEvent.message.includes('login-error')) {
+            /*eslint-disable no-unused-vars*/
             let errorNotify = new Notification('Login failed: Please update your credentials.');
+            /*eslint-enable no-unused-vars*/
 
             // TODO: Show "update credentials screen here"
             return this.set('isInstanceLoaded', true);
