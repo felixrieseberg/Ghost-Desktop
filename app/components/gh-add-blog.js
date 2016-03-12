@@ -112,11 +112,10 @@ export default Component.extend({
 
             let url = sanitizeUrl(this.get('url'));
             let identification = this.get('identification');
-            let isUrlGhost = await this._validateUrlIsGhost(url);
+            let isUrlGhost = await this._validateUrlIsGhost(`${url}/ghost/`);
 
             if (isUrlGhost) {
-                let pageUrl = url.replace(/\/ghost(\/?)/gi, '');
-                let name = await getBlogName(pageUrl);
+                let name = await getBlogName(url);
 
                 this._createBlogIfNotExists(url, name, identification)
                     .then((record) => this.sendAction('blogAdded', record));
@@ -129,9 +128,9 @@ export default Component.extend({
         /**
          * Validates the identification entered by the user. It should be an email.
          */
-        validateIdentification() {
+        validateIdentification(input) {
             let identificationPattern = /[^@]+@[^@]+\.[^@]+/gi;
-            let invalid = !identificationPattern.test(this.get('identification'));
+            let invalid = !identificationPattern.test(input);
 
             this.set('identificationError', invalid ? Phrases.identificationInvalid : null);
             this.set('isIdentificationInvalid', invalid);
@@ -140,9 +139,9 @@ export default Component.extend({
         /**
          * Validates the url given by the user. It should be a properly formatted url.
          */
-        validateUrl() {
+        validateUrl(input) {
             let urlPattern = /^http(s?)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]*(\/\S*)?/gi;
-            let invalid = !urlPattern.test(this.get('url'));
+            let invalid = !urlPattern.test(sanitizeUrl(input));
 
             this.set('isUrlInvalid', invalid);
             this.set('urlError', invalid ? Phrases.urlInvalid : undefined);
@@ -151,12 +150,9 @@ export default Component.extend({
         /**
          * Validates the password given by the user. It should not be empty.
          */
-        validatePassword() {
-            if (!this.get('password') || this.get('password').length < 1) {
-                this.set('isPasswordInvalid', true);
-            } else {
-                this.set('isPasswordInvalid', false);
-            }
+        validatePassword(input) {
+            console.log(input);
+            this.set('isPasswordInvalid', (!input || input.length < 1));
         }
     }
 });
