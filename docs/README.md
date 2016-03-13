@@ -13,3 +13,13 @@ If you need help with Ghost or have questions, please use [slack](https://ghost.
  * [Ember Documentation](https://emberjs.com)
  * [Ember-Electron Documentation](https://github.com/felixrieseberg/ember-electron)
  * [Electron Documentation](https://github.com/atom/electron/tree/master/docs)
+
+## Current Status
+| Platform | Windows | OS X  | Linux |
+|----------|---------|-------|-------|
+| Tests    | <a href="https://ci.appveyor.com/project/felixrieseberg/ghost-desktop/branch/master"><img title="Windows" align="right" src="https://ci.appveyor.com/api/projects/status/d4n4jvhaex9s5ya4/branch/master?svg=true" /></a>        | <a href="https://travis-ci.org/TryGhost/Ghost-Desktop"><img align="right" src="http://badges.herokuapp.com/travis/TryGhost/Ghost-Desktop/?label=OS X&env=NODE_VERSION=5.1%20TARGET_ARCH=x64%20OS=DARWIN" /></a>      | <a href="https://travis-ci.org/TryGhost/Ghost-Desktop"><img align="right" src="http://badges.herokuapp.com/travis/TryGhost/Ghost-Desktop/?label=Linux&env=NODE_VERSION=5.1%20TARGET_ARCH=x64%20OS=LINUX" /></a>      |
+
+| Code Coverage |
+|----------|
+| [![codecov.io](https://codecov.io/github/TryGhost/Ghost-Desktop/coverage.svg?branch=master)](https://codecov.io/github/TryGhost/Ghost-Desktop?branch=master) |
+| ![codecov.io](https://codecov.io/github/TryGhost/Ghost-Desktop/branch.svg?branch=master) |
