@@ -10,7 +10,7 @@ const app = require('app');
 
 function run(args, done) {
     let updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
-    
+
     spawn(updateExe, args, {
         detached: true
     }).on('close', done);
