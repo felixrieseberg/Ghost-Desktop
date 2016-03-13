@@ -14,5 +14,15 @@ export function sanitizeUrl(url = '') {
         sanitizedUrl = `${sanitizedUrl}/`;
     }
 
+    // If the url ends with a /ghost/, let's remove it
+    if (sanitizedUrl.slice(-7) === '/ghost/') {
+        sanitizedUrl = `${sanitizedUrl.slice(0, sanitizedUrl.length - 7)}/`;
+    }
+
+    // Does it begin with http or https? If not, let's add that
+    if (sanitizedUrl.slice(0, 7) !== 'http://' && sanitizedUrl.slice(0, 8) !== 'https://') {
+        sanitizedUrl = `http://${sanitizedUrl}`;
+    }
+
     return sanitizedUrl;
 }
