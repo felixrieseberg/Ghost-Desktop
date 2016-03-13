@@ -56,6 +56,9 @@ const configureGrunt = function(grunt) {
             },
             build: {
                 command: `ember electron:package --platform ${process.platform} --app-version ${package.version} --overwrite`
+            },
+            logCoverage: {
+                command: 'node ./scripts/log-coverage.js'
             }
         },
 
@@ -75,7 +78,7 @@ const configureGrunt = function(grunt) {
     
     grunt.initConfig(config);
 
-    grunt.registerTask('validate', 'Test Code Style and App', ['eslint', 'jscs:app', 'shell:test']);
+    grunt.registerTask('validate', 'Test Code Style and App', ['eslint', 'jscs:app', 'shell:test', 'shell:logCoverage']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
     grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['shell:build', 'create-windows-installer'])
 };

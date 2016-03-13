@@ -6,27 +6,48 @@
     window.sendCoverage = function() {
         var fs = require('fs');
         var path = require('path');
-        var file = path.resolve(__dirname, '..', '..', '..', 'coverage.json');
+        var jsonFile = path.resolve(__dirname, '..', '..', '..', 'coverage.json');
+        var lcovFile = path.resolve(__dirname, '..', '..', '..', 'coverage.lcov');
         var data = window._$blanket_coverageData;
 
-        var output = {
-            stats: data.stats,
-            coverage: {
-                total: {},
-                files: []
-            }
-        };
-        
-        output.coverage.files = _.map(data.fileData, fileCoverage, this);
-        output.coverage.total = totals(data, output.coverage.files, this.options);
-        
-        if (this.options.modulePattern) {
-            output.coverage.modules = modulesCoverage(output.coverage.files, this.options);
-        }
-        
-        fs.writeFileSync(file, JSON.stringify(output), 'utf8');
+        // JSON
+        var jsonOutput = reportJSON(data);
+        var lcovOutput = reportLCOV(data);
+
+        fs.writeFileSync(jsonFile, JSON.stringify(jsonOutput), 'utf8');
+        fs.writeFileSync(lcovFile, lcovOutput, 'utf8');
     };
-}());
+} ());
+
+function reportJSON(coverageData) {
+    var output = {
+        stats: coverageData.stats,
+        coverage: {
+            total: {},
+            files: []
+        }
+    };
+
+    output.coverage.files = _.map(coverageData.fileData, fileCoverage, this);
+    output.coverage.total = totals(coverageData, output.coverage.files, this.options);
+
+    if (this.options.modulePattern) {
+        output.coverage.modules = modulesCoverage(output.coverage.files, this.options);
+    }
+
+    return output;
+}
+
+function reportLCOV(coverageData) {
+    if (
+        !coverageData
+        || !coverageData.fileData
+        || !coverageData.fileData.map
+    ) { return; }
+
+    var data = coverageData.fileData.map(lcovRecord, this);
+    return data.join('\n');
+}
 
 /**
  * Reporter functions below taken from ember-cli-blanket
@@ -98,8 +119,14 @@ var fileCoverage = function(data) {
     var output = {
         name: data.fileName
     };
-
+    
+    /**
+     * Felix Hack: The reports counted lines that were hit.
+     * This code is therefore changed.
+     */
+    
     var statements = _.without(data.lines, null);
+    statements = _.without(statements, undefined);
 
     output.statementsTotal = statements.length;
     output.statementsCovered = _.compact(statements).length;
@@ -132,7 +159,7 @@ function modulesCoverage(fileData, options) {
     fileData.forEach(function(aFile) {
         var moduleName = aFile.name.match(moduleRegex)[1];
         var current = collection[moduleName] || { name: moduleName };
-
+       
         current.statementsTotal = sumProperty(current, aFile, 'statementsTotal');
         current.statementsCovered = sumProperty(current, aFile, 'statementsCovered');
 
@@ -140,6 +167,7 @@ function modulesCoverage(fileData, options) {
             current.branchesTotal = sumProperty(current, aFile, 'branchesTotal');
             current.branchesCovered = sumProperty(current, aFile, 'branchesCovered');
         }
+
         collection[moduleName] = current;
     });
 
@@ -147,3 +175,49 @@ function modulesCoverage(fileData, options) {
     output.forEach(addPercentage);
     return output;
 }
+
+var lcovRecord = function(data) {
+    var str = '',
+        lineHandled = 0,
+        lineFound = 0,
+        fileName = data.fileName;
+    
+    /**
+     * Felix Hack: Replacing the filename to ensure that Codecov knows what's happening
+     */
+    
+    fileName = fileName.replace('ghost-desktop', 'app');
+    fileName = fileName + '.js';
+
+    if (this.options.cliOptions && this.options.cliOptions.lcovOptions && this.options.cliOptions.lcovOptions.renamer) {
+        fileName = this.options.cliOptions.lcovOptions.renamer(fileName);
+    }
+
+    // Skip entries with falsy filenames -- lets ignoring files from renamer
+    if (!fileName) { return; }
+
+    // Skip non-existent files if lcovOptions.excludeMissingFiles is set
+    if (this.options.cliOptions && this.options.cliOptions.lcovOptions && this.options.cliOptions.lcovOptions.excludeMissingFiles) {
+        try {
+            fs.accessSync(fileName, fs.F_OK);
+        } catch (e) {
+            return;
+        }
+    }
+
+    str += 'SF:' + fileName + '\n';
+    data.lines.forEach(function(value, num) {
+        if (value !== null) {
+            str += 'DA:' + num + ',' + value + '\n';
+            lineFound += 1;
+            if (value > 0) {
+                lineHandled += 1;
+            }
+        }
+    });
+
+    str += 'LF:' + lineFound + '\n';
+    str += 'LH:' + lineHandled + '\n';
+    str += 'end_of_record';
+    return str;
+};
