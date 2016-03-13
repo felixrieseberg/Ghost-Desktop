@@ -19,7 +19,7 @@ app.on('ready', function onReady() {
     delete mainWindow.module;
 
     if (process.env.EMBER_ENV === 'test') {
-        mainWindow.loadUrl('file://' + __dirname + '/index.html');
+        mainWindow.loadUrl('file://' + __dirname + '/index.html?coverage');
     } else {
         mainWindow.loadUrl('file://' + __dirname + '/dist/index.html');
     }

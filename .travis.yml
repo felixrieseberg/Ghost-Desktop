@@ -48,3 +48,7 @@ install:
 
 script:
   - npm test
+
+after_success:
+  # Report code coverage
+  - node ./node_modules/.bin/codecov
