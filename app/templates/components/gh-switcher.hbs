@@ -4,7 +4,7 @@
             <div class="switch-btn" {{action "switchToBlog" blog}} data-blog={{blog.id}}>
                 <span>{{first-letter blog.name}}</span>
             </div>
-            <div class="switch-shortcut">⌘{{index}}</div>
+            <div class="switch-shortcut">{{switch-shortcut index}}</div>
         </div>
     {{/each}}
 </div>

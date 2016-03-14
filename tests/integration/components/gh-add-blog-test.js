@@ -145,7 +145,7 @@ test('does not create a record for an unreachable url', function(assert) {
     const qAsync = assert.async();
     this.render(hbs`{{gh-add-blog}}`);
 
-    this.$('input[name="url"]').val('https://imnotreachableever.tld');
+    this.$('input[name="url"]').val('https://0.0.0.0:1111/');
     this.$('input[name="url"]').change();
     this.$('input[name="identification"]').val('test@user.com');
     this.$('input[name="identification"]').change();

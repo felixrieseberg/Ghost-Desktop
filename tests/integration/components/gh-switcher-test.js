@@ -40,14 +40,18 @@ moduleForComponent('gh-switcher', 'Integration | Component | gh switcher', {
  */
 
 test('it renders', function(assert) {
-    this.render(hbs`{{gh-switcher}}`);
+    this.set('_blogs', []);
+    this.render(hbs`{{gh-switcher blogs=_blogs}}`);
     assert.equal(this.$().text().trim(), '+');
 });
 
 test('it renders all blogs as single-letter buttons', function(assert) {
     this.set('_blogs', blogs);
     this.render(hbs`{{gh-switcher blogs=_blogs}}`);
-    assert.equal(this.$().text().trim().replace(/(\r\n|\n|\r| )/gm,''), 'T⌘0T⌘1T⌘2+');
+    
+    let expected = (process.platform === 'darwin') ? 'T⌘1T⌘2T⌘3+' : 'TCtrl1TCtrl2TCtrl3+';
+    
+    assert.equal(this.$().text().trim().replace(/(\r\n|\n|\r| )/gm,''), expected);
 });
 
 test('it renders all blogs with the id in the data attribute', function(assert) {
