@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "electron-editor-context-menu": "^1.1.0",
+    "electron-window-state": "^2.0.0",
     "keytar": "^3.0.0"
   }
 }
