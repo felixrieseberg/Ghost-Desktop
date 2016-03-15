@@ -27,7 +27,7 @@ export default Component.extend({
         if (this.get('hasBlogs')) {
             this.send('switchToBlog', this.findSelectedBlog() || this.get('blogs.firstObject'));
         } else {
-            this.set('isAddBlogVisible', true);
+            this.set('isEditBlogVisible', true);
         }
     },
 
@@ -57,6 +57,17 @@ export default Component.extend({
             });
     },
 
+    /**
+     * Displays the "add blog" UI
+     */
+    showEditBlogUI() {
+        if (this.get('selectedBlog')) {
+            this.get('selectedBlog').unselect();
+        }
+
+        this.set('isEditBlogVisible', true);
+    },
+
     actions: {
         /**
          * Switches to a given blog
@@ -74,18 +85,26 @@ export default Component.extend({
 
             blog.select();
             this.set('selectedBlog', blog);
-            this.set('isAddBlogVisible', false);
+            this.set('isEditBlogVisible', false);
         },
 
         /**
-         * Displays the "add blog" UI
+         * Clears the "blogToEdit" property, turning the
+         * edit blog UI into an "add blog" UI
          */
         showAddBlog() {
-            if (this.get('selectedBlog')) {
-                this.get('selectedBlog').unselect();
-            }
+            this.set('blogToEdit', undefined);
+            this.showEditBlogUI();
+        },
 
-            this.set('isAddBlogVisible', true);
+        /**
+         * Sets the blogToEdit property to a given blog
+         *
+         * @param blog - Blog to edit
+         */
+        showEditBlog(blog) {
+            this.set('blogToEdit', blog);
+            this.showEditBlogUI();
         },
 
         /**

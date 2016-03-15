@@ -1,0 +1,57 @@
+<div class="gh-flow">
+    <div class="gh-flow-content-wrap">
+        <section class="gh-flow-content fade-in">
+            {{#if blog}}
+                <p>{{blog.name}}</p>
+            {{else}}
+                <p>Welcome! Before we get started, please tell us where to find your blog:</p>
+            {{/if}}
+            <form id="reset" method="post" novalidate="novalidate" {{action "addOrEditBlog" on="submit"}}>
+                <div class="{{if isUrlInvalid "error"}}">
+                    <span class="input-icon icon-gh">
+                        {{gh-input type="url"
+                                   name="url"
+                                   placeholder="https://myblog.com/ghost/"
+                                   autocorrect="off"
+                                   autofocus="autofocus"
+                                   focusOut=(action "validateUrl" url)
+                                   value=url
+                                   title=urlError}}
+                    </span>
+                </div>
+                <div class="{{if isIdentificationInvalid "error"}}">
+                    <span class="input-icon icon-mail">
+                        {{gh-input class="gh-input email"
+                                   type="email"
+                                   placeholder="Email Address"
+                                   name="identification"
+                                   autocapitalize="off"
+                                   autocorrect="off"
+                                   focusOut=(action "validateIdentification" identification)
+                                   value=identification
+                                   title=identificationError}}
+                    </span>
+                </div>
+                <div class="{{if isPasswordInvalid "error"}}">
+                    <span class="input-icon icon-lock">
+                        {{gh-input class="password"
+                                   type="password"
+                                   placeholder="Password"
+                                   name="password"
+                                   value=password
+                                   autocorrect="off"
+                                   focusOut=(action "validatePassword" password)}}
+                    </span>
+                </div>
+                {{#gh-spin-button disabled=hasError
+                                  class="btn btn-blue btn-block add-blog"
+                                  type="submit"
+                                  submitting=isSubmitting
+                                  autoWidth="false"}}
+                    {{#if blog}}Save {{else}}Add {{/if}}Blog
+                {{/gh-spin-button}}
+            </form>
+            <p class="main-error">{{{flowErrors}}}</p>
+        </section>
+    </div>
+</div>

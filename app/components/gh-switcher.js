@@ -24,7 +24,7 @@ export default Component.extend({
         let {remote} = requireNode('electron');
         let {globalShortcut} = remote;
 
-        // Cleanup
+        // Cleanup leftover shortcuts - required for reloads and the such
         globalShortcut.unregisterAll();
 
         // Register shortcuts for each blog
@@ -48,19 +48,24 @@ export default Component.extend({
         let self = this;
         let selectedBlog = null;
 
-        let removeTeamMenu = Menu.buildFromTemplate([{
-            label: 'Remove Blog',
-            click(
-               item,
-               /*eslint-disable no-unused-vars*/
-               focusedWindow
-               /*eslint-enable no-unused-vars*/
-            ) {
-                if (selectedBlog) {
-                    self.send('removeBlog', selectedBlog);
+        let editMenu = Menu.buildFromTemplate([
+            {
+                label: 'Edit Blog',
+                click() {
+                    if (selectedBlog) {
+                        self.send('editBlog', selectedBlog);
+                    }
+                }
+            },
+            {
+                label: 'Remove Blog',
+                click() {
+                    if (selectedBlog) {
+                        self.send('removeBlog', selectedBlog);
+                    }
                 }
             }
-        }]);
+        ]);
 
         this.$()
             .off('contextmenu')
@@ -74,7 +79,7 @@ export default Component.extend({
                     if (node.classList && node.classList.contains('switch-btn')
                     && node.dataset && node.dataset.blog) {
                         selectedBlog = node.dataset.blog;
-                        removeTeamMenu.popup(remote.getCurrentWindow());
+                        editMenu.popup(remote.getCurrentWindow());
                         break;
                     }
 
@@ -85,14 +90,27 @@ export default Component.extend({
     },
 
     actions: {
+        /**
+         * Switch to a blog
+         *
+         * @param blog - Blog to switch to
+         */
         switchToBlog(blog) {
             this.sendAction('switchToBlog', blog);
         },
 
+        /**
+         * Switch to the "add blog" UI
+         */
         showAddBlog() {
             this.sendAction('showAddBlog');
         },
 
+        /**
+         * Remove a blog
+         *
+         * @param id - Ember Data id of the blog to remove
+         */
         removeBlog(id) {
             if (id) {
                 this.get('store').findRecord('blog', id)
@@ -100,6 +118,22 @@ export default Component.extend({
                         if (result) {
                             result.deleteRecord();
                             result.save().then(() => this.sendAction('blogRemoved'));
+                        }
+                    });
+            }
+        },
+
+        /**
+         * Show the "edit blog" UI, passing along the blog object for a given id
+         *
+         * @param id - Ember Data id of the blog to edit
+         */
+        editBlog(id) {
+            if (id) {
+                this.get('store').findRecord('blog', id)
+                    .then((result) => {
+                        if (result) {
+                            this.sendAction('showEditBlog', result);
                         }
                     });
             }
