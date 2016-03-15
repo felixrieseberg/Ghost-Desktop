@@ -8,7 +8,7 @@ const {Component} = Ember;
 
 export default Component.extend({
     store: Ember.inject.service(),
-    classNames: ['gh-add-blog'],
+    classNames: ['gh-edit-blog'],
 
     /**
      * A boolean value that is true if any errors are present
@@ -21,6 +21,20 @@ export default Component.extend({
             return (identification || url || password);
         }
     }),
+
+    /**
+     * If we received a blog, setup the properties on this baby
+     */
+    didReceiveAttrs() {
+        if (this.get('blog')) {
+            let blog = this.get('blog');
+            this.setProperties({
+                url: blog.get('url'),
+                identification: blog.get('identification'),
+                password: blog.getPassword()
+            });
+        }
+    },
 
     /**
      * Validates that the passed url is actually a Ghost login page,
@@ -40,11 +54,7 @@ export default Component.extend({
 
                 return is;
             })
-            .catch((
-                /*eslint-disable no-unused-vars*/
-                error
-                /*eslint-enable no-unused-vars*/
-            ) => {
+            .catch(() => {
                 // We failed to reach the page, mark it as invalid
                 this.set('isUrlInvalid', true);
                 this.set('urlError', Phrases.urlNotReachable);
@@ -59,12 +69,7 @@ export default Component.extend({
      * @returns {Promise}
      */
     _ensureSingleRecord(url = '') {
-        return new Promise((
-              resolve,
-              /*eslint-disable no-unused-vars*/
-              reject
-              /*eslint-enable no-unused-vars*/
-        ) => {
+        return new Promise((resolve) => {
             this.get('store')
                 .findAll('blog')
                 .then((blogs) => {
@@ -77,11 +82,7 @@ export default Component.extend({
                     // or undefined
                     resolve(blogs.find((b) => (b.get('url') === url)));
                 })
-                .catch(
-                    /*eslint-disable no-unused-vars*/
-                    (err) => resolve(null)
-                    /*eslint-enable no-unused-vars*/
-                );
+                .catch(() => resolve(null));
         });
     },
 
@@ -95,7 +96,7 @@ export default Component.extend({
      */
     _createBlogIfNotExists(url = '', name = '', identification = '') {
         return new Promise(async (resolve) => {
-            let record = await this._ensureSingleRecord(url);
+            let record = this.get('blog') || await this._ensureSingleRecord(url);
 
             if (!record) {
                 // If the blog doesn't already exist, create it
@@ -117,7 +118,7 @@ export default Component.extend({
         /**
          * Add's a blog, using the input given by the user
          */
-        async addBlog() {
+        async addOrEditBlog() {
             // Manually begin a run loop, since async/await is still
             // black magic as far as Ember is concerned
             Ember.run.begin();
@@ -164,7 +165,6 @@ export default Component.extend({
          * Validates the password given by the user. It should not be empty.
          */
         validatePassword(input) {
-            console.log(input);
             this.set('isPasswordInvalid', (!input || input.length < 1));
         }
     }

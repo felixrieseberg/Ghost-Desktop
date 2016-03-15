@@ -5,14 +5,15 @@
         blogs=blogs
         switchToBlog="switchToBlog"
         showAddBlog="showAddBlog"
+        showEditBlog="showEditBlog"
         blogRemoved="blogRemoved"
     }}
 {{/if}}
 
 {{!-- Right Side: Main Content Area  --}}
 
-{{#if isAddBlogVisible}}
-    {{gh-add-blog blogAdded="blogAdded"}}
+{{#if isEditBlogVisible}}
+    {{gh-edit-blog blogAdded="blogAdded" blog=blogToEdit}}
 {{/if}}
 
 {{#if blogs}}

@@ -47,8 +47,13 @@ test('it renders', function(assert) {
 
 test('it renders all blogs as single-letter buttons', function(assert) {
     this.set('_blogs', blogs);
-    this.render(hbs`{{gh-switcher blogs=_blogs}}`);
     
+    // Ensure the blogs all have a predictable name, despite integration testing
+    blogs.forEach((blog) => {
+       blog.set('name', 'Testblog'); 
+    });
+    
+    this.render(hbs`{{gh-switcher blogs=_blogs}}`);
     let expected = (process.platform === 'darwin') ? 'T⌘1T⌘2T⌘3+' : 'TCtrl1TCtrl2TCtrl3+';
     
     assert.equal(this.$().text().trim().replace(/(\r\n|\n|\r| )/gm,''), expected);

@@ -14,7 +14,7 @@ export default DS.Model.extend({
      * Convenience method, marking the blog as selected (and saving)
      */
     select() {
-        if (this.isDestroying || this.isDestroyed) {
+        if (this.isDestroying || this.isDestroyed || this.get('isDeleted')) {
             return;
         }
 
@@ -26,7 +26,7 @@ export default DS.Model.extend({
      * Convenience method, marking the blog as unselected (and saving)
      */
     unselect() {
-        if (this.isDestroying || this.isDestroyed) {
+        if (this.isDestroying || this.isDestroyed || this.get('isDeleted')) {
             return;
         }
 
