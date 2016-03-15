@@ -1,5 +1,96 @@
 import Ember from 'ember';
 
+/**
+ * Functions
+ */
+
+/**
+ * Reloads the currently focused window
+ * 
+ * @export
+ * @param item - The menu item calling
+ * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window
+ */
+export function reload(item, focusedWindow) {
+    if (focusedWindow) {
+        focusedWindow.reload();
+    }
+};
+
+/**
+ * Toggles fullscreen on the currently focused window
+ * 
+ * @export
+ * @param item (description) * @param item - The menu item calling
+ * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window focusedWindow (description)
+ */
+export function toggleFullscreen(item, focusedWindow) {
+    if (focusedWindow) {
+        focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+    }
+};
+
+/**
+ * Toggles the developer tools on the currently focused window
+ * 
+ * @export
+ * @param item - The menu item calling
+ * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window
+ */
+export function toggleDevTools(item, focusedWindow) {
+    if (focusedWindow) {
+        focusedWindow.toggleDevTools();
+    }
+};
+
+/**
+ * Attempts to toggle developer tools for the currently visible Ghost instance
+ * 
+ * @export
+ * @param item - The menu item calling
+ * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window
+ */
+export function toggleGhostDevTools(item, focusedWindow) {
+    if (focusedWindow) {
+        let host = Ember.$('div.instance-host.selected');
+        let webviews = host ? Ember.$(host).find('webview') : null;
+
+        if (!webviews || !webviews[0]) {
+            return;
+        }
+
+        if (webviews[0].isDevToolsOpened()) {
+            webviews[0].closeDevTools();
+        } else {
+            webviews[0].openDevTools();
+        }
+    }
+}
+
+/**
+ * Opens the issues on GitHub in the OS default browser
+ * 
+ * @export
+ */
+export function openReportIssues() {
+    requireNode('electron').shell.openExternal('http://github.com/tryghost/ghost-desktop/issues');
+}
+
+/**
+ * Opens the repository on GitHub in the OS default browser
+ * 
+ * @export
+ */
+export function openRepository() {
+    requireNode('electron').shell.openExternal('http://github.com/tryghost/ghost-desktop');
+}
+
+/**
+ * Setups the window menu for the application
+ * 
+ * @export
+ * @returns {Electron.Menu} - Built Menu
+ */
 export function setup() {
     let {remote} = requireNode('electron');
     let {Menu, app} = remote;
@@ -48,6 +139,12 @@ export function setup() {
                 {
                     label: 'Reload',
                     accelerator: 'CmdOrCtrl+R',
+                    /**
+                     * (description)
+                     * 
+                     * @param item (description)
+                     * @param focusedWindow (description)
+                     */
                     click(item, focusedWindow) {
                         if (focusedWindow) {
                             focusedWindow.reload();
@@ -56,17 +153,8 @@ export function setup() {
                 },
                 {
                     label: 'Toggle Full Screen',
-                    accelerator: (function accelerator() {
-                        if (process.platform === 'darwin') {
-                            return 'Ctrl+Command+F';
-                        }
-                        return 'F11';
-                    }()),
-                    click(item, focusedWindow) {
-                        if (focusedWindow) {
-                            focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-                        }
-                    }
+                    accelerator: (process.platform === 'darwin') ? 'Ctrl+Command+F' : 'F11',
+                    click: toggleFullscreen
                 }
             ]
         },
@@ -91,54 +179,21 @@ export function setup() {
             submenu: [
                 {
                     label: 'Toggle Developer Tools',
-                    accelerator: (function accelerator() {
-                        if (process.platform === 'darwin') {
-                            return 'Alt+Command+I';
-                        }
-                        return 'Ctrl+Shift+I';
-                    }()),
-                    click(item, focusedWindow) {
-                        if (focusedWindow) {
-                            focusedWindow.toggleDevTools();
-                        }
-                    }
+                    accelerator: (process.platform === 'darwin') ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+                    click: toggleDevTools
                 },
                 {
                     label: 'Toggle Developer Tools (Current Blog)',
-                    accelerator: (function accelerator() {
-                        if (process.platform === 'darwin') {
-                            return 'Alt+Command+Shift+I';
-                        }
-                        return 'Ctrl+Alt+Shift+I';
-                    }()),
-                    click(item, focusedWindow) {
-                        if (focusedWindow) {
-                            let host = Ember.$('div.instance-host.selected');
-                            let webviews = host ? Ember.$(host).find('webview') : null;
-
-                            if (!webviews || !webviews[0]) {
-                                return;
-                            }
-
-                            if (webviews[0].isDevToolsOpened()) {
-                                webviews[0].closeDevTools();
-                            } else {
-                                webviews[0].openDevTools();
-                            }
-                        }
-                    }
+                    accelerator: (process.platform === 'darwin') ? 'Alt+Command+Shift+I' : 'Ctrl+Alt+Shift+I',
+                    click: toggleGhostDevTools
                 },
                 {
                     label: 'Repository',
-                    click() {
-                        require('electron').shell.openExternal('http://github.com/tryghost/ghost-desktop');
-                    }
+                    click: openRepository
                 },
                 {
                     label: 'Report Issues',
-                    click() {
-                        require('electron').shell.openExternal('http://github.com/tryghost/ghost-desktop/issues');
-                    }
+                    click: openReportIssues
                 }
             ]
         },
@@ -148,9 +203,7 @@ export function setup() {
             submenu: [
                 {
                     label: 'Learn More',
-                    click() {
-                        require('electron').shell.openExternal('http://github.com/tryghost/ghost-desktop');
-                    }
+                    click: openRepository
                 }
             ]
         }
@@ -201,16 +254,6 @@ export function setup() {
                 }
             ]
         });
-        // Window menu.
-        template[3].submenu.push(
-            {
-                type: 'separator'
-            },
-            {
-                label: 'Bring All to Front',
-                role: 'front'
-            }
-        );
     }
 
     let builtMenu = Menu.buildFromTemplate(template);
