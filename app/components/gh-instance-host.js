@@ -106,6 +106,8 @@ export default Component.extend({
         // login automatically (without bothering the user)
         if (title.includes('Sign In') && !this.get('isAttemptedSignin')) {
             this.signin();
+        } else {
+            this.show();
         }
     },
 
@@ -125,6 +127,7 @@ export default Component.extend({
      * @param  {Object} e - jQuery Event
      */
     _handleConsole(e) {
+        console.log('dfgsdgfadsgfadfgsdfg');
         if (e.originalEvent.message.includes('login-error')) {
             /*eslint-disable no-unused-vars*/
             let errorNotify = new Notification('Login failed: Please update your credentials.');

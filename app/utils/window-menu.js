@@ -6,7 +6,7 @@ import Ember from 'ember';
 
 /**
  * Reloads the currently focused window
- * 
+ *
  * @export
  * @param item - The menu item calling
  * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window
@@ -19,7 +19,7 @@ export function reload(item, focusedWindow) {
 
 /**
  * Toggles fullscreen on the currently focused window
- * 
+ *
  * @export
  * @param item (description) * @param item - The menu item calling
  * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window focusedWindow (description)
@@ -32,7 +32,7 @@ export function toggleFullscreen(item, focusedWindow) {
 
 /**
  * Toggles the developer tools on the currently focused window
- * 
+ *
  * @export
  * @param item - The menu item calling
  * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window
@@ -45,7 +45,7 @@ export function toggleDevTools(item, focusedWindow) {
 
 /**
  * Attempts to toggle developer tools for the currently visible Ghost instance
- * 
+ *
  * @export
  * @param item - The menu item calling
  * @param {Electron.BrowserWindow} focusedWindow - The currently focussed window
@@ -69,7 +69,7 @@ export function toggleGhostDevTools(item, focusedWindow) {
 
 /**
  * Opens the issues on GitHub in the OS default browser
- * 
+ *
  * @export
  */
 export function openReportIssues() {
@@ -78,7 +78,7 @@ export function openReportIssues() {
 
 /**
  * Opens the repository on GitHub in the OS default browser
- * 
+ *
  * @export
  */
 export function openRepository() {
@@ -87,7 +87,7 @@ export function openRepository() {
 
 /**
  * Setups the window menu for the application
- * 
+ *
  * @export
  * @returns {Electron.Menu} - Built Menu
  */
@@ -141,7 +141,7 @@ export function setup() {
                     accelerator: 'CmdOrCtrl+R',
                     /**
                      * (description)
-                     * 
+                     *
                      * @param item (description)
                      * @param focusedWindow (description)
                      */

@@ -9,7 +9,6 @@ const {Component} = Ember;
 export default Component.extend({
     store: Ember.inject.service(),
     classNames: ['switcher'],
-    shortcuts: [],
 
     didRender() {
         this._super(...arguments);
@@ -53,7 +52,7 @@ export default Component.extend({
                 label: 'Edit Blog',
                 click() {
                     if (selectedBlog) {
-                        self.send('editBlog', selectedBlog);
+                        self.editBlog(selectedBlog);
                     }
                 }
             },
@@ -61,7 +60,7 @@ export default Component.extend({
                 label: 'Remove Blog',
                 click() {
                     if (selectedBlog) {
-                        self.send('removeBlog', selectedBlog);
+                        self.removeBlog(selectedBlog);
                     }
                 }
             }
@@ -77,7 +76,7 @@ export default Component.extend({
 
                 while (node) {
                     if (node.classList && node.classList.contains('switch-btn')
-                    && node.dataset && node.dataset.blog) {
+                        && node.dataset && node.dataset.blog) {
                         selectedBlog = node.dataset.blog;
                         editMenu.popup(remote.getCurrentWindow());
                         break;
@@ -85,8 +84,40 @@ export default Component.extend({
 
                     node = node.parentNode;
                 }
-            }
-        );
+            });
+    },
+
+    /**
+     * Remove a blog
+     *
+     * @param id - Ember Data id of the blog to remove
+     */
+    removeBlog(id) {
+        if (id) {
+            this.get('store').findRecord('blog', id)
+                .then((result) => {
+                    if (result) {
+                        result.deleteRecord();
+                        result.save().then(() => this.sendAction('blogRemoved'));
+                    }
+                });
+        }
+    },
+
+    /**
+     * Show the "edit blog" UI, passing along the blog object for a given id
+     *
+     * @param id - Ember Data id of the blog to edit
+     */
+    editBlog(id) {
+        if (id) {
+            this.get('store').findRecord('blog', id)
+                .then((result) => {
+                    if (result) {
+                        this.sendAction('showEditBlog', result);
+                    }
+                });
+        }
     },
 
     actions: {
@@ -104,39 +135,6 @@ export default Component.extend({
          */
         showAddBlog() {
             this.sendAction('showAddBlog');
-        },
-
-        /**
-         * Remove a blog
-         *
-         * @param id - Ember Data id of the blog to remove
-         */
-        removeBlog(id) {
-            if (id) {
-                this.get('store').findRecord('blog', id)
-                    .then((result) => {
-                        if (result) {
-                            result.deleteRecord();
-                            result.save().then(() => this.sendAction('blogRemoved'));
-                        }
-                    });
-            }
-        },
-
-        /**
-         * Show the "edit blog" UI, passing along the blog object for a given id
-         *
-         * @param id - Ember Data id of the blog to edit
-         */
-        editBlog(id) {
-            if (id) {
-                this.get('store').findRecord('blog', id)
-                    .then((result) => {
-                        if (result) {
-                            this.sendAction('showEditBlog', result);
-                        }
-                    });
-            }
         }
     }
 });
