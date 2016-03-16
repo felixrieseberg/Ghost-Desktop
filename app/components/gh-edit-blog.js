@@ -104,6 +104,7 @@ export default Component.extend({
             }
 
             record.setProperties({
+                url,
                 name,
                 identification
             });
@@ -126,7 +127,7 @@ export default Component.extend({
 
             let url = sanitizeUrl(this.get('url'));
             let identification = this.get('identification');
-            let isUrlGhost = await this._validateUrlIsGhost(`${url}/ghost/`);
+            let isUrlGhost = await this._validateUrlIsGhost(url);
 
             if (isUrlGhost) {
                 let name = await getBlogName(url);

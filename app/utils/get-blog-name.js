@@ -11,6 +11,10 @@ export function getBlogName(url) {
             return reject('Tried to getBlogName without providing url');
         }
 
+        if (url.slice(-7) === '/ghost/') {
+            url = `${url.slice(0, url.length - 7)}/`;
+        }
+
         Ember.$.get(url)
             .then((response) => {
                 let titleResult = response.match('<title>(.*)</title>');
