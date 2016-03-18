@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import setWindowTitle from '../utils/set-window-title';
 
 const {Component} = Ember;
 
@@ -84,6 +85,7 @@ export default Component.extend({
             }
 
             blog.select();
+            setWindowTitle(blog.get('name'));
             this.set('selectedBlog', blog);
             this.set('isEditBlogVisible', false);
         },
