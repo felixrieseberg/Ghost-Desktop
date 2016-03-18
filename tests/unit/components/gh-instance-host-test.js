@@ -100,3 +100,59 @@ test('console message "login-error" eventually shows the webview', function(asse
     component._handleConsole(e);
     assert.ok(component.get('isInstanceLoaded'));
 });
+
+test('handleLoadFailure redirects the webview to the error page', function(assert) {
+    // Testing async, ensuring that the webview had enough time to setup
+    stop();
+    
+    const path = requireNode('path');
+    const component = this.subject({
+        blog: {
+            url: path.join('http://0.0.0.0/404'),
+            identification: 'testuser',
+            getPassword() {
+                return 'p@ssword';
+            }
+        }
+    });
+    const e = {
+        originalEvent: {
+            validatedURL: 'http://hi.com'
+        }
+    };
+    
+    this.render();
+    Ember.run.later(() => component._handleLoadFailure(e), 300);
+    Ember.run.later(() => {
+        assert.ok(component.get('isInstanceLoaded'));
+        start();
+    }, 750);
+});
+
+test('handleLoadFailure does not redirect for failed file:// loads', function(assert) {
+    // Testing async, ensuring that the webview had enough time to setup
+    stop();
+    
+    const path = requireNode('path');
+    const component = this.subject({
+        blog: {
+            url: path.join('http://0.0.0.0/404'),
+            identification: 'testuser',
+            getPassword() {
+                return 'p@ssword';
+            }
+        }
+    });
+    const e = {
+        originalEvent: {
+            validatedURL: 'file://hi.com'
+        }
+    };
+    
+    this.render();
+    Ember.run.later(() => component._handleLoadFailure(e), 300);
+    Ember.run.later(() => {
+        assert.equal(component.get('isInstanceLoaded'), false);
+        start();
+    }, 750);
+});

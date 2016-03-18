@@ -20,7 +20,7 @@
         "new-cap": 2,
         "no-caller": 2,
         "no-empty": 2,
-        "no-new": 2,
+        "no-new": 1,
         "no-plusplus": 2,
         "no-undef": 2,
         "no-unused-vars": [2, { "vars": "all", "args": "after-used" }]
