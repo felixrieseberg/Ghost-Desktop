@@ -59,13 +59,16 @@ const configureGrunt = function(grunt) {
             },
             logCoverage: {
                 command: 'node ./scripts/log-coverage.js'
+            },
+            dmg: {
+                command: 'node ./scripts/create-osx-build.js'
             }
         },
 
         'create-windows-installer': {
             ia32: {
                 appDirectory: './electron-builds/Ghost-win32-ia32',
-                outputDirectory: './electron-builds/win-installer32',
+                outputDirectory: './electron-builds/Ghost-win32-installer',
                 authors: 'Ghost Foundation',
                 exe: 'Ghost.exe',
                 iconUrl: `https://raw.githubusercontent.com/TryGhost/Ghost-Desktop/master/assets/icons/ghost.ico`,
@@ -80,7 +83,8 @@ const configureGrunt = function(grunt) {
 
     grunt.registerTask('validate', 'Test Code Style and App', ['eslint', 'jscs:app', 'shell:test', 'shell:logCoverage']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
-    grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['shell:build', 'create-windows-installer'])
+    grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['shell:build', 'create-windows-installer']);
+    grunt.registerTask('dmg', 'Create an OS X dmg for Ghost', ['shell:build', 'shell:dmg']);
 };
 
 module.exports = configureGrunt;
