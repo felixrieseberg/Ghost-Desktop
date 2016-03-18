@@ -10,6 +10,7 @@ If you need help with Ghost or have questions, please use [slack](https://ghost.
 
  * [Setting up your Developer Environment](developer-environment.md)
  * [Development Workflow](developer-workflow.md)
+ * [Creating Builds](creating-builds.md)
  * [Ember Documentation](https://emberjs.com)
  * [Ember-Electron Documentation](https://github.com/felixrieseberg/ember-electron)
  * [Electron Documentation](https://github.com/atom/electron/tree/master/docs)
