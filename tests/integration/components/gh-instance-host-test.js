@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { blogs } from '../../fixtures/blogs';
+import hbs from 'htmlbars-inline-precompile';
 
 /**
  * Test Preparation

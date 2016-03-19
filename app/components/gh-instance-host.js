@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import {injectCss} from '../utils/inject-css';
+import Phrases from '../utils/phrases';
 
 const {
     Component
@@ -27,6 +28,8 @@ export default Component.extend({
         this.$('webview')
             .off('did-finish-load')
             .on('did-finish-load', () => this._handleLoaded())
+            .off('did-fail-load')
+            .on('did-fail-load', (e, c, s) => this._handleLoadFailure(e, c, s))
             .off('new-window')
             .on('new-window', (e) => this._handleNewWindow(e))
             .off('console-message')
@@ -123,12 +126,44 @@ export default Component.extend({
     },
 
     /**
+     * Handles failures while trying to load the Ghost Instance. Most common
+     * cause: no internet. Information about error codes and descriptions
+     * can be found in the Chrome source:
+     * https://code.google.com/p/chromium/codesearch#chromium/src/net/base/net_error_list.h
+     *
+     * @param e {Object} - event
+     * @param errorCode {number}
+     * @param errorDescription {string}
+     */
+    _handleLoadFailure(e, errorCode, errorDescription = '') {
+        let $webviews = this.$('webview');
+        let path = requireNode('path');
+        let errorPage = path.join(__dirname, '..', 'main', 'load-error', 'error.html');
+        let validatedURL = e.originalEvent.validatedURL || '';
+
+        // Don't try this at home
+        if (validatedURL.includes('file://')) {
+            return;
+        }
+
+        if ($webviews && $webviews[0]) {
+            $webviews[0].loadURL(`file://${errorPage}?error=${errorDescription}`);
+            this.set('isInstanceLoaded', true);
+        }
+
+        console.log(`Ghost Instance failed to load. Error Code: ${errorCode}`, errorDescription);
+        // TODO: Handle notification click
+        /*eslint-disable no-unused-vars*/
+        let errorNotify = new Notification(Phrases.noInternet);
+        /*eslint-enable no-unused-vars*/
+    },
+
+    /**
      * Handles console messages logged in the webview
      * @param  {Object} e - jQuery Event
      */
     _handleConsole(e) {
-        console.log('dfgsdgfadsgfadfgsdfg');
-        if (e.originalEvent.message.includes('login-error')) {
+        if (e && e.originalEvent && e.originalEvent.message.includes('login-error')) {
             /*eslint-disable no-unused-vars*/
             let errorNotify = new Notification('Login failed: Please update your credentials.');
             /*eslint-enable no-unused-vars*/
