@@ -7,12 +7,7 @@ const {Route} = Ember;
 
 export default Route.extend({
     beforeModel() {
-        // Show the window menu only during development,
-        // or on Mac OS X
-        if (config.environment !== 'production' || process.platform === 'darwin') {
-            setupWindowMenu();
-        }
-
+        setupWindowMenu();
         setupContextMenu();
     },
 
