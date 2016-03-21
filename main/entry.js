@@ -3,10 +3,12 @@
 
 const electron         = require('electron');
 const winStateKeeper   = require('electron-window-state');
+const checkForUpdate   = require('./basic-update');
 const app              = electron.app;
 const BrowserWindow    = electron.BrowserWindow;
 const globalShortcut   = electron.globalShortcut;
 const emberAppLocation = `file://${__dirname}/../dist/index.html`;
+
 
 // Before we do anything else, handle Squirrel Events
 if (require('./squirrel')) {
@@ -52,4 +54,6 @@ app.on('ready', function onReady() {
     if (process.platform === 'win32') {
         globalShortcut.register('Ctrl+Shift+I', () => mainWindow.toggleDevTools());
     }
+    
+    checkForUpdate();
 });
