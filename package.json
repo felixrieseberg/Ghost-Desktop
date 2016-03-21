@@ -1,6 +1,6 @@
 {
   "name": "ghost-desktop",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Desktop Client for Ghost",
   "private": true,
   "directories": {
@@ -11,7 +11,8 @@
     "build": "grunt build",
     "start": "ember electron",
     "test": "grunt validate",
-    "build-native-deps": "electron-rebuild -a ia32 -w keytar",
+    "build-native-deps-32": "electron-rebuild -a ia32 -w keytar",
+    "build-native-deps-64": "electron-rebuild -a x64 -w keytar",
     "installer": "grunt installer",
     "dmg": "grunt dmg"
   },
@@ -26,7 +27,7 @@
     "broccoli-asset-rev": "^2.2.0",
     "codecov": "^1.0.1",
     "electron-packager": "^5.2.1",
-    "electron-prebuilt": "^0.36.11",
+    "electron-prebuilt": "^0.37.2",
     "electron-rebuild": "^1.1.3",
     "ember-ajax": "0.7.1",
     "ember-cli": "2.4.2",

@@ -68,13 +68,26 @@ const configureGrunt = function(grunt) {
         'create-windows-installer': {
             ia32: {
                 appDirectory: './electron-builds/Ghost-win32-ia32',
-                outputDirectory: './electron-builds/Ghost-win32-installer',
+                outputDirectory: './electron-builds/Ghost-win32-ia32-installer',
                 authors: 'Ghost Foundation',
                 exe: 'Ghost.exe',
                 iconUrl: `https://raw.githubusercontent.com/TryGhost/Ghost-Desktop/master/assets/icons/ghost.ico`,
                 setupIcon: `${__dirname}/assets/icons/ghost.ico`,
                 title: 'Ghost',
-                noMsi: true
+                noMsi: true,
+                loadingGif: './assets/win/installer-dev.gif'
+            },
+
+            x64: {
+                appDirectory: './electron-builds/Ghost-win32-x64',
+                outputDirectory: './electron-builds/Ghost-win32-x64-installer',
+                authors: 'Ghost Foundation',
+                exe: 'Ghost.exe',
+                iconUrl: `https://raw.githubusercontent.com/TryGhost/Ghost-Desktop/master/assets/icons/ghost.ico`,
+                setupIcon: `${__dirname}/assets/icons/ghost.ico`,
+                title: 'Ghost',
+                noMsi: true,
+                loadingGif: './assets/win/installer-dev.gif'
             }
         }
     };
