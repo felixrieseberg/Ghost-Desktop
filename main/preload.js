@@ -44,8 +44,9 @@ function checkStatus() {
         // Noooo, login errors!
         console.log(`login-error`)
     } else if (loaded) {
-        // Yay, successfully loaded
-        console.log('loaded');
+        // Yay, successfully loaded - let's give the renderer 200 more ms
+        // for rendering
+        setTimeout(() => console.log('loaded'), 200);
     } else {
         setTimeout(checkStatus, 100);
     }
