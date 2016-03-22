@@ -55,7 +55,10 @@ const configureGrunt = function(grunt) {
                 command: 'ember electron:test'
             },
             build: {
-                command: `ember electron:package --platform ${process.platform} --app-version ${package.version} --overwrite`
+                command: `ember electron:package --arch x64 --platform ${process.platform} --app-version ${package.version} --overwrite`
+            },
+            build32: {
+                command: `ember electron:package --arch ia32 --platform ${process.platform} --app-version ${package.version} --overwrite`
             },
             logCoverage: {
                 command: 'node ./scripts/log-coverage.js'
@@ -63,6 +66,11 @@ const configureGrunt = function(grunt) {
             dmg: {
                 command: 'node ./scripts/create-osx-build.js'
             }
+        },
+        
+        clean: {
+            builds32: ['electron-builds/Ghost-win32-ia32-installer/**/*', 'electron-builds/Ghost-win32-ia32/**/*'],
+            builds64: ['electron-builds/Ghost-win32-x64-installer/**/*', 'electron-builds/Ghost-win32-x64/**/*'],
         },
 
         'create-windows-installer': {
@@ -77,7 +85,6 @@ const configureGrunt = function(grunt) {
                 noMsi: true,
                 loadingGif: './assets/win/installer-dev.gif'
             },
-
             x64: {
                 appDirectory: './electron-builds/Ghost-win32-x64',
                 outputDirectory: './electron-builds/Ghost-win32-x64-installer',
@@ -96,7 +103,9 @@ const configureGrunt = function(grunt) {
 
     grunt.registerTask('validate', 'Test Code Style and App', ['eslint', 'jscs:app', 'shell:test', 'shell:logCoverage']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
-    grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['shell:build', 'create-windows-installer']);
+    grunt.registerTask('installer-32', ['clean:builds32', 'shell:build32', 'create-windows-installer:ia32'])
+    grunt.registerTask('installer-64', ['clean:builds64', 'shell:build', 'create-windows-installer:x64'])
+    grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['installer-32', 'installer-64']);
     grunt.registerTask('dmg', 'Create an OS X dmg for Ghost', ['shell:build', 'shell:dmg']);
 };
 

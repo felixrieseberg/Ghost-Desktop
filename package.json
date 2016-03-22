@@ -1,6 +1,6 @@
 {
   "name": "ghost-desktop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Desktop Client for Ghost",
   "private": true,
   "directories": {
@@ -44,7 +44,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.4.0",
     "ember-disable-proxy-controllers": "^1.0.1",
-    "ember-electron": "^1.0.0",
+    "ember-electron": "^1.2.0",
     "ember-export-application-global": "^1.0.4",
     "ember-inspector": "^1.9.5",
     "ember-load-initializers": "^0.5.0",
@@ -56,7 +56,7 @@
     "ember-suave": "2.0.1",
     "estraverse-fb": "^1.3.1",
     "grunt": "0.4.5",
-    "grunt-contrib-clean": "0.7.0",
+    "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-electron-installer": "^1.2.3",
     "grunt-eslint": "^18.0.0",
