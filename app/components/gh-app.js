@@ -14,11 +14,9 @@ export default Component.extend({
     /**
      * Boolean value that returns true if there are any blogs
      */
-    hasBlogs: Ember.computed('blogs', {
-        get() {
-            let b = this.get('blogs');
-            return (b && b.content && b.content.length && b.content.length > 0);
-        }
+    hasBlogs: Ember.computed('blogs', function () {
+        let b = this.get('blogs');
+        return (b && b.content && b.content.length && b.content.length > 0);
     }),
 
     /**
