@@ -31,6 +31,7 @@ test('renders all existing blogs in a webview', function (assert) {
 });
 
 test('displays the first blog if it has blogs (none selected)', function(assert) {
+    let qasync = assert.async();
     let blogContent = blogs;
     blogContent.content = blogs;
     blogContent.firstObject = blogs[0];
@@ -42,6 +43,7 @@ test('displays the first blog if it has blogs (none selected)', function(assert)
 
         const instanceHost = this.$('.instance-host')[0];
         assert.ok(this.$(instanceHost).hasClass('selected'));
+        qasync();
     });
 });
 

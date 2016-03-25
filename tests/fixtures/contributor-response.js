@@ -1,0 +1,62 @@
+export const contributorsResponse = [{
+    "login": "felixrieseberg",
+    "id": 1426799,
+    "avatar_url": "https://avatars.githubusercontent.com/u/1426799?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/test",
+    "html_url": "https://github.com/felixrieseberg",
+    "followers_url": "https://api.github.com/users/felixrieseberg/followers",
+    "following_url": "https://api.github.com/users/felixrieseberg/following{/other_user}",
+    "gists_url": "https://api.github.com/users/felixrieseberg/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/felixrieseberg/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/felixrieseberg/subscriptions",
+    "organizations_url": "https://api.github.com/users/felixrieseberg/orgs",
+    "repos_url": "https://api.github.com/users/felixrieseberg/repos",
+    "events_url": "https://api.github.com/users/felixrieseberg/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/felixrieseberg/received_events",
+    "type": "User",
+    "site_admin": false,
+    "contributions": 103
+}, {
+    "login": "bnookala",
+    "id": 87996,
+    "avatar_url": "https://avatars.githubusercontent.com/u/87996?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/test",
+    "html_url": "https://github.com/bnookala",
+    "followers_url": "https://api.github.com/users/bnookala/followers",
+    "following_url": "https://api.github.com/users/bnookala/following{/other_user}",
+    "gists_url": "https://api.github.com/users/bnookala/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/bnookala/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/bnookala/subscriptions",
+    "organizations_url": "https://api.github.com/users/bnookala/orgs",
+    "repos_url": "https://api.github.com/users/bnookala/repos",
+    "events_url": "https://api.github.com/users/bnookala/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/bnookala/received_events",
+    "type": "User",
+    "site_admin": false,
+    "contributions": 6
+}, {
+    "login": "JohnONolan",
+    "id": 120485,
+    "avatar_url": "https://avatars.githubusercontent.com/u/120485?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/test",
+    "html_url": "https://github.com/JohnONolan",
+    "followers_url": "https://api.github.com/users/JohnONolan/followers",
+    "following_url": "https://api.github.com/users/JohnONolan/following{/other_user}",
+    "gists_url": "https://api.github.com/users/JohnONolan/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/JohnONolan/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/JohnONolan/subscriptions",
+    "organizations_url": "https://api.github.com/users/JohnONolan/orgs",
+    "repos_url": "https://api.github.com/users/JohnONolan/repos",
+    "events_url": "https://api.github.com/users/JohnONolan/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/JohnONolan/received_events",
+    "type": "User",
+    "site_admin": false,
+    "contributions": 6
+}];
+
+export const nameResponse = {
+    name: 'testname'
+};

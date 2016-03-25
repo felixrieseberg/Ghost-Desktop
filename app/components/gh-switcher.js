@@ -135,6 +135,13 @@ export default Component.extend({
          */
         showAddBlog() {
             this.sendAction('showAddBlog');
+        },
+
+        /**
+         * Switch to the "preferences" UI
+         */
+        showPreferences() {
+            this.sendAction('showPreferences');
         }
     }
 });
