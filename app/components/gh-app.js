@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import setWindowTitle from '../utils/set-window-title';
+import setDockMenu from '../utils/set-dock-menu';
 
 const {Component} = Ember;
 
@@ -25,8 +26,28 @@ export default Component.extend({
     setup() {
         if (this.get('hasBlogs')) {
             this.send('switchToBlog', this.findSelectedBlog() || this.get('blogs.firstObject'));
+            this.createDockMenu();
         } else {
             this.set('isEditBlogVisible', true);
+        }
+    },
+
+    /**
+     * Gets the current blogs and creates the dock menu
+     */
+    createDockMenu() {
+        let blogs = this.get('blogs');
+        let menu = [];
+
+        blogs.forEach((blog) => {
+            menu.push({
+                name: blog.get('name'),
+                callback: () => this.send('switchToBlog', blog)
+            });
+        });
+
+        if (process.platform === 'darwin') {
+            setDockMenu(menu);
         }
     },
 
