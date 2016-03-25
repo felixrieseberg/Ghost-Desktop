@@ -90,7 +90,9 @@
     }
   },
   "dependencies": {
+    "color-scheme": "0.0.5",
     "electron-window-state": "^2.0.0",
+    "hexrgb": "0.0.2",
     "keytar": "^3.0.0"
   }
 }

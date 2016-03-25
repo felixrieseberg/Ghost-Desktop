@@ -1,7 +1,7 @@
 <div class="switcher-blogs">
     {{#each blogs as |blog index|}}
         <div class="switcher-blog {{if blog.isSelected "isSelected"}}">
-            <div class="switch-btn" {{action "switchToBlog" blog}} data-blog={{blog.id}}>
+            <div class="switch-btn" style="background-color:{{blog.iconColor}};" {{action "switchToBlog" blog}} data-blog={{blog.id}}>
                 <span>{{first-letter blog.name}}</span>
             </div>
             <div class="switch-shortcut">{{switch-shortcut index}}</div>

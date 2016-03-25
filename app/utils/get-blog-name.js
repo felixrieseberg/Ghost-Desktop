@@ -5,7 +5,7 @@ import Ember from 'ember';
  * @param  {string} url - Url for the blog
  * @return {Promise}
  */
-export function getBlogName(url) {
+export default function getBlogName(url) {
     return new Promise((resolve, reject) => {
         if (!url) {
             return reject('Tried to getBlogName without providing url');

@@ -5,7 +5,7 @@ import Ember from 'ember';
  * @param  {string} url - Url for the blog
  * @return {Promise}
  */
-export function getIsGhost(url) {
+export default function getIsGhost(url) {
     return new Promise((resolve, reject) => {
         if (!url) {
             return reject('Tried to getIsGhost without providing url');

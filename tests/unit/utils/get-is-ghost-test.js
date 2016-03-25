@@ -1,4 +1,4 @@
-import {getIsGhost} from 'ghost-desktop/utils/get-is-ghost';
+import getIsGhost from 'ghost-desktop/utils/get-is-ghost';
 import {module, test} from 'qunit';
 
 module('Unit | Utility | get is ghost host');

@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import getIconColor from '../utils/color-picker';
 
 /*eslint-disable no-unused-vars*/
 const {Model, attr, hasMany} = DS;
@@ -9,6 +10,9 @@ export default DS.Model.extend({
     url: attr('string'),
     identification: attr('string'),
     isSelected: attr('boolean'),
+    iconColor: attr('string', {
+        defaultValue: () => getIconColor()
+    }),
 
     /**
      * Convenience method, marking the blog as selected (and saving)
@@ -32,6 +36,13 @@ export default DS.Model.extend({
 
         this.set('isSelected', false);
         this.save();
+    },
+
+    /**
+     * Convenience method, generates a nice icon color for this blog.
+     */
+    randomIconColor() {
+        this.set('iconColor', getIconColor());
     },
 
     /**
