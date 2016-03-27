@@ -25,9 +25,9 @@ test('it can be selected', function(assert) {
     blog.save =  function () {
         assert.ok(true);
     }
-    
+
     blog.isDeleted = false;
-    
+
     Ember.run(() => blog.select());
     assert.ok(blog.get('isSelected'));
 });
@@ -40,7 +40,7 @@ test('it can be deselected', function(assert) {
     blog.save =  function () {
         assert.ok(true);
     }
-    
+
     blog.isDeleted = false;
 
     Ember.run(() => blog.unselect());
@@ -72,4 +72,14 @@ test('it can retrieve a password', function(assert) {
         }
 
     });
+});
+
+test('it can generate a new random icon color', function (assert) {
+    let blog = this.subject();
+    let oldColor = blog.get('iconColor');
+
+    Ember.run(() => blog.randomIconColor());
+
+    debugger;
+    assert.notEqual(oldColor, blog.get('iconColor'));
 });

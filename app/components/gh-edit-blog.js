@@ -1,6 +1,6 @@
 import Ember           from 'ember';
-import {getBlogName}   from '../utils/get-blog-name';
-import {getIsGhost}    from '../utils/get-is-ghost';
+import getIsGhost      from '../utils/get-is-ghost';
+import getBlogName     from '../utils/get-blog-name';
 import {sanitizeUrl}   from '../utils/sanitize-url';
 import Phrases         from '../utils/phrases';
 

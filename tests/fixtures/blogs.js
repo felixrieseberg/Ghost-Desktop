@@ -24,20 +24,23 @@ export const blogs = Ember.A([
         name: 'Testblog (Signin)',
         url: path.join(__dirname, 'tests', 'fixtures', 'static-signin', 'signin.html'),
         isSelected: false,
-        identification: "test@user.com"
+        identification: "test@user.com",
+        iconColor: "#008000"
     }),
     TestBlog.create({
         id: 1,
         name: 'Testblog (Content)',
         url: path.join(__dirname, 'tests', 'fixtures', 'static-content', 'content.html'),
         isSelected: false,
-        identification: "test@user.com"
+        identification: "test@user.com",
+        iconColor: "#ff0000"
     }),
     TestBlog.create({
         id: 2,
         name: 'Testblog (New Post)',
         url: path.join(__dirname, 'tests', 'fixtures', 'static-newpost', 'newpost.html'),
         isSelected: false,
-        identification: "test@user.com"
+        identification: "test@user.com",
+        iconColor: "#800080"
     })
 ]);
