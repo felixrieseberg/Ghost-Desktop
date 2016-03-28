@@ -48,12 +48,17 @@ app.on('ready', function onReady() {
     // Ember App entry point
     mainWindow.webContents.on('did-fail-load', () => mainWindow.loadURL(emberAppLocation));
     mainWindow.webContents.on('did-finish-load', () => mainWindow.show());
+
+    // Chromium drag and drop events tend to navigate the app away, making the
+    // app impossible to use without restarting. These events should be prevented.
+    mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
+
     mainWindow.on('closed', () => app.quit());
 
     // Setup Dev Shortcut on Windows (on Mac, the App Menu will take care of it)
     if (process.platform === 'win32') {
         globalShortcut.register('Ctrl+Shift+I', () => mainWindow.toggleDevTools());
     }
-    
+
     checkForUpdate();
 });
