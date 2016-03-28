@@ -78,14 +78,51 @@ export default Component.extend({
     },
 
     /**
+     * Sets the visibility of the preferences ui, the edit blog ui,
+     * and the blogs.
+     *
+     * @param {Object}   [options={}] - Options object
+     * @param {boolean}  [options.showBlog=true] - "Edit Blog" UI
+     * @param {boolean}  [options.showPreferences=false] - "Preferences" UI
+     * @param {DS.Model} [options.blog] - Blog to display
+     */
+    setScreenVisibility({showAddBlog = true, showPreferences = false, blog = null}) {
+        let selectedBlog = this.get('selectedBlog');
+
+        if ((!blog && selectedBlog) || (selectedBlog && blog && selectedBlog !== blog)) {
+            selectedBlog.unselect();
+        }
+
+        if (blog) {
+            blog.select();
+            setWindowTitle(blog.get('name'));
+            this.set('selectedBlog', blog);
+        }
+
+        this.setProperties({
+            isPreferencesVisible: showPreferences,
+            isEditBlogVisible: showAddBlog
+        });
+    },
+
+    /**
      * Displays the "add blog" UI
      */
     showEditBlogUI() {
-        if (this.get('selectedBlog')) {
-            this.get('selectedBlog').unselect();
-        }
+        this.setScreenVisibility({
+            showAddBlog: true,
+            showPreferences: false
+        });
+    },
 
-        this.set('isEditBlogVisible', true);
+    /**
+     * Displays the "preferences" UI
+     */
+    showPreferencesUI() {
+        this.setScreenVisibility({
+            showAddBlog: false,
+            showPreferences: true
+        });
     },
 
     actions: {
@@ -95,18 +132,13 @@ export default Component.extend({
          * @param {Object} blog - Blog to switch to
          */
         switchToBlog(blog) {
-            if (!blog) {
-                return;
+            if (blog) {
+                this.setScreenVisibility({
+                    showAddBlog: false,
+                    showPreferences: false,
+                    blog
+                });
             }
-
-            if (this.get('selectedBlog')) {
-                this.get('selectedBlog').unselect();
-            }
-
-            blog.select();
-            setWindowTitle(blog.get('name'));
-            this.set('selectedBlog', blog);
-            this.set('isEditBlogVisible', false);
         },
 
         /**
@@ -126,6 +158,13 @@ export default Component.extend({
         showEditBlog(blog) {
             this.set('blogToEdit', blog);
             this.showEditBlogUI();
+        },
+
+        /**
+         * Shows the preferences
+         */
+        showPreferences() {
+            this.showPreferencesUI();
         },
 
         /**

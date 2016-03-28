@@ -17,7 +17,8 @@
 @import "components/instance-host.css";
 @import "components/switcher.css";
 @import "components/splitbuttons.css";
-@import "components/add-blog.css";
+@import "components/edit-blog.css";
+@import "components/preferences.css";
 
 
 /* Layouts: Groups of Components

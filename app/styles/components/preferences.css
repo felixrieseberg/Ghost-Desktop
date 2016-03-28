@@ -1,0 +1,43 @@
+/* Preferences
+/* ---------------------------------------------------------- */
+
+.gh-preferences {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+
+.gh-preferences header {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 65px;
+    border-bottom: #dfe1e3 1px solid;
+}
+
+.gh-preferences .view-content {
+    padding: 20px;
+}
+
+.gh-preferences header h2 {
+    white-space: nowrap;
+    font-size: 2rem;
+    line-height: 1.2em;
+    font-weight: 400;
+    margin: 0;
+}
+
+.gh-preferences .text p {
+    font-size: 1.3rem;
+}
+
+.gh-preferences .contributor:after {
+  content: ", ";
+}
+
+.gh-preferences .contributor:last-child:after {
+  content: "";
+}

@@ -1,0 +1,40 @@
+<section class="gh-view">
+    <header>
+        <h2 class="ember-view view-title">
+            <span>Preferences</span>
+        </h2>
+    </header>
+
+    <section class="view-content">
+        <form id="settings-general">
+            <fieldset>
+                <div class="form-group for-checkbox">
+                    <label for="isNotificationsEnabled">Enable notifications</label>
+                    <label class="checkbox" for="isNotificationsEnabled">
+                        {{input id="isNotificationsEnabled" type="checkbox" checked=preferences.isNotificationsEnabled}}
+                        <span class="input-toggle-component"></span>
+                        <p>Enable Desktop notifications</p>
+                    </label>
+                </div>
+            </fieldset>
+            <hr>
+            <div class="form-group">
+                <label>Delete All Data</label>
+                <button {{action "deleteData"}} type="button" class="btn btn-red">Delete</button>
+                <p>This will reset Ghost Desktop, removing all blogs and settings.</p>
+            </div>
+
+            <div class="text">
+                <label>Credits</label>
+                <span>Copyright (c) 2013-2016 Ghost Foundation. Licensed <a {{action "openExternal" "https://github.com/TryGhost/Ghost-Desktop/blob/master/LICENSE"}}>under the MIT License</a>.</span><br />
+                {{#if preferences.contributors}}
+                    <span>Built with love by
+                        {{#each preferences.contributors as |contributor|}}
+                            <a class="contributor" {{action "openExternal" contributor.url}}>{{contributor.name}}</a>
+                        {{/each}}
+                    </span>
+                {{/if}}
+            </div>
+        </form>
+    </section>
+</section>

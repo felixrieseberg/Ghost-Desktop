@@ -13,6 +13,7 @@ const {
 export default Component.extend({
     classNames: ['instance-host'],
     classNameBindings: ['blog.isSelected:selected'],
+    preferences: Ember.inject.service(),
 
     didReceiveAttrs() {
         this._super(...arguments);
@@ -47,8 +48,12 @@ export default Component.extend({
         // soon as all assets are loaded. The app however still has to boot up.
         // To make things "feel" more snappy, we're hiding the loading from the
         // user.
+        if (window.QUnit) {
+            return this.set('isInstanceLoaded', true);
+        }
 
-        this.set('isInstanceLoaded', true);
+        Ember.run.later(() => this.set('isInstanceLoaded', true), 1500);
+
     },
 
     /**
@@ -154,7 +159,9 @@ export default Component.extend({
         console.log(`Ghost Instance failed to load. Error Code: ${errorCode}`, errorDescription);
         // TODO: Handle notification click
         /*eslint-disable no-unused-vars*/
-        let errorNotify = new Notification(Phrases.noInternet);
+        if (this.get('preferences.isNotificationsEnabled')) {
+            let errorNotify = new Notification(Phrases.noInternet);
+        }
         /*eslint-enable no-unused-vars*/
     },
 
@@ -165,7 +172,9 @@ export default Component.extend({
     _handleConsole(e) {
         if (e && e.originalEvent && e.originalEvent.message.includes('login-error')) {
             /*eslint-disable no-unused-vars*/
-            let errorNotify = new Notification('Login failed: Please update your credentials.');
+            if (this.get('preferences.isNotificationsEnabled')) {
+                let errorNotify = new Notification(Phrases.loginFailed);
+            }
             /*eslint-enable no-unused-vars*/
 
             // TODO: Show "update credentials screen here"
