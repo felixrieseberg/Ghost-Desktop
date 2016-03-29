@@ -2,8 +2,8 @@
 'use strict';
 
 const electron         = require('electron');
-const winStateKeeper   = require('electron-window-state');
 const checkForUpdate   = require('./basic-update');
+const fetchWindowState = require('./window-state');
 const app              = electron.app;
 const BrowserWindow    = electron.BrowserWindow;
 const globalShortcut   = electron.globalShortcut;
@@ -19,26 +19,18 @@ let mainWindow = null;
 electron.crashReporter.start();
 
 app.on('ready', function onReady() {
-    // Default window state, if it doesn't exist.
-    const mainWindowState = winStateKeeper({
-      defaultWidth: 1000,
-      defaultHeight: 800
-    })
+    const {usableState, stateKeeper} = fetchWindowState();
 
     // Instantiate the window with the existing size and position.
-    mainWindow = new BrowserWindow({
-        width: mainWindowState.width,
-        height: mainWindowState.height,
-        x: mainWindowState.x,
-        y: mainWindowState.y,
-        show: false
-    });
+    mainWindow = new BrowserWindow(
+        Object.assign(usableState, {show:false})
+    );
 
     delete mainWindow.module;
 
     // Letting the state keeper listen to window resizing and window moving
     // event, and save them accordingly.
-    mainWindowState.manage(mainWindow);
+    stateKeeper.manage(mainWindow);
 
     // If you want to open up dev tools programmatically, call
     // mainWindow.openDevTools();
