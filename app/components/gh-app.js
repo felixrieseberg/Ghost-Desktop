@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import setWindowTitle from '../utils/set-window-title';
 import setDockMenu from '../utils/set-dock-menu';
+import setUsertasks from '../utils/set-user-tasks';
+import getCurrentWindow from '../utils/get-current-window';
 
 const {Component} = Ember;
 
@@ -10,6 +12,7 @@ export default Component.extend({
 
     didReceiveAttrs() {
         this.setup();
+        this.createSingleInstance();
     },
 
     /**
@@ -27,8 +30,54 @@ export default Component.extend({
         if (this.get('hasBlogs')) {
             this.send('switchToBlog', this.findSelectedBlog() || this.get('blogs.firstObject'));
             this.createDockMenu();
+            this.createUserTasks();
         } else {
             this.set('isEditBlogVisible', true);
+        }
+    },
+
+    /**
+     * Ensures Ghost runs as a single instance.
+     */
+    createSingleInstance() {
+        let {remote} = requireNode('electron');
+        let {app} = remote;
+
+        if (!this.appWindow) {
+            this.appWindow = getCurrentWindow();
+        }
+
+        let shouldQuit = app.makeSingleInstance(this.onInstanceCheck.bind(this));
+
+        if (shouldQuit) {
+            app.quit();
+        }
+    },
+
+    /**
+     * Checks if the instance was supplied with a blog url as a parameter, if so, switch to it.
+     *
+     * @param {Array} argv - Arguments used to start the instance
+     * @param {string} workingDirectory - The working directory when the instance was created.
+     */
+    onInstanceCheck(argv) {
+        if (argv.length >= 2) {
+            let [ , url] = argv;
+
+            let blog = this.get('blogs').find((blog) => {
+                return blog.get('url') === url;
+            });
+
+            if (blog) {
+                this.send('switchToBlog', blog);
+            }
+        }
+
+        if (this.appWindow) {
+            if (this.appWindow.isMinimized()) {
+                this.appWindow.restore();
+            }
+            this.appWindow.focus();
         }
     },
 
@@ -48,6 +97,25 @@ export default Component.extend({
 
         if (process.platform === 'darwin') {
             setDockMenu(menu);
+        }
+    },
+
+    /**
+     * Gets the current blogs and creates the user tasks array
+     */
+    createUserTasks() {
+        let blogs = this.get('blogs');
+        let tasks = [];
+
+        blogs.forEach((blog) => {
+            tasks.push({
+                name: blog.get('name'),
+                url: blog.get('url')
+            });
+        });
+
+        if (process.platform === 'win32') {
+            setUsertasks(tasks);
         }
     },
 
