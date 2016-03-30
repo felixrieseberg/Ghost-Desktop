@@ -78,8 +78,6 @@ test('it can generate a new random icon color', function (assert) {
     let blog = this.subject();
     let oldColor = blog.get('iconColor');
 
-    Ember.run(() => blog.randomIconColor());
-
-    debugger;
+    Ember.run(() => blog.randomIconColor(excluding=oldColor));
     assert.notEqual(oldColor, blog.get('iconColor'));
 });
