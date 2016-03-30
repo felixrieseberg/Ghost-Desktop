@@ -11,7 +11,7 @@ export default DS.Model.extend({
     identification: attr('string'),
     isSelected: attr('boolean'),
     iconColor: attr('string', {
-        defaultValue: () => getIconColor()
+        defaultValue: () => getIconColor(null)
     }),
 
     /**
@@ -41,8 +41,8 @@ export default DS.Model.extend({
     /**
      * Convenience method, generates a nice icon color for this blog.
      */
-    randomIconColor() {
-        this.set('iconColor', getIconColor());
+    randomIconColor(excluding=null) {
+        this.set('iconColor', getIconColor(excluding));
     },
 
     /**
