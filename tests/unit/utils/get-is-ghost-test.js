@@ -22,3 +22,8 @@ test('correctly marks a non-Ghost site as Ghost', function (assert) {
             assert.ok(!result); 
         });
 });
+
+test('rejects the promise if called without a parameter', function (assert) {    
+    return getIsGhost()
+        .catch((err) => assert.ok(err));
+});
