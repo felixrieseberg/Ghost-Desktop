@@ -19,7 +19,9 @@ let mainWindow = null;
 electron.crashReporter.start();
 
 app.on('ready', function onReady() {
-    const {usableState, stateKeeper} = fetchWindowState();
+    const windowState = fetchWindowState();
+    const usableState = windowState.usableState;
+    const stateKeeper = windowState.stateKeeper;
 
     // Instantiate the window with the existing size and position.
     mainWindow = new BrowserWindow(
