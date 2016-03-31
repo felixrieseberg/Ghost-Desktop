@@ -8,10 +8,6 @@
 export function injectCss(webview, name = '') {
     let fs = requireNode('fs');
 
-    if (!fs) {
-        return;
-    }
-
     fs.readFile(`${__dirname}/assets/inject/css/${name}.css`, 'utf8', (err, data) => {
         if (err) {
             console.log(err);

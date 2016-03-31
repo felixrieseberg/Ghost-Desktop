@@ -11,3 +11,25 @@ test('it get\'s the name of a blog', function(assert) {
             assert.equal(title, 'Sign In - Felix Rieseberg');
         });
 });
+
+test('rejects the promise if called without a parameter', function(assert) {
+    return getBlogName()
+        .catch((err) => {
+            assert.ok(err);
+        });
+});
+
+test('rejects the promise if the url is not reachable', function(assert) {
+    return getBlogName('/nil/')
+        .catch((err) => {
+            assert.ok(err);
+        });
+});
+
+test(`removes an ending 'ghost' from the given url`, function(assert) {
+    // Forgive me for the url, I just need a stable website
+    return getBlogName('http://bing.com')
+        .then((title) => {
+            assert.equal(title, 'Bing');
+        });
+});
