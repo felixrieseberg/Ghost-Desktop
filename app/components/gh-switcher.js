@@ -63,6 +63,14 @@ export default Component.extend({
                         self.removeBlog(selectedBlog);
                     }
                 }
+            },
+            {
+                label: 'New Icon Color',
+                click() {
+                    if (selectedBlog) {
+                        self.changeBlogColor(selectedBlog);
+                    }
+                }
             }
         ]);
 
@@ -85,6 +93,23 @@ export default Component.extend({
                     node = node.parentNode;
                 }
             });
+    },
+
+    /**
+     * Gives a blog a random color
+     *
+     * @param id - Ember Data id of the blog to remove
+     */
+    changeBlogColor(id) {
+        if (id) {
+            this.get('store').findRecord('blog', id)
+                .then((result) => {
+                    if (result) {
+                        result.randomIconColor();
+                        result.save();
+                    }
+                });
+        }
     },
 
     /**

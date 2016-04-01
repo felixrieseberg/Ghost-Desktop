@@ -19,3 +19,6 @@ testem.log
 # coverage
 coverage.lcov
 coverage.json
+
+# C++ stuff
+browse.VC.db
