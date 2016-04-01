@@ -19,20 +19,31 @@ let mainWindow = null;
 electron.crashReporter.start();
 
 app.on('ready', function onReady() {
-    const windowState = fetchWindowState();
-    const usableState = windowState.usableState;
-    const stateKeeper = windowState.stateKeeper;
+    let windowState, usableState, stateKeeper;
 
     // Instantiate the window with the existing size and position.
-    mainWindow = new BrowserWindow(
-        Object.assign(usableState, {show:false})
-    );
+    try {
+        windowState = fetchWindowState();
+        usableState = windowState.usableState;
+        stateKeeper = windowState.stateKeeper;
+
+        mainWindow = new BrowserWindow(
+            Object.assign(usableState, {show:false})
+        );
+    } catch (error) {
+        // Window state keeper failed, let's still open a window
+        console.log(error);
+        mainWindow = new BrowserWindow({show:false});
+    }
+
 
     delete mainWindow.module;
 
     // Letting the state keeper listen to window resizing and window moving
     // event, and save them accordingly.
-    stateKeeper.manage(mainWindow);
+    if (stateKeeper) {
+        stateKeeper.manage(mainWindow);
+    }
 
     // If you want to open up dev tools programmatically, call
     // mainWindow.openDevTools();

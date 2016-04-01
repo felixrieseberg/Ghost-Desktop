@@ -44,10 +44,10 @@ function fetchNames(contributors) {
              *
              * @param name (description)
              */
-            let nameFetcher = fetchName(contributor).then((name) => {
-                console.log(name);
-                withNames[i].name = name;
-            });
+            let nameFetcher = fetchName(contributor)
+                .then((name) => {
+                    withNames[i].name = name;
+                });
 
             promises.push(nameFetcher);
         });
