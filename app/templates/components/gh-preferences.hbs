@@ -9,6 +9,22 @@
         <form id="settings-general">
             <fieldset>
                 <div class="form-group for-checkbox">
+                    <label>Automatic Updates</label>
+                    {{#if autoUpdate.isCheckingForUpdate}}
+                        <p>Ghost is currently looking for updates.</p>
+                    {{else if autoUpdate.isUpdateAvailable}}
+                        <p>An Update is available and is currently being downloaded. Once downloaded, it will automatically be installed the next time you start Ghost Desktop.</p>
+                    {{else if autoUpdate.isUpdateDownloaded}}
+                        <p>An Update was downloaded and will automatically be installed the next time you start Ghost Desktop.</p>
+                        <button {{action "installUpdate"}} type="button" class="btn btn-green">Install Update Now</button>
+                    {{else if autoUpdate.isLatestVersion}}
+                        <p>You're running the latest version of Ghost Desktop!</p>
+                    {{else}}
+                        <p>Ghost will periodically check for updates and automatically install new versions.</p>
+                    {{/if}}
+                    <p>You are currently running Ghost Desktop <strong>{{autoUpdate.appVersion}}</strong>.</p>
+                </div>
+                <div class="form-group for-checkbox">
                     <label for="isNotificationsEnabled">Enable notifications</label>
                     <label class="checkbox" for="isNotificationsEnabled">
                         {{input id="isNotificationsEnabled" type="checkbox" checked=preferences.isNotificationsEnabled}}

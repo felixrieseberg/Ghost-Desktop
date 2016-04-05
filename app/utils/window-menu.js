@@ -93,7 +93,8 @@ export function openRepository() {
  */
 export function setup() {
     let {remote} = requireNode('electron');
-    let {Menu, app} = remote;
+    let {app} = remote;
+
     let template = [
         {
             label: 'Edit',
@@ -249,6 +250,8 @@ export function setup() {
                     label: 'Quit',
                     accelerator: 'Command+Q',
                     click() {
+                        // This is later overwritten to update,
+                        // if an update is required.
                         app.quit();
                     }
                 }
@@ -256,7 +259,5 @@ export function setup() {
         });
     }
 
-    let builtMenu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(builtMenu);
-    return builtMenu;
+    return template;
 }

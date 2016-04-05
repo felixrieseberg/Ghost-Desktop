@@ -1,19 +1,14 @@
-import {
-    moduleForComponent, test
-}
-from 'ember-qunit';
+import {moduleForComponent, test} from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import {
-    blogs
-}
-from '../../fixtures/blogs';
-
-/**
- * Test Preparation
- */
+import {blogs} from '../../fixtures/blogs';
+import {autoUpdateMock} from '../../fixtures/auto-update';
 
 moduleForComponent('gh-preferences', 'Unit | Component | gh preferences', {
-    unit: true
+    unit: true,
+    beforeEach: function () {
+        this.register('service:auto-update', autoUpdateMock);
+        this.inject.service('auto-update', { as: 'autoUpdate' });
+    }
 });
 
 /**
