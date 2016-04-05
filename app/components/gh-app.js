@@ -8,11 +8,13 @@ const {Component} = Ember;
 
 export default Component.extend({
     store: Ember.inject.service(),
+    autoUpdate: Ember.inject.service(),
     classNames: ['gh-app'],
 
     didReceiveAttrs() {
         this.setup();
         this.createSingleInstance();
+        this.get('autoUpdate').checkForUpdates();
     },
 
     /**
@@ -29,8 +31,7 @@ export default Component.extend({
     setup() {
         if (this.get('hasBlogs')) {
             this.send('switchToBlog', this.findSelectedBlog() || this.get('blogs.firstObject'));
-            this.createDockMenu();
-            this.createUserTasks();
+            this.createMenus();
         } else {
             this.set('isEditBlogVisible', true);
         }
@@ -82,9 +83,12 @@ export default Component.extend({
     },
 
     /**
-     * Gets the current blogs and creates the dock menu
+     * Gets the current blogs and creates the various menus.
+     * On Windows: User Tasks (taskbar)
+     * On OS X: Dock Menu
+     * On all: Window Menu
      */
-    createDockMenu() {
+    createMenus() {
         let blogs = this.get('blogs');
         let menu = [];
 
@@ -98,24 +102,9 @@ export default Component.extend({
         if (process.platform === 'darwin') {
             setDockMenu(menu);
         }
-    },
-
-    /**
-     * Gets the current blogs and creates the user tasks array
-     */
-    createUserTasks() {
-        let blogs = this.get('blogs');
-        let tasks = [];
-
-        blogs.forEach((blog) => {
-            tasks.push({
-                name: blog.get('name'),
-                url: blog.get('url')
-            });
-        });
-
+        
         if (process.platform === 'win32') {
-            setUsertasks(tasks);
+            setUsertasks(menu);
         }
     },
 

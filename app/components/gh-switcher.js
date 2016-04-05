@@ -8,6 +8,7 @@ const {Component} = Ember;
  */
 export default Component.extend({
     store: Ember.inject.service(),
+    windowMenu: Ember.inject.service(),
     classNames: ['switcher'],
 
     didRender() {
@@ -20,21 +21,19 @@ export default Component.extend({
      * Setups the shortcut handling
      */
     _setupQuickSwitch() {
-        let {remote} = requireNode('electron');
-        let {globalShortcut} = remote;
+        let blogMenuItems = [{type: 'separator'}];
 
-        // Cleanup leftover shortcuts - required for reloads and the such
-        globalShortcut.unregisterAll();
-
-        // Register shortcuts for each blog
         this.get('blogs')
             .slice(0, 8)
             .map((blog, i) => {
-                let sc = `CmdOrCtrl+${i + 1}`;
-
-                globalShortcut.unregister(sc);
-                globalShortcut.register(sc, () => this.send('switchToBlog', blog));
+                blogMenuItems.push({
+                    accelerator: `CmdOrCtrl+${i + 1}`,
+                    click: () => this.send('switchToBlog', blog),
+                    label: blog.get('name')
+                });
             });
+
+        this.get('windowMenu').addBlogsToMenu(blogMenuItems);
     },
 
     /**

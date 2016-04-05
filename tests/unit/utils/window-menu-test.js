@@ -7,7 +7,7 @@ test('creates a menu (5 elements, 6 for OS X)', function(assert) {
     let result = setup();
     let expected = (process.platform === 'darwin') ? 6 : 5;
 
-    assert.equal(result.items.length, expected);
+    assert.equal(result.length, expected);
 });
 
 test('reloads a given BrowserWindow', function(assert) {
