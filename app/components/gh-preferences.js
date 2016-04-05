@@ -12,8 +12,6 @@ export default Ember.Component.extend({
         if (!this.get('preferences.contributors')) {
             fetchContributors().then((data) => this.set('preferences.contributors', data));
         }
-
-        this.get('autoUpdate').checkForUpdates();
     },
 
     actions: {
@@ -47,6 +45,13 @@ export default Ember.Component.extend({
                     window.location.reload();
                 }
             });
+        },
+
+        /**
+         * Install an update, if available
+         */
+        installUpdate() {
+            this.get('autoUpdate').update();
         }
     }
 });

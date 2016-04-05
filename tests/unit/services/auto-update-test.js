@@ -45,7 +45,7 @@ test('reports the correct application version', function(assert) {
 test('calls setup if during checkForUpdates', function(assert) {
     let oldRequire = window.requireNode;
     let service = this.subject();
-    
+
     service.set('environment', 'production');
     service._setup = () => assert.ok(true);
     service.checkForUpdates();
@@ -53,14 +53,14 @@ test('calls setup if during checkForUpdates', function(assert) {
 
 test('can call checkForUpdates from the wrong environment', function(assert) {
     assert.expect(0);
-    
+
     let service = this.subject();
     service.checkForUpdates();
 });
 
 test('can call setup from the wrong environment', function(assert) {
     assert.expect(0);
-    
+
     let service = this.subject();
     service._setup();
 });
@@ -68,7 +68,7 @@ test('can call setup from the wrong environment', function(assert) {
 test('calls Electron\'s autoUpdater for update checking', function(assert) {
     let oldRequire = window.requireNode;
     let service = this.subject();
-    
+
     service.set('environment', 'production');
     service.set('autoUpdater', {
         checkForUpdates() {
@@ -77,6 +77,31 @@ test('calls Electron\'s autoUpdater for update checking', function(assert) {
     });
     service.checkForUpdates();
 });
+
+test('update does attempt to update if one is downloaded', function(assert) {
+    let service = this.subject();
+    service.set('isUpdateDownloaded', true);
+    service.set('autoUpdater', {
+        quitAndInstall() {
+            assert.ok(true);
+        }
+    });
+    service.update();
+});
+
+test('update does not attempt to update if none is downloaded', function(assert) {
+    assert.expect(0);
+
+    let service = this.subject();
+    service.set('isUpdateDownloaded', false);
+    service.set('autoUpdater', {
+        quitAndInstall() {
+            assert.ok(false);
+        }
+    });
+    service.update();
+});
+
 
 test('attempts to update before shutting down if an update is downloaded', function(assert) {
     let oldRequire = window.requireNode;
@@ -89,6 +114,9 @@ test('attempts to update before shutting down if an update is downloaded', funct
                         return {
                             quit() {
                                 assert.ok(false);
+                            },
+                            showMessageBox(opts, handler) {
+                                handler(1);
                             }
                         }
                     }
@@ -104,6 +132,42 @@ test('attempts to update before shutting down if an update is downloaded', funct
     service.set('autoUpdater', {
         quitAndInstall() {
             assert.ok(true);
+        }
+    });
+    service.updateAndShutdown();
+
+    window.requireNode = oldRequire;
+});
+
+test('does not attempt update if downloaded and user declined', function(assert) {
+    let oldRequire = window.requireNode;
+
+    window.requireNode = function(target) {
+        if (target === 'electron') {
+            return {
+                remote: {
+                    require(module) {
+                        return {
+                            quit() {
+                                assert.ok(true);
+                            },
+                            showMessageBox(opts, handler) {
+                                handler(0);
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            return oldRequire(...arguments);
+        }
+    }
+
+    let service = this.subject();
+    service.set('isUpdateDownloaded', true);
+    service.set('autoUpdater', {
+        quitAndInstall() {
+            assert.ok(false);
         }
     });
     service.updateAndShutdown();
@@ -185,19 +249,19 @@ test('_setup handles autoUpdater events', function(assert) {
                     require(module) {
                         return {
                             setFeedURL() {},
-                            on(e, handler) { 
+                            on(e, handler) {
                                 if (e === 'checking-for-update') {
                                     assert.ok(true, 'handles checking-for-update');
                                 }
-                                
+
                                 if (e === 'update-available') {
                                     assert.ok(true, 'handles update-available');
                                 }
-                                
+
                                 if (e === 'update-downloaded') {
                                     assert.ok(true, 'handles update-downloaded');
                                 }
-                                
+
                                 if (e === 'update-not-available') {
                                     assert.ok(true, 'handles update-not-available');
                                 }
@@ -229,7 +293,7 @@ test('autoUpdater\'s update checks is reflected in isCheckingForUpdate', functio
                     require(module) {
                         return {
                             setFeedURL() {},
-                            on(e, handler) { 
+                            on(e, handler) {
                                 if (e === 'checking-for-update') {
                                     handler();
                                 }
@@ -247,7 +311,7 @@ test('autoUpdater\'s update checks is reflected in isCheckingForUpdate', functio
     service.set('appVersion', '1.0.0-beta');
     service.set('environment', 'production');
     service._setup();
-    
+
     assert.equal(service.get('isCheckingForUpdate'), true);
 
     window.requireNode = oldRequire;
@@ -263,7 +327,7 @@ test('autoUpdater\'s update-available is reflected in isUpdateAvailable', functi
                     require(module) {
                         return {
                             setFeedURL() {},
-                            on(e, handler) { 
+                            on(e, handler) {
                                 if (e === 'update-available') {
                                     handler();
                                 }
@@ -281,7 +345,7 @@ test('autoUpdater\'s update-available is reflected in isUpdateAvailable', functi
     service.set('appVersion', '1.0.0-beta');
     service.set('environment', 'production');
     service._setup();
-    
+
     assert.equal(service.get('isUpdateAvailable'), true);
 
     window.requireNode = oldRequire;
@@ -297,7 +361,7 @@ test('autoUpdater\'s update-downloaded is reflected in isUpdateDownloaded', func
                     require(module) {
                         return {
                             setFeedURL() {},
-                            on(e, handler) { 
+                            on(e, handler) {
                                 if (e === 'update-downloaded') {
                                     handler();
                                 }
@@ -315,7 +379,7 @@ test('autoUpdater\'s update-downloaded is reflected in isUpdateDownloaded', func
     service.set('appVersion', '1.0.0-beta');
     service.set('environment', 'production');
     service._setup();
-    
+
     assert.equal(service.get('isUpdateDownloaded'), true);
 
     window.requireNode = oldRequire;
@@ -331,7 +395,7 @@ test('autoUpdater\'s update-not-available is reflected in isUpdateAvailable', fu
                     require(module) {
                         return {
                             setFeedURL() {},
-                            on(e, handler) { 
+                            on(e, handler) {
                                 if (e === 'update-not-available') {
                                     handler();
                                 }
@@ -349,7 +413,7 @@ test('autoUpdater\'s update-not-available is reflected in isUpdateAvailable', fu
     service.set('appVersion', '1.0.0-beta');
     service.set('environment', 'production');
     service._setup();
-    
+
     assert.equal(service.get('isUpdateAvailable'), false);
 
     window.requireNode = oldRequire;

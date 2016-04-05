@@ -4,5 +4,6 @@ export default {
     identificationInvalid: 'The entered identification has an incorrect format. It should be an email address. Did you spell it correctly?',
     urlNotReachable: 'We can\'t reach the given URL. Ensure that you are connected to the Internet and that it is spelled correctly!',
     noInternet: 'We failed to load your Ghost blog. Are you connected to the Internet?',
-    loginFailed: 'Login failed: Please update your credentials.'
+    loginFailed: 'Login failed: Please update your credentials.',
+    updateNow: 'A new version of Ghost was downloaded and can now be installed. Want to install it now?'
 };

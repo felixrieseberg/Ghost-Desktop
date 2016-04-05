@@ -12,11 +12,12 @@
                     <label>Automatic Updates</label>
                     {{#if autoUpdate.isCheckingForUpdate}}
                         <p>Ghost is currently looking for updates.</p>
-                    {{else if autoUpdate.isUpdateAvailable}}
-                        <p>An Update is available and is currently being downloaded. Once downloaded, it will automatically be installed the next time you start Ghost Desktop.</p>
                     {{else if autoUpdate.isUpdateDownloaded}}
                         <p>An Update was downloaded and will automatically be installed the next time you start Ghost Desktop.</p>
                         <button {{action "installUpdate"}} type="button" class="btn btn-green">Install Update Now</button>
+                    {{else if autoUpdate.isUpdateAvailable}}
+                        <p>An Update is available and is currently being downloaded.</p>
+                        <button type="button" class="btn btn-green" disabled>Install Update Now</button>
                     {{else if autoUpdate.isLatestVersion}}
                         <p>You're running the latest version of Ghost Desktop!</p>
                     {{else}}

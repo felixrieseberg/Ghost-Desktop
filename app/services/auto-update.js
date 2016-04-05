@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ENV from 'ghost-desktop/config/environment';
+import phrases from '../utils/phrases';
 
 export default Ember.Service.extend(Ember.Evented, {
     autoUpdater: null,
@@ -35,7 +36,7 @@ export default Ember.Service.extend(Ember.Evented, {
      * Checks Ghost Desktop's update server for updates.
      */
     checkForUpdates() {
-        if (this.get('environment') !== 'production') {
+        if (this.get('environment') !== 'production' || this.get('isCheckingForUpdate')) {
             return;
         }
 
@@ -49,16 +50,40 @@ export default Ember.Service.extend(Ember.Evented, {
     },
 
     /**
+     * Updates the app, if an update is available
+     */
+    update() {
+        let autoUpdater = this.get('autoUpdater');
+
+        if (autoUpdater && this.get('isUpdateDownloaded')) {
+            autoUpdater.quitAndInstall();
+        }
+    },
+
+    /**
      * If an update has been downloaded, we update and shutdown.
      * If not, we just shutdown.
      */
     updateAndShutdown() {
         let {remote} = requireNode('electron');
         let app = remote.require('app');
+        let dialog = remote.require('dialog');
         let autoUpdater = this.get('autoUpdater');
 
         if (autoUpdater && this.get('isUpdateDownloaded')) {
-            autoUpdater.quitAndInstall();
+            dialog.showMessageBox({
+                type: 'question',
+                buttons: ['Cancel', 'Update'],
+                defaultId: 1,
+                title: 'Update Ghost?',
+                message: phrases.updateNow
+            }, (response) => {
+                if (response === 1) {
+                    autoUpdater.quitAndInstall();
+                } else {
+                    app.quit();
+                }
+            });
         } else {
             app.quit();
         }
