@@ -1,13 +1,13 @@
 /* jshint node: true */
 'use strict';
 
-const electron         = require('electron');
-const checkForUpdate   = require('./basic-update');
-const fetchWindowState = require('./window-state');
-const app              = electron.app;
-const BrowserWindow    = electron.BrowserWindow;
-const globalShortcut   = electron.globalShortcut;
-const emberAppLocation = `file://${__dirname}/../dist/index.html`;
+const electron             = require('electron');
+const checkForBetaUpdate   = require('./basic-update');
+const fetchWindowState     = require('./window-state');
+const app                  = electron.app;
+const BrowserWindow        = electron.BrowserWindow;
+const globalShortcut       = electron.globalShortcut;
+const emberAppLocation     = `file://${__dirname}/../dist/index.html`;
 
 
 // Before we do anything else, handle Squirrel Events
@@ -16,11 +16,13 @@ if (require('./squirrel')) {
 }
 
 let mainWindow = null;
-electron.crashReporter.start();
 
 app.on('ready', function onReady() {
     let windowState, usableState, stateKeeper;
-
+    
+    // Greetings
+    console.log('Welcome to Ghost 👻');
+    
     // Instantiate the window with the existing size and position.
     try {
         windowState = fetchWindowState();
@@ -28,12 +30,16 @@ app.on('ready', function onReady() {
         stateKeeper = windowState.stateKeeper;
 
         mainWindow = new BrowserWindow(
-            Object.assign(usableState, {show:false})
+            Object.assign(usableState, {show: false})
         );
     } catch (error) {
         // Window state keeper failed, let's still open a window
         console.log(error);
-        mainWindow = new BrowserWindow({show:false});
+        mainWindow = new BrowserWindow({
+            show: false,
+            height: 800,
+            width: 1000
+        });
     }
 
 
@@ -64,6 +70,6 @@ app.on('ready', function onReady() {
     if (process.platform === 'win32') {
         globalShortcut.register('Ctrl+Shift+I', () => mainWindow.toggleDevTools());
     }
-
-    checkForUpdate();
+    
+    checkForBetaUpdate();
 });

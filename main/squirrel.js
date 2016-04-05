@@ -4,9 +4,9 @@
  * ⚠ Remember: It needs to load ASAP, execute ASAP, exit ASAP! ⚠
  */
 
-const path = require('path');
-const spawn = require('child_process').spawn;
-const app = require('app');
+const path        = require('path');
+const spawn       = require('child_process').spawn;
+const app         = require('app');
 
 function run(args, done) {
     let updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
