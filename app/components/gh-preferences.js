@@ -4,6 +4,7 @@ import fetchContributors from '../utils/fetch-contributors';
 export default Ember.Component.extend({
     classNames: ['gh-preferences'],
     preferences: Ember.inject.service(),
+    autoUpdate: Ember.inject.service(),
 
     didReceiveAttrs() {
         this._super(...arguments);
@@ -11,6 +12,8 @@ export default Ember.Component.extend({
         if (!this.get('preferences.contributors')) {
             fetchContributors().then((data) => this.set('preferences.contributors', data));
         }
+
+        this.get('autoUpdate').checkForUpdates();
     },
 
     actions: {
