@@ -12,8 +12,8 @@ platform:
   - x64
 
 cache:
-  - bower_components
-  - node_modules
+  - bower_components -> bower.json
+  - node_modules -> package.json
   - '%APPDATA%\npm-cache'
   - '%APPDATA%\Roaming\bower'
 

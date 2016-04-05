@@ -20,10 +20,6 @@ matrix:
       env:
         - NODE_VERSION=5.1 TARGET_ARCH=x64 OS=DARWIN
 
-cache:
-  directories:
-    - node_modules
-
 before_install:
   # OS X ---------------------------------------------------------------------
   # nvm is not yet supported on osx, manually install
@@ -41,7 +37,6 @@ before_install:
   - "npm install -g bower"
 
 install:
-  - rm -rf ./node_modules
   - npm install
   - bower install
   - export DISPLAY=':99.0'
