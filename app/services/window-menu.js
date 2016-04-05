@@ -69,12 +69,11 @@ export default Ember.Service.extend({
                                 self.get('autoUpdate').updateAndShutdown();
                             };
                         }
-                    })
+                    });
                 }
             });
         }
 
         return template;
-    },
-
+    }
 });

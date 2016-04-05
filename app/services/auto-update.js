@@ -7,7 +7,7 @@ export default Ember.Service.extend(Ember.Evented, {
     isUpdateAvailable: null,
     isUpdateDownloaded: null,
     isLatestVersion: null,
-    
+
     /**
      * Returns the current environment (testing, development, production)
      */
@@ -16,7 +16,7 @@ export default Ember.Service.extend(Ember.Evented, {
             return ENV.environment;
         }
     }),
-    
+
     /**
      * Returns the current Ghost Desktop version, by querying the version
      * defined in package.json. If that fails, it'll check the version of
@@ -42,7 +42,7 @@ export default Ember.Service.extend(Ember.Evented, {
         if (!this.get('autoUpdater')) {
             this._setup();
         }
-        
+
         if (this.get('autoUpdater')) {
             this.get('autoUpdater').checkForUpdates();
         }
@@ -76,7 +76,7 @@ export default Ember.Service.extend(Ember.Evented, {
         if (this.get('environment') !== 'production') {
             return;
         }
-        
+
         // Todo: Handle Linux
         let updateFeed = (os === 'darwin') ?
             `http://desktop-updates.ghost.org/update/osx/${this.get('appVersion')}` :

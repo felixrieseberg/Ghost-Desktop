@@ -41,6 +41,7 @@ before_install:
   - "npm install -g bower"
 
 install:
+  - rm -rf ./node_modules
   - npm install
   - bower install
   - export DISPLAY=':99.0'

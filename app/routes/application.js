@@ -5,7 +5,7 @@ const {Route} = Ember;
 
 export default Route.extend({
     windowMenu: Ember.inject.service(),
-    
+
     beforeModel() {
         this.get('windowMenu').setup();
         setupContextMenu();

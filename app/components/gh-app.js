@@ -102,7 +102,7 @@ export default Component.extend({
         if (process.platform === 'darwin') {
             setDockMenu(menu);
         }
-        
+
         if (process.platform === 'win32') {
             setUsertasks(menu);
         }
