@@ -2,6 +2,7 @@
 
 const lazyRequire = require('lazy-require');
 const path = require('path');
+const fs = require('fs');
 const appdmg = lazyRequire('appdmg');
 
 if (appdmg instanceof Error) {
@@ -15,7 +16,13 @@ if (appdmg instanceof Error) {
 
 // Create appdmg
 const source = path.join('.appdmg.json');
-const target = path.join('electron-builds', 'Ghost-darwin-x64-dmg', 'ghost.dmg');
+const dir = path.join('electron-builds', 'Ghost-darwin-x64-dmg');
+const target = path.join(dir, 'ghost.dmg');
+
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+}
+
 const ee = appdmg({ source, target });
 
 ee.on('progress', (info) => {
