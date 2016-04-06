@@ -1,6 +1,6 @@
 {
   "name": "ghost-desktop",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Desktop Client for Ghost",
   "private": true,
   "directories": {
@@ -83,7 +83,7 @@
     "sign": null,
     "strict-ssl": null,
     "osx-sign": {
-      "identity": "Felix Rieseberg"  
+      "identity": "Felix Rieseberg"
     },
     "version-string": {
       "CompanyName": "Ghost Foundation",
