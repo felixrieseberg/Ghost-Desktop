@@ -2,7 +2,6 @@
 'use strict';
 
 const electron             = require('electron');
-const checkForBetaUpdate   = require('./basic-update');
 const fetchWindowState     = require('./window-state');
 const app                  = electron.app;
 const BrowserWindow        = electron.BrowserWindow;
@@ -42,7 +41,6 @@ app.on('ready', function onReady() {
         });
     }
 
-
     delete mainWindow.module;
 
     // Letting the state keeper listen to window resizing and window moving
@@ -70,6 +68,4 @@ app.on('ready', function onReady() {
     if (process.platform === 'win32') {
         globalShortcut.register('Ctrl+Shift+I', () => mainWindow.toggleDevTools());
     }
-    
-    checkForBetaUpdate();
 });
