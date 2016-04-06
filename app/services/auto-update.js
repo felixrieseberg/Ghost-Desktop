@@ -56,21 +56,41 @@ export default Ember.Service.extend(Ember.Evented, {
         let autoUpdater = this.get('autoUpdater');
 
         if (autoUpdater && this.get('isUpdateDownloaded')) {
+            this.set('doNotAskForUpdate', true);
             autoUpdater.quitAndInstall();
         }
     },
 
     /**
-     * If an update has been downloaded, we update and shutdown.
-     * If not, we just shutdown.
+     * On Windows, we need to ensure that we capture the "before-quit" event.
      */
-    updateAndShutdown() {
+    _captureBeforeQuit() {
+        let {remote} = requireNode('electron');
+        let app = remote.require('app');
+
+        // Ensure we do this only once
+        if (!this.get('isBeforeQuitHandled')) {
+            app.on('before-quit', this._handleQuit);
+            this.set('isBeforeQuitHandled', true);
+        }
+    },
+
+    /**
+     * Handles the app's "before-quit" event
+     *
+     * @param e {Object} - Event
+     */
+    _handleQuit(e) {
         let {remote} = requireNode('electron');
         let app = remote.require('app');
         let dialog = remote.require('dialog');
         let autoUpdater = this.get('autoUpdater');
 
-        if (autoUpdater && this.get('isUpdateDownloaded')) {
+        // Only move forward if we have an update - and if we didn't ask before.
+        if (autoUpdater && this.get('isUpdateDownloaded') && !this.get('doNotAskForUpdate')) {
+            e.preventDefault();
+            this.set('doNotAskForUpdate', true);
+
             dialog.showMessageBox({
                 type: 'question',
                 buttons: ['Cancel', 'Update'],
@@ -84,8 +104,6 @@ export default Ember.Service.extend(Ember.Evented, {
                     app.quit();
                 }
             });
-        } else {
-            app.quit();
         }
     },
 
@@ -134,6 +152,7 @@ export default Ember.Service.extend(Ember.Evented, {
             this.trigger('update-not-available');
         });
 
+        this._captureBeforeQuit();
         this.set('autoUpdater', autoUpdater);
     }
 });

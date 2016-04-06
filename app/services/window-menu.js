@@ -2,7 +2,6 @@ import Ember from 'ember';
 import {setup as getMenuTemplate} from '../utils/window-menu';
 
 export default Ember.Service.extend({
-    autoUpdate: Ember.inject.service(),
     blogs: [],
 
     /**
@@ -13,8 +12,7 @@ export default Ember.Service.extend({
         let {Menu} = remote;
         let template = getMenuTemplate();
         let withBlogs = this._injectBlogs(template);
-        let withQuitHandler = this._injectQuitHandler(withBlogs);
-        let builtMenu = Menu.buildFromTemplate(withQuitHandler);
+        let builtMenu = Menu.buildFromTemplate(withBlogs);
 
         Menu.setApplicationMenu(builtMenu);
     },
@@ -44,32 +42,6 @@ export default Ember.Service.extend({
             template.forEach((item) => {
                 if (item && item.label && item.label === 'View') {
                     item.submenu = item.submenu.concat(blogs);
-                }
-            });
-        }
-
-        return template;
-    },
-
-    /**
-     * If a quit handler is present, it is injected into the menu
-     *
-     * @param template - Electron menu template
-     * @returns template - Electron menu template
-     */
-    _injectQuitHandler(template) {
-        let self = this;
-
-        if (template && template.forEach) {
-            template.forEach((item) => {
-                if (item && item.label && item.label === 'Ghost') {
-                    item.submenu.forEach((subitem) => {
-                        if (subitem && subitem.label && subitem.label === 'Quit') {
-                            subitem.click = function click() {
-                                self.get('autoUpdate').updateAndShutdown();
-                            };
-                        }
-                    });
                 }
             });
         }

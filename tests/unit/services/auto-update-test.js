@@ -134,7 +134,7 @@ test('attempts to update before shutting down if an update is downloaded', funct
             assert.ok(true);
         }
     });
-    service.updateAndShutdown();
+    service._handleQuit({preventDefault() {}});
 
     window.requireNode = oldRequire;
 });
@@ -170,31 +170,15 @@ test('does not attempt update if downloaded and user declined', function(assert)
             assert.ok(false);
         }
     });
-    service.updateAndShutdown();
+    service._handleQuit({preventDefault() {}});
 
     window.requireNode = oldRequire;
 });
 
 test('does not attempt to update if no update is downloaded', function(assert) {
-    let oldRequire = window.requireNode;
+    assert.expect(0);
 
-    window.requireNode = function(target) {
-        if (target === 'electron') {
-            return {
-                remote: {
-                    require(module) {
-                        return {
-                            quit() {
-                                assert.ok(true);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            return oldRequire(...arguments);
-        }
-    }
+    let oldRequire = window.requireNode;
 
     let service = this.subject();
     service.set('isUpdateDownloaded', false);
@@ -203,7 +187,7 @@ test('does not attempt to update if no update is downloaded', function(assert) {
             assert.ok(false);
         }
     });
-    service.updateAndShutdown();
+    service._handleQuit({preventDefault() {}});
 
     window.requireNode = oldRequire;
 });
