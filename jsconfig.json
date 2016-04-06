@@ -8,5 +8,11 @@
         "bower_components",
         "tmp",
         "vendor"
+    ],
+    "files": [
+        "app/**/*",
+        "Gruntfile.js",
+        "tests/**/*",
+        "scripts/**/*"
     ]
 }

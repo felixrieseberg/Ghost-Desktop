@@ -7,6 +7,7 @@
 // **Debug tip:** If you have any problems with any Grunt tasks, try running them with the `--verbose` command
 
 const package = require('./package.json');
+const winTools = require('./scripts/create-windows-build');
 
 const configureGrunt = function(grunt) {
     // #### Load all grunt tasks
@@ -67,7 +68,7 @@ const configureGrunt = function(grunt) {
                 command: 'node ./scripts/create-osx-build.js'
             }
         },
-        
+
         clean: {
             builds32: ['electron-builds/Ghost-win32-ia32-installer/**/*', 'electron-builds/Ghost-win32-ia32/**/*'],
             builds64: ['electron-builds/Ghost-win32-x64-installer/**/*', 'electron-builds/Ghost-win32-x64/**/*'],
@@ -83,7 +84,9 @@ const configureGrunt = function(grunt) {
                 setupIcon: `${__dirname}/assets/icons/ghost.ico`,
                 title: 'Ghost',
                 noMsi: true,
-                loadingGif: './assets/win/installer-dev.gif'
+                loadingGif: './assets/win/installer-dev.gif',
+                certificateFile: winTools.getSigningCert(),
+                certificatePassword: winTools.getSigningPassword()
             },
             x64: {
                 appDirectory: './electron-builds/Ghost-win32-x64',
@@ -98,9 +101,9 @@ const configureGrunt = function(grunt) {
             }
         }
     };
-    
+
     grunt.initConfig(config);
-    
+
     grunt.registerTask('codestyle', 'Test Code Style', ['eslint', 'jscs:app']);
     grunt.registerTask('validate', 'Test Code Style and App', ['codestyle', 'shell:test', 'shell:logCoverage']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
