@@ -8,4 +8,4 @@ The development workflow is enabled by [Ember-Electron](https://github.com/felix
  * `ember electron:test --server` runs the same tests, but in a live-reloading development mode. It uses incremental builds to allow for a fast dev/test workflow.
  * `npm run test` or `grunt validate` runs JSCS (a code style checker) and the QUnit tests together. It is also what our CI system runs whenever you make a pull request.
  * `npm run build` or `grunt build` compiles Ghost Desktop into a standalone binary (.exe on Windows, .app on OS X).
- * `npm run build-native-deps` compiles native dependencies using the Electron headers. It should be run whenever you run `npm install`.
+ * `npm run build-native-deps-64` (or -32, if you're running on a 32 bit machine) compiles native dependencies using the Electron headers. It should be run whenever you run `npm install`.
