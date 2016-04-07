@@ -93,7 +93,7 @@ export function openRepository() {
  */
 export function setup() {
     let {remote} = requireNode('electron');
-    let {app} = remote;
+    let browserWindow = remote.getCurrentWindow();
 
     let template = [
         {
@@ -250,9 +250,7 @@ export function setup() {
                     label: 'Quit',
                     accelerator: 'Command+Q',
                     click() {
-                        // This is later overwritten to update,
-                        // if an update is required.
-                        app.quit();
+                        browserWindow.close();
                     }
                 }
             ]

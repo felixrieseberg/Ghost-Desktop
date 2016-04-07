@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import ENV from 'ghost-desktop/config/environment';
-import phrases from '../utils/phrases';
 
 export default Ember.Service.extend(Ember.Evented, {
     autoUpdater: null,
@@ -56,54 +55,7 @@ export default Ember.Service.extend(Ember.Evented, {
         let autoUpdater = this.get('autoUpdater');
 
         if (autoUpdater && this.get('isUpdateDownloaded')) {
-            this.set('doNotAskForUpdate', true);
             autoUpdater.quitAndInstall();
-        }
-    },
-
-    /**
-     * On Windows, we need to ensure that we capture the "before-quit" event.
-     */
-    _captureBeforeQuit() {
-        let {remote} = requireNode('electron');
-        let app = remote.require('app');
-
-        // Ensure we do this only once
-        if (!this.get('isBeforeQuitHandled')) {
-            app.on('before-quit', this._handleQuit);
-            this.set('isBeforeQuitHandled', true);
-        }
-    },
-
-    /**
-     * Handles the app's "before-quit" event
-     *
-     * @param e {Object} - Event
-     */
-    _handleQuit(e) {
-        let {remote} = requireNode('electron');
-        let app = remote.require('app');
-        let dialog = remote.require('dialog');
-        let autoUpdater = this.get('autoUpdater');
-
-        // Only move forward if we have an update - and if we didn't ask before.
-        if (autoUpdater && this.get('isUpdateDownloaded') && !this.get('doNotAskForUpdate')) {
-            e.preventDefault();
-            this.set('doNotAskForUpdate', true);
-
-            dialog.showMessageBox({
-                type: 'question',
-                buttons: ['Cancel', 'Update'],
-                defaultId: 1,
-                title: 'Update Ghost?',
-                message: phrases.updateNow
-            }, (response) => {
-                if (response === 1) {
-                    autoUpdater.quitAndInstall();
-                } else {
-                    app.quit();
-                }
-            });
         }
     },
 
@@ -152,7 +104,6 @@ export default Ember.Service.extend(Ember.Evented, {
             this.trigger('update-not-available');
         });
 
-        this._captureBeforeQuit();
         this.set('autoUpdater', autoUpdater);
     }
 });
