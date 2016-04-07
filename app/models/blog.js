@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import getIconColor from '../utils/color-picker';
+import requireKeytar from '../utils/require-keytar';
 
 /*eslint-disable no-unused-vars*/
 const {Model, attr, hasMany} = DS;
@@ -57,8 +58,8 @@ export default DS.Model.extend({
      * @param {string} value - Password to set
      */
     setPassword(value) {
-        let keytar = requireNode('keytar');
-        return keytar.replacePassword(this.get('url'), this.get('identification'), value);
+        let keytar = requireKeytar();
+        return (keytar ? keytar.replacePassword(this.get('url'), this.get('identification'), value) : false);
     },
 
     /**
@@ -71,7 +72,7 @@ export default DS.Model.extend({
             return null;
         }
 
-        let keytar = requireNode('keytar');
-        return keytar.getPassword(this.get('url'), this.get('identification'));
+        let keytar = requireKeytar();
+        return (keytar ? keytar.getPassword(this.get('url'), this.get('identification')) : null);
     }
 });
