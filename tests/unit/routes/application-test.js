@@ -47,6 +47,9 @@ test('before the model loads, we setup window and context menu', function(assert
                             buildFromTemplate() {
                                 assert.ok(true);
                             }
+                    },
+                    getCurrentWindow() {
+                        return {}
                     }
                 }
             }
