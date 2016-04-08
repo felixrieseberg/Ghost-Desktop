@@ -18,11 +18,13 @@ export default Component.extend({
     },
 
     /**
-     * Setups the shortcut handling
+     * Setup shortcut handling for switching to blogs, and switching to
+     * the preferences pane.
      */
     _setupQuickSwitch() {
         let blogMenuItems = [{type: 'separator'}];
 
+        // The first 9 blogs are added to the 'View' menu.
         this.get('blogs')
             .slice(0, 8)
             .map((blog, i) => {
@@ -33,7 +35,10 @@ export default Component.extend({
                 });
             });
 
-        this.get('windowMenu').addBlogsToMenu(blogMenuItems);
+        this.get('windowMenu').addQuickSwitchItemsToMenu(
+            () => this.send('showPreferences'),
+            blogMenuItems
+        );
     },
 
     /**
@@ -97,7 +102,7 @@ export default Component.extend({
     /**
      * Gives a blog a random color
      *
-     * @param id - Ember Data id of the blog to remove
+     * @param id - Ember Data id of the blog to change the color of.
      */
     changeBlogColor(id) {
         if (id) {

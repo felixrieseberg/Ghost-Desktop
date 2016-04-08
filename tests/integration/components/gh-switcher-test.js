@@ -74,17 +74,6 @@ test('a click on the "add blog" sign requests "add blog" ui', function(assert) {
     this.$('.add-blog-button').click();
 });
 
-test('a click on the "preferences" sign requests "preferences" ui', function(assert) {
-    this.set('_blogs', blogs);
-    this.set('_showPreferences', () => {
-        // We just ensure that the assert is called
-        assert.ok(true);
-    });
-
-    this.render(hbs`{{gh-switcher blogs=_blogs showPreferences=(action _showPreferences)}}`);
-    this.$('.preferences-button').click();
-});
-
 test('a right click on a blog opens the context menu', function(assert) {
     let oldRequire = window.requireNode;
     let mockRemote = { BrowserWindow: {}, Menu: {}, globalShortcut: {}, getCurrentWindow() { return true; } };
@@ -106,16 +95,16 @@ test('a right click on a blog opens the context menu', function(assert) {
             oldRequire(...arguments);
         }
     }
-    
+
     this.set('_blogs', [blogs[0]]);
     this.render(hbs`{{gh-switcher blogs=_blogs}}`);
-    
+
     let element = document.querySelector('.switcher-blogs .switch-btn');
     let event = document.createEvent('MouseEvents');
     let x = 10, y = 10;
-    
+
     event.initMouseEvent('contextmenu', true, true, element.ownerDocument.defaultView, 1, x, y, x, y, false, false, false, false, 2, null);
     element.dispatchEvent(event);
-    
+
     window.requireNode = oldRequire;
 });

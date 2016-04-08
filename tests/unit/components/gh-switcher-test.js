@@ -36,7 +36,7 @@ moduleForComponent('gh-switcher', 'Unit | Component | gh switcher', {
 
 test('removeBlog removes a blog', function(assert) {
     assert.expect(3);
-    
+
     const targetObject = {
         blogRemoved: function() {
             // This assertion will be called when the action is triggered
@@ -54,7 +54,7 @@ test('removeBlog removes a blog', function(assert) {
     Ember.run(() => component.removeBlog('testid'));
 });
 
-test('editBlog edits a blog', function(assert) {   
+test('editBlog edits a blog', function(assert) {
     const targetObject = {
         showEditBlog: function() {
             // This assertion will be called when the action is triggered
