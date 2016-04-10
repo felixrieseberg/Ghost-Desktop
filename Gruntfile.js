@@ -42,6 +42,7 @@ const configureGrunt = function(grunt) {
         eslint: {
             configFile: '.eslintrc.json',
             target: [
+                'main/**/*.js',
                 'app/**/*.js',
                 '!node_modules/**/*.js',
                 '!bower_components/**/*.js',

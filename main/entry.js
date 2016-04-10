@@ -1,4 +1,3 @@
-/* jshint node: true */
 'use strict';
 
 const electron             = require('electron');
@@ -10,7 +9,7 @@ const emberAppLocation     = `file://${__dirname}/../dist/index.html`;
 
 
 // Before we do anything else, handle Squirrel Events
-if (require('./squirrel')) {
+if (require('./squirrel')()) {
     return;
 }
 
