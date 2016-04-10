@@ -31,7 +31,7 @@ var template = [{
 var editorMenu = Menu.buildFromTemplate(template);
 
 /**
- * Simple timeout function checking for 
+ * Simple timeout function checking for
  * a) failed login
  * b) successful loaded
  */

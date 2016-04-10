@@ -18,10 +18,10 @@ let mainWindow = null;
 
 app.on('ready', function onReady() {
     let windowState, usableState, stateKeeper;
-    
+
     // Greetings
     console.log('Welcome to Ghost 👻');
-    
+
     // Instantiate the window with the existing size and position.
     try {
         windowState = fetchWindowState();

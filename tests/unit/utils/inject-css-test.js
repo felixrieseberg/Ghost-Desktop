@@ -79,7 +79,7 @@ test('attempts to inject css into webview', function(assert) {
 
 test('does not attempt injection if the source is not found', function(assert) {
     const oldReadFile = fsShim.readFile;
-    
+
     fsShim.readFile = function (file, encoding, callback) {
         callback({error: 'oh noes'});
     }

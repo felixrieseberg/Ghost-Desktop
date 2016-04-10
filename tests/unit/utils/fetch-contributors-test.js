@@ -64,10 +64,10 @@ test('it fetches contributors and composes them correctly', function(assert) {
     // Test
     fetchContributors().then((result) => {
         assert.deepEqual(result, expectedResult);
-        
+
         // Reset
         window.fetch = oldFetch;
-        
+
         qasync();
     });
 });
@@ -92,7 +92,7 @@ test('it returns the login if an api link is not found', function(assert) {
             })
         });
     };
-    
+
     // Prep
     window.fetch = function (url) {
         if (url === 'https://api.github.com/repos/TryGhost/Ghost-Desktop/contributors') {
@@ -103,10 +103,10 @@ test('it returns the login if an api link is not found', function(assert) {
     // Test
     fetchContributors().then((result) => {
         assert.deepEqual(result, expectedResult);
-        
+
         // Reset
         window.fetch = oldFetch;
-        
+
         qasync();
     });
 });
@@ -124,7 +124,7 @@ test('it returns the login if hitting the api link fails', function(assert) {
     ];
     const response = brokenContributorsResponse;
     response[0].url = 'https://api.github.com/users/test';
-    
+
     const returnContributors = function () {
         return new Promise((resolve) => {
             resolve({
@@ -134,7 +134,7 @@ test('it returns the login if hitting the api link fails', function(assert) {
             })
         });
     };
-    
+
     // Prep
     window.fetch = function (url) {
         if (url === 'https://api.github.com/repos/TryGhost/Ghost-Desktop/contributors') {
@@ -147,10 +147,10 @@ test('it returns the login if hitting the api link fails', function(assert) {
     // Test
     fetchContributors().then((result) => {
         assert.deepEqual(result, expectedResult);
-        
+
         // Reset
         window.fetch = oldFetch;
-        
+
         qasync();
     });
 });
@@ -167,10 +167,10 @@ test('it returns undefined if the first fetch fails', function(assert) {
     // Test
     fetchContributors().then((result) => {
         assert.equal(result, undefined);
-        
+
         // Reset
         window.fetch = oldFetch;
-        
+
         qasync();
     });
 });
