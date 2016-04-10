@@ -1,7 +1,7 @@
 import setUserTasks from 'ghost-desktop/utils/set-user-tasks';
 import {module, test} from 'qunit';
 
-module('Unit | Utility | get current window');
+module('Unit | Utility | set user tasks');
 
 test('it attempts to set the user tasks, given a list of blogs', function(assert) {
     let oldRequire = window.requireNode;

@@ -10,12 +10,50 @@ moduleForComponent('gh-instance-host', 'Unit | Component | gh instance host', {
     unit: true
 });
 
+const path = requireNode('path');
+const blog501 = {
+    blog: {
+        url: path.join('http://0.0.0.0/404'),
+        identification: 'testuser',
+        getPassword() {
+            return undefined;
+        },
+        updateName() {
+            return new Promise((resolve) => resolve());
+        }
+    }
+};
+const blog404 = {
+    blog: {
+        url: path.join('http://0.0.0.0/404'),
+        identification: 'testuser',
+        getPassword() {
+            return 'p@ssword';
+        },
+        updateName() {
+            return new Promise((resolve) => resolve());
+        }
+    }
+};
+const blog200 = {
+    blog: {
+        url: path.join(__dirname, 'tests', 'fixtures', 'static-signin', 'signin.html'),
+        identification: 'testuser',
+        getPassword() {
+            return 'p@ssword';
+        },
+        updateName() {
+            return new Promise((resolve) => resolve());
+        }
+    }
+};
+
 /**
  * Tests
  */
 
 test('show sets the instance to loaded', function(assert) {
-    const component = this.subject();
+    const component = this.subject(blog200);
 
     component.show();
 
@@ -23,16 +61,7 @@ test('show sets the instance to loaded', function(assert) {
 });
 
 test('signing aborts attempts to signin when username or password are missing', function(assert) {
-    const path = requireNode('path');
-    const component = this.subject({
-        blog: {
-            url: path.join(__dirname, 'tests', 'fixtures', 'static-signin', 'signin.html'),
-            identification: 'testuser',
-            getPassword() {
-                return undefined;
-            }
-        }
-    });
+    const component = this.subject(blog501);
 
     this.render();
     Ember.run(() => component.signin());
@@ -41,16 +70,7 @@ test('signing aborts attempts to signin when username or password are missing', 
 });
 
 test('signing attempts to signin', function(assert) {
-    const path = requireNode('path');
-    const component = this.subject({
-        blog: {
-            url: path.join(__dirname, 'tests', 'fixtures', 'static-signin', 'signin.html'),
-            identification: 'testuser',
-            getPassword() {
-                return 'p@ssword';
-            }
-        }
-    });
+    const component = this.subject(blog200);
 
     this.render();
     component.signin();
@@ -62,16 +82,7 @@ test('handleLoaded eventually shows the webview', function(assert) {
     // Testing async, ensuring that the webview had enough time to setup
     stop();
 
-    const path = requireNode('path');
-    const component = this.subject({
-        blog: {
-            url: path.join(__dirname, 'tests', 'fixtures', 'static-signin', 'signin.html'),
-            identification: 'testuser',
-            getPassword() {
-                return 'p@ssword';
-            }
-        }
-    });
+    const component = this.subject();
 
     this.render();
     Ember.run.later(() => component._handleLoaded(), 500);
@@ -82,7 +93,6 @@ test('handleLoaded eventually shows the webview', function(assert) {
 });
 
 test('console message "loaded" eventually shows the webview', function(assert) {
-    const path = requireNode('path');
     const component = this.subject();
     const e = { originalEvent: {}};
 
@@ -92,7 +102,6 @@ test('console message "loaded" eventually shows the webview', function(assert) {
 });
 
 test('console message "login-error" eventually shows the webview', function(assert) {
-    const path = requireNode('path');
     const component = this.subject();
     const e = { originalEvent: {}};
 
@@ -111,15 +120,7 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
     stop();
 
     const path = requireNode('path');
-    const component = this.subject({
-        blog: {
-            url: 'http://0.0.0.0/404',
-            identification: 'testuser',
-            getPassword() {
-                return 'p@ssword';
-            }
-        }
-    });
+    const component = this.subject(blog404);
     const e = {
         originalEvent: {
             validatedURL: 'http://hi.com'
@@ -139,15 +140,7 @@ test('handleLoadFailure does not redirect for failed file:// loads', function(as
     stop();
 
     const path = requireNode('path');
-    const component = this.subject({
-        blog: {
-            url: path.join('http://0.0.0.0/404'),
-            identification: 'testuser',
-            getPassword() {
-                return 'p@ssword';
-            }
-        }
-    });
+    const component = this.subject(blog404);
     const e = {
         originalEvent: {
             validatedURL: 'file://hi.com'

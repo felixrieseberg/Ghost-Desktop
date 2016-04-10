@@ -15,6 +15,10 @@ export const TestBlog = Ember.Object.extend({
     },
     setPassword() {
         return 'thanks much';
+    },
+
+    updateName() {
+        return new Promise((resolve) => resolve());
     }
 });
 

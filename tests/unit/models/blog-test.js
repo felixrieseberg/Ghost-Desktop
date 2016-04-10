@@ -81,3 +81,13 @@ test('it can generate a new random icon color', function (assert) {
     Ember.run(() => blog.randomIconColor(excluding=oldColor));
     assert.notEqual(oldColor, blog.get('iconColor'));
 });
+
+test('it updates the blog title', function (assert) {
+    let path = requireNode('path');
+    let blog = this.subject({url: path.join('..', '..', 'tests', 'fixtures', 'static-signin', 'signin.html')});
+
+    return blog.updateName()
+        .then(() => {
+           assert.equal(blog.get('name'), 'Sign In - Felix Rieseberg');
+        });
+});
