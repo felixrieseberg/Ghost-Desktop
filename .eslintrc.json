@@ -9,7 +9,7 @@
     },
     "parser": "babel-eslint",
     "rules": {
-        "strict": [2, "never"],
+        "strict": [0, "never"],
         "dot-notation": 2,
         "eqeqeq": 2,
         "no-bitwise": 2,
