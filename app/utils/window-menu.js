@@ -211,12 +211,21 @@ export function setup() {
     ];
 
     if (process.platform === 'darwin') {
+        // Mac OS is a special snowflake.
         template.unshift({
             label: 'Ghost',
             submenu: [
                 {
                     label: 'About Ghost',
                     role: 'about'
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    // The click action gets injected from gh-switcher
+                    label: 'Preferences',
+                    accelerator: 'CmdOrCtrl+,'
                 },
                 {
                     type: 'separator'
@@ -254,6 +263,16 @@ export function setup() {
                     }
                 }
             ]
+        });
+    } else {
+        // Windows and Linux
+        template.unshift({
+            label: 'File',
+            submenu: [{
+                // The click action gets injected from gh-switcher.
+                label: 'Preferences',
+                accelerator: 'CmdOrCtrl+,'
+            }]
         });
     }
 

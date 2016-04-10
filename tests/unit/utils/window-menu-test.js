@@ -3,9 +3,9 @@ import { module, test } from 'qunit';
 
 module('Unit | Utility | window menu');
 
-test('creates a menu (5 elements, 6 for OS X)', function(assert) {
+test('creates a menu (6 elements)', function(assert) {
     let result = setup();
-    let expected = (process.platform === 'darwin') ? 6 : 5;
+    let expected = 6;
 
     assert.equal(result.length, expected);
 });
