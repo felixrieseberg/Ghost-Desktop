@@ -63,6 +63,7 @@
     "grunt-eslint": "^18.0.0",
     "grunt-jscs": "2.7.0",
     "grunt-shell": "^1.1.2",
+    "grunt-trimtrailingspaces": "^2.3.0",
     "lazy-require": "^2.1.2",
     "loader.js": "^4.0.0",
     "matchdep": "^1.0.1"
