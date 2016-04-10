@@ -187,22 +187,22 @@ test('does not create a record for a non-ghost url', function(assert) {
     this.$('input[name="password"]').change();
 
     Ember.run(() => this.$('button:submit').click());
-    
+
     function checkForError() {
         let errorDivs = this.$('div.error');
-        
+
         if (timesCheckedForError > 80) {
             // 20 seconds passed, let's stop here
             return;
         }
-        
+
         if (errorDivs.length > 0) {
             assert.equal(errorDivs.length, 1);
             qAsync();
         } else {
             timesCheckedForError++;
             setTimeout(checkForError, 250);
-        } 
+        }
     }
 
     setTimeout(checkForError, 500);
@@ -245,7 +245,7 @@ test('adding a blog saves a blog record', function(assert) {
 test('passed a blog, the component shows the title', function(assert) {
     this.set('_blog', blogs[0]);
     this.render(hbs`{{gh-edit-blog blog=_blog}}`);
-    
+
     const text = this.$().text().trim();
     const containsText = text.includes('Testblog');
 
@@ -255,7 +255,7 @@ test('passed a blog, the component shows the title', function(assert) {
 test('passed a blog, the url is set to the blog\'s url', function(assert) {
     this.set('_blog', blogs[0]);
     this.render(hbs`{{gh-edit-blog blog=_blog}}`);
-    
+
     let urlContent = this.$('input[name="url"]').val();
     assert.notEqual(urlContent, '');
 });
@@ -263,7 +263,7 @@ test('passed a blog, the url is set to the blog\'s url', function(assert) {
 test('passed a blog, the identification is set to the blog\'s identification', function(assert) {
     this.set('_blog', blogs[0]);
     this.render(hbs`{{gh-edit-blog blog=_blog}}`);
-    
+
     let identificationContent = this.$('input[name="identification"]').val();
     assert.notEqual(identificationContent, '');
 });
@@ -271,30 +271,30 @@ test('passed a blog, the identification is set to the blog\'s identification', f
 test('passed a blog, the password is set to the blog\'s password', function(assert) {
     this.set('_blog', blogs[0]);
     this.render(hbs`{{gh-edit-blog blog=_blog}}`);
-    
+
     let passwordContent = this.$('input[name="password"]').val();
     assert.notEqual(passwordContent, '');
 });
 
-test('passed a blog, it checks values again', function(assert) {    
+test('passed a blog, it checks values again', function(assert) {
     this.set('_blog', blogs[0]);
     this.render(hbs`{{gh-edit-blog blog=_blog}}`);
-    
+
     let errorDivs = this.$('div.error');
     assert.equal(errorDivs.length, 0);
 });
 
 test('passed a blog, it does not create a new record - even if everything changed', function(assert) {
     const qAsync = assert.async();
-    
+
     let blogProps = {
         name: blogs[0].get('name'),
         identification: blogs[0].get('identification')
     }
-    
+
     this.set('_blog', blogs[0]);
     this.render(hbs`{{gh-edit-blog blog=_blog}}`);
-    
+
     this.$('input[name="url"]').val('https://dev.ghost.org/ghost');
     this.$('input[name="url"]').change();
     this.$('input[name="identification"]').val('test@user.com');
@@ -303,7 +303,7 @@ test('passed a blog, it does not create a new record - even if everything change
     this.$('input[name="password"]').change();
 
     Ember.run(() => this.$('button:submit').click());
-    
+
     setTimeout(() => {
         if (recordCreated) {
             assert.fail(recordCreated, false, 'Record created');

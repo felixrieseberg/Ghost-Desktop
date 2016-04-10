@@ -16,9 +16,9 @@ moduleForComponent('gh-instance-host', 'Unit | Component | gh instance host', {
 
 test('show sets the instance to loaded', function(assert) {
     const component = this.subject();
-    
+
     component.show();
-    
+
     assert.ok(component.get('isInstanceLoaded'));
 });
 
@@ -33,10 +33,10 @@ test('signing aborts attempts to signin when username or password are missing', 
             }
         }
     });
-    
+
     this.render();
     Ember.run(() => component.signin());
-    
+
     assert.ok(component.get('isInstanceLoaded'));
 });
 
@@ -51,17 +51,17 @@ test('signing attempts to signin', function(assert) {
             }
         }
     });
-    
+
     this.render();
     component.signin();
-    
+
     assert.ok(component.get('isAttemptedSignin'));
 });
 
 test('handleLoaded eventually shows the webview', function(assert) {
     // Testing async, ensuring that the webview had enough time to setup
     stop();
-    
+
     const path = requireNode('path');
     const component = this.subject({
         blog: {
@@ -72,7 +72,7 @@ test('handleLoaded eventually shows the webview', function(assert) {
             }
         }
     });
-    
+
     this.render();
     Ember.run.later(() => component._handleLoaded(), 500);
     Ember.run.later(() => {
@@ -85,7 +85,7 @@ test('console message "loaded" eventually shows the webview', function(assert) {
     const path = requireNode('path');
     const component = this.subject();
     const e = { originalEvent: {}};
-    
+
     e.originalEvent.message = 'login-error'
     component._handleConsole(e);
     assert.ok(component.get('isInstanceLoaded'));
@@ -95,7 +95,7 @@ test('console message "login-error" eventually shows the webview', function(asse
     const path = requireNode('path');
     const component = this.subject();
     const e = { originalEvent: {}};
-    
+
     e.originalEvent.message = 'login-error'
     component._handleConsole(e);
     assert.ok(component.get('isInstanceLoaded'));
@@ -106,10 +106,10 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
     if (process.platform === 'win32') {
         return assert.ok(true);
     }
-    
+
     // Testing async, ensuring that the webview had enough time to setup
     stop();
-    
+
     const path = requireNode('path');
     const component = this.subject({
         blog: {
@@ -125,7 +125,7 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
             validatedURL: 'http://hi.com'
         }
     };
-    
+
     this.render();
     Ember.run.later(() => component._handleLoadFailure(e), 300);
     Ember.run.later(() => {
@@ -137,7 +137,7 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
 test('handleLoadFailure does not redirect for failed file:// loads', function(assert) {
     // Testing async, ensuring that the webview had enough time to setup
     stop();
-    
+
     const path = requireNode('path');
     const component = this.subject({
         blog: {
@@ -153,7 +153,7 @@ test('handleLoadFailure does not redirect for failed file:// loads', function(as
             validatedURL: 'file://hi.com'
         }
     };
-    
+
     this.render();
     Ember.run.later(() => component._handleLoadFailure(e), 300);
     Ember.run.later(() => {

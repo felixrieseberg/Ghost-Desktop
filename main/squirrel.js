@@ -25,17 +25,17 @@ const check = function() {
             run(['--createShortcut=' + target + ''], app.quit);
             return true;
         }
-        
+
         if (cmd === '--squirrel-uninstall') {
             run(['--removeShortcut=' + target + ''], app.quit);
             return true;
         }
-        
+
         if (cmd === '--squirrel-obsolete') {
             app.quit();
             return true;
         }
-        
+
         if (cmd === '--squirrel-updated') {
             app.quit();
             return true;

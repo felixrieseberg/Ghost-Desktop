@@ -52,7 +52,7 @@ function reportLCOV(coverageData) {
 /**
  * Reporter functions below taken from ember-cli-blanket
  * https://github.com/sglanzer/ember-cli-blanket
- * 
+ *
  *
  * The MIT License (MIT)
  *
@@ -119,12 +119,12 @@ var fileCoverage = function(data) {
     var output = {
         name: data.fileName
     };
-    
+
     /**
      * Felix Hack: The reports counted lines that were hit.
      * This code is therefore changed.
      */
-    
+
     var statements = _.without(data.lines, null);
     statements = _.without(statements, undefined);
 
@@ -159,7 +159,7 @@ function modulesCoverage(fileData, options) {
     fileData.forEach(function(aFile) {
         var moduleName = aFile.name.match(moduleRegex)[1];
         var current = collection[moduleName] || { name: moduleName };
-       
+
         current.statementsTotal = sumProperty(current, aFile, 'statementsTotal');
         current.statementsCovered = sumProperty(current, aFile, 'statementsCovered');
 
@@ -181,11 +181,11 @@ var lcovRecord = function(data) {
         lineHandled = 0,
         lineFound = 0,
         fileName = data.fileName;
-    
+
     /**
      * Felix Hack: Replacing the filename to ensure that Codecov knows what's happening
      */
-    
+
     fileName = fileName.replace('ghost-desktop', 'app');
     fileName = fileName + '.js';
 

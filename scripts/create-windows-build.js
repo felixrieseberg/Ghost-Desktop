@@ -3,7 +3,7 @@ var windowsBuildTools = {
         if (process.platform !== 'win32') {
             return;
         }
-        
+
         if (process.env.CODESIGN_CERTIFICATE) {
             return process.env.CODESIGN_CERTIFICATE;
         } else {
@@ -11,12 +11,12 @@ var windowsBuildTools = {
             console.log('To fix, set CODESIGN_CERTIFICATE');
         }
     },
-    
+
     getSigningPassword() {
         if (process.platform !== 'win32') {
             return;
         }
-        
+
         if (process.env.CODESIGN_PASSWORD) {
             return process.env.CODESIGN_PASSWORD;
         } else {

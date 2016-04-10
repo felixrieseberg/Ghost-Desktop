@@ -12,7 +12,7 @@ if (!report) {
 
 if (report.coverage && report.coverage.total) {
     const total = report.coverage.total;
-    
+
     console.log(`Total statements:   ${total.statementsTotal}`);
     console.log(`Covered statements: ${total.statementsCovered}`);
     console.log(`--------------------------------------`)

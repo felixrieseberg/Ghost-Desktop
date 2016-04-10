@@ -86,7 +86,7 @@ test('deleteData does not attempt to delete if response is 0', function(assert) 
     this.render();
     component.actions.deleteData();
     assert.ok(window.localStorage.getItem('storage-ok'));
-    
+
     // Reset
     window.requireNode = oldRequire;
 });
