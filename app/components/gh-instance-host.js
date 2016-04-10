@@ -36,8 +36,9 @@ export default Component.extend({
             .off('console-message')
             .on('console-message', (e) => this._handleConsole(e));
 
-        // Inject CSS
+        // Inject CSS, Update Name
         this._insertCss();
+        this._updateName();
     },
 
     /**
@@ -183,6 +184,15 @@ export default Component.extend({
 
         if (e.originalEvent.message.includes('loaded')) {
             this.set('isInstanceLoaded', true);
+        }
+    },
+
+    /**
+     * Updates the current blog's name
+     */
+    _updateName() {
+        if (this.get('blog')) {
+            this.get('blog').updateName();
         }
     }
 });

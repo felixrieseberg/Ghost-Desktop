@@ -28,7 +28,7 @@ test('rejects the promise if the url is not reachable', function(assert) {
 
 test(`removes an ending 'ghost' from the given url`, function(assert) {
     // Forgive me for the url, I just need a stable website
-    return getBlogName('http://bing.com')
+    return getBlogName('http://bing.com/ghost/')
         .then((title) => {
             assert.equal(title, 'Bing');
         });

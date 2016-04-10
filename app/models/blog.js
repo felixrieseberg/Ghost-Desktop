@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import getIconColor from '../utils/color-picker';
 import requireKeytar from '../utils/require-keytar';
+import getBlogName from '../utils/get-blog-name';
 
 /*eslint-disable no-unused-vars*/
 const {Model, attr, hasMany} = DS;
@@ -74,5 +75,19 @@ export default DS.Model.extend({
 
         let keytar = requireKeytar();
         return (keytar ? keytar.getPassword(this.get('url'), this.get('identification')) : null);
+    },
+
+    /**
+     * Updates this blog's name by attempting to fetch the blog homepage
+     * and extracting the name
+     */
+    updateName() {
+        let url = this.get('url');
+
+        if (url) {
+            return getBlogName(url)
+                .then((name) => this.set('name', name))
+                .catch((e) => console.log(e));
+        }
     }
 });
