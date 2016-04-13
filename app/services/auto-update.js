@@ -35,7 +35,8 @@ export default Ember.Service.extend(Ember.Evented, {
      * Checks Ghost Desktop's update server for updates.
      */
     checkForUpdates() {
-        if (this.get('environment') !== 'production' || this.get('isCheckingForUpdate')) {
+        if (this.get('environment') !== 'production' || this.get('isCheckingForUpdate')
+            || !navigator.onLine) {
             return;
         }
 
