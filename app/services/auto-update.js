@@ -78,6 +78,7 @@ export default Ember.Service.extend(Ember.Evented, {
             `http://desktop-updates.ghost.org/update/osx/${this.get('appVersion')}` :
             `http://desktop-updates.ghost.org/update/win32/${this.get('appVersion')}`;
 
+        autoUpdater.removeAllListeners();
         autoUpdater.setFeedURL(updateFeed);
 
         autoUpdater.on('checking-for-update', () => {

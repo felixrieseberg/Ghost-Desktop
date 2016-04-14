@@ -73,7 +73,8 @@ test('calls Electron\'s autoUpdater for update checking', function(assert) {
     service.set('autoUpdater', {
         checkForUpdates() {
             assert.ok(true);
-        }
+        },
+        removeAllListeners() {}
     });
     service.checkForUpdates();
 });
@@ -84,7 +85,8 @@ test('update does attempt to update if one is downloaded', function(assert) {
     service.set('autoUpdater', {
         quitAndInstall() {
             assert.ok(true);
-        }
+        },
+        removeAllListeners() {}
     });
     service.update();
 });
@@ -97,7 +99,8 @@ test('update does not attempt to update if none is downloaded', function(assert)
     service.set('autoUpdater', {
         quitAndInstall() {
             assert.ok(false);
-        }
+        },
+        removeAllListeners() {}
     });
     service.update();
 });
@@ -114,7 +117,8 @@ test('_setup sets the feed url', function(assert) {
                             setFeedURL(url) {
                                 assert.ok(url);
                             },
-                            on() {}
+                            on() {},
+                            removeAllListeners() {}
                         }
                     }
                 }
@@ -159,7 +163,8 @@ test('_setup handles autoUpdater events', function(assert) {
                                 if (e === 'update-not-available') {
                                     assert.ok(true, 'handles update-not-available');
                                 }
-                            }
+                            },
+                            removeAllListeners() {}
                         }
                     }
                 }
@@ -191,7 +196,8 @@ test('autoUpdater\'s update checks is reflected in isCheckingForUpdate', functio
                                 if (e === 'checking-for-update') {
                                     handler();
                                 }
-                            }
+                            },
+                            removeAllListeners() {}
                         }
                     }
                 }
@@ -225,7 +231,8 @@ test('autoUpdater\'s update-available is reflected in isUpdateAvailable', functi
                                 if (e === 'update-available') {
                                     handler();
                                 }
-                            }
+                            },
+                            removeAllListeners() {}
                         }
                     }
                 }
@@ -259,7 +266,8 @@ test('autoUpdater\'s update-downloaded is reflected in isUpdateDownloaded', func
                                 if (e === 'update-downloaded') {
                                     handler();
                                 }
-                            }
+                            },
+                            removeAllListeners() {}
                         }
                     }
                 }
@@ -293,7 +301,8 @@ test('autoUpdater\'s update-not-available is reflected in isUpdateAvailable', fu
                                 if (e === 'update-not-available') {
                                     handler();
                                 }
-                            }
+                            },
+                            removeAllListeners() {}
                         }
                     }
                 }

@@ -1,18 +1,13 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "ES6"
+        "target": "es6",
+        "experimentalDecorators": true
     },
-    "exclude": [
-        "node_modules",
-        "bower_components",
-        "tmp",
-        "vendor"
-    ],
     "files": [
         "app/**/*",
         "Gruntfile.js",
         "tests/**/*",
-        "scripts/**/*"
+        "scripts/**/*",
+        "typings/ember/ember.d.ts"
     ]
 }
