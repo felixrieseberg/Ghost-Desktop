@@ -62,9 +62,4 @@ app.on('ready', function onReady() {
     mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
 
     mainWindow.on('closed', () => app.quit());
-
-    // Setup Dev Shortcut on Windows (on Mac, the App Menu will take care of it)
-    if (process.platform === 'win32') {
-        globalShortcut.register('Ctrl+Shift+I', () => mainWindow.toggleDevTools());
-    }
 });
