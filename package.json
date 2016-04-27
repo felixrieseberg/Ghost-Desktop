@@ -7,6 +7,7 @@
     "doc": "doc",
     "test": "tests"
   },
+  "homepage": "https://github.com/tryghost/ghost-desktop",
   "scripts": {
     "build": "grunt build",
     "start": "grunt shell:fetchContributors && ember electron",
@@ -23,6 +24,9 @@
   },
   "author": "",
   "license": "MIT",
+  "optionalDependencies": {
+    "grunt-electron-installer-debian": "^0.3.0"
+  },
   "devDependencies": {
     "babel-eslint": "^5.0.0",
     "broccoli-asset-rev": "^2.2.0",

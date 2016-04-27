@@ -45,7 +45,8 @@ test('reports the correct application version', function(assert) {
 test('calls setup if during checkForUpdates', function(assert) {
     let oldRequire = window.requireNode;
     let service = this.subject();
-
+    
+    service.set('isLinux', false);
     service.set('environment', 'production');
     service._setup = () => assert.ok(true);
     service.checkForUpdates();
@@ -70,6 +71,7 @@ test('calls Electron\'s autoUpdater for update checking', function(assert) {
     let service = this.subject();
 
     service.set('environment', 'production');
+    service.set('isLinux', false);
     service.set('autoUpdater', {
         checkForUpdates() {
             assert.ok(true);
