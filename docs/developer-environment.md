@@ -58,6 +58,8 @@ value:
 ``` bash
 $ npm config set python /path/to/executable/python2.7
 ```
+##### Ubuntu
+On Ubuntu, please make sure that you have `node-gyp` and `libgnome-keyring-dev` installed.
 
 [python-v2.7.10]: https://www.python.org/downloads/release/python-2710/
 [msvc2013]: https://www.microsoft.com/en-gb/download/details.aspx?id=44914

@@ -10,7 +10,9 @@
             <fieldset>
                 <div class="form-group for-checkbox">
                     <label>Automatic Updates</label>
-                    {{#if autoUpdate.isCheckingForUpdate}}
+                    {{#if autoUpdate.isLinux}}
+                        <p>Automatic Updates are not yet available for Linux. Stay tuned!</p>
+                    {{else if autoUpdate.isCheckingForUpdate}}
                         <p>Ghost is currently looking for updates.</p>
                     {{else if autoUpdate.isUpdateDownloaded}}
                         <p>An Update was downloaded and will automatically be installed the next time you start Ghost Desktop.</p>
