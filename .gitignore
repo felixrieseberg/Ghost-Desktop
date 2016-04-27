@@ -15,6 +15,7 @@
 npm-debug.log
 testem.log
 .DS_Store
+public/contributors.json
 
 # coverage
 coverage.lcov

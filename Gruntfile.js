@@ -67,7 +67,10 @@ const configureGrunt = function(grunt) {
             },
             dmg: {
                 command: 'node ./scripts/create-osx-build.js'
-            }
+            },
+            fetchContributors: {
+                command: 'node ./scripts/fetch-github-contributors.js'
+            },
         },
 
         clean: {
@@ -119,11 +122,11 @@ const configureGrunt = function(grunt) {
 
     grunt.registerTask('codestyle', 'Test Code Style', ['trimtrailingspaces','eslint', 'jscs:app']);
     grunt.registerTask('validate', 'Test Code Style and App', ['codestyle', 'shell:test', 'shell:logCoverage']);
-    grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:build']);
-    grunt.registerTask('installer-32', ['clean:builds32', 'shell:build32', 'create-windows-installer:ia32'])
-    grunt.registerTask('installer-64', ['clean:builds64', 'shell:build', 'create-windows-installer:x64'])
+    grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:fetchContributors', 'shell:build']);
+    grunt.registerTask('installer-32', ['clean:builds32', 'shell:fetchContributors', 'shell:build32', 'create-windows-installer:ia32'])
+    grunt.registerTask('installer-64', ['clean:builds64', 'shell:fetchContributors', 'shell:build', 'create-windows-installer:x64'])
     grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['installer-32', 'installer-64']);
-    grunt.registerTask('dmg', 'Create an OS X dmg for Ghost', ['shell:build', 'shell:dmg']);
+    grunt.registerTask('dmg', 'Create an OS X dmg for Ghost', ['shell:fetchContributors', 'shell:build', 'shell:dmg']);
 };
 
 module.exports = configureGrunt;

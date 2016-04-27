@@ -5,5 +5,11 @@ export default Ember.Service.extend({
     preferences: storageFor('preferences'),
 
     isNotificationsEnabled: Ember.computed.alias('preferences.isNotificationsEnabled'),
-    contributors: Ember.computed.alias('preferences.contributors')
+    contributors: Ember.computed.alias('preferences.contributors'),
+
+    setupContributors: function () {
+        $.getJSON('contributors.json').then(
+            (data) => this.set('preferences.contributors', data)
+        );
+    }.on('init'),
 });

@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import fetchContributors from '../utils/fetch-contributors';
 
 export default Ember.Component.extend({
     classNames: ['gh-preferences'],
@@ -8,10 +7,6 @@ export default Ember.Component.extend({
 
     didReceiveAttrs() {
         this._super(...arguments);
-
-        if (!this.get('preferences.contributors')) {
-            fetchContributors().then((data) => this.set('preferences.contributors', data));
-        }
     },
 
     actions: {

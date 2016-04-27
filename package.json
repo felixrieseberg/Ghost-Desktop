@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "grunt build",
-    "start": "ember electron",
+    "start": "grunt shell:fetchContributors && ember electron",
     "test": "grunt validate",
     "codestyle": "grunt codestyle",
     "build-native-deps-32": "electron-rebuild -a ia32 -w keytar",
@@ -65,7 +65,8 @@
     "grunt-trimtrailingspaces": "^2.3.0",
     "lazy-require": "^2.1.2",
     "loader.js": "^4.0.0",
-    "matchdep": "^1.0.1"
+    "matchdep": "^1.0.1",
+    "node-fetch": "^1.5.0"
   },
   "main": "main/entry.js",
   "ember-electron": {

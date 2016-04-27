@@ -1,3 +1,7 @@
+"use strict";
+
+const fetch = require('node-fetch');
+
 /**
  * Helpers
  */
@@ -62,7 +66,7 @@ function fetchNames(contributors) {
  * @export
  * @returns {Promise}
  */
-export default function fetchContributors() {
+function fetchContributors() {
     return new Promise((resolve) => {
         let url = 'https://api.github.com/repos/TryGhost/Ghost-Desktop/contributors';
         let contributors = [];
@@ -90,3 +94,5 @@ export default function fetchContributors() {
             .catch(() => resolve());
     });
 }
+
+module.exports = fetchContributors;
