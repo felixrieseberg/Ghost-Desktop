@@ -8,6 +8,13 @@ export default Ember.Service.extend(Ember.Evented, {
     isUpdateDownloaded: null,
     isLatestVersion: null,
 
+    isLinux: Ember.computed({
+        get() {
+            return (this.get('environment') === 'production'
+                && process.platform === 'linux');
+        }
+    }),
+
     /**
      * Returns the current environment (testing, development, production)
      */
@@ -36,7 +43,7 @@ export default Ember.Service.extend(Ember.Evented, {
      */
     checkForUpdates() {
         if (this.get('environment') !== 'production' || this.get('isCheckingForUpdate')
-            || !navigator.onLine) {
+            || !navigator.onLine || this.get('isLinux')) {
             return;
         }
 
@@ -73,7 +80,6 @@ export default Ember.Service.extend(Ember.Evented, {
             return;
         }
 
-        // Todo: Handle Linux
         let updateFeed = (os === 'darwin') ?
             `http://desktop-updates.ghost.org/update/osx/${this.get('appVersion')}` :
             `http://desktop-updates.ghost.org/update/win32/${this.get('appVersion')}`;
