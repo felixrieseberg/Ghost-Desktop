@@ -4,7 +4,6 @@ const electron             = require('electron');
 const fetchWindowState     = require('./window-state');
 const app                  = electron.app;
 const BrowserWindow        = electron.BrowserWindow;
-const globalShortcut       = electron.globalShortcut;
 const emberAppLocation     = `file://${__dirname}/../dist/index.html`;
 
 
