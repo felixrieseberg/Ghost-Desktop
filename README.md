@@ -9,10 +9,7 @@
 The project is maintained by a non-profit organisation called the **Ghost Foundation**, along with an amazing group of independent [contributors](https://github.com/TryGhost/Ghost-Desktop/contributors). We're trying to make publishing software that changes the shape of online journalism.
 
 # Ghost Desktop
-Ghost Desktop is currently in development - we're building a beautiful desktop application that allows you to easily manage multiple Ghost blogs and work without distractions. If you're interested in giving us a hand, [check out the contributing guide](https://github.com/TryGhost/Ghost-Desktop/tree/master/docs)!
-
-## Download the Development Build
-While Ghost Desktop is not yet ready for consumers, we would love to get some feedback and help from the developer community. The development build resembles closely what [will be the first public release](https://github.com/TryGhost/Ghost-Desktop/milestones/0.1.0), but we want to make sure that we got as many :eyes: as possible on the app before we actually release it. **[Go ahead, download the dev build now](https://github.com/TryGhost/Ghost-Desktop/releases) - and [report issues](https://github.com/TryGhost/Ghost-Desktop/issues) wherever you see them!
+Ghost Desktop is a beautiful desktop application that allows you to easily manage multiple Ghost blogs and work without distractions. If you're interested in giving us a hand, [check out the contributing guide](https://github.com/TryGhost/Ghost-Desktop/tree/master/docs)!
 
 # Copyright & License
 Copyright (c) 2013-2016 Ghost Foundation - Released under the [MIT license](LICENSE).
