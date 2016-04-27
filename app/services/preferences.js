@@ -11,5 +11,5 @@ export default Ember.Service.extend({
         Ember.$.getJSON('contributors.json').then(
             (data) => this.set('preferences.contributors', data)
         );
-    }.on('init'),
+    }.on('init')
 });
