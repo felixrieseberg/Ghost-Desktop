@@ -6,7 +6,7 @@ In order to get up and running with Ghost Desktop, follow the guide below to ins
  * Run `npm install` to install all Node dependencies
  * Run `bower install` to install all Bower dependencies
  * Run `npm install -g grunt-cli` to install the Grunt Cli, which is used to test and build Ghost Desktop
- * Run `npm run build-native-deps` to rebuild native C++ dependencies against the Electron headers
+ * Run `npm run build-native-deps-64` (or -32, if you're running on a 32 bit machine) to rebuild native C++ dependencies against the Electron headers
  * Run `npm start` to compile and start Ghost Desktop
  
  
