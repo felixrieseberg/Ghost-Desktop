@@ -6,3 +6,14 @@
 .gh-nav-menu-icon {
     display: none;
 }
+
+a {
+    animation-duration: 0.001s;
+    animation-name: linkInserted;
+}
+
+/* Little hack that allows us to detect inserted links */
+@keyframes linkInserted {  
+	from { opacity: 0.99; }
+	to { opacity: 1; }  
+}
