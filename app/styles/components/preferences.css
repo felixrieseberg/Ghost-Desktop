@@ -41,3 +41,26 @@
 .gh-preferences .contributor:last-child:after {
   content: "";
 }
+
+.gh-preferences input#zoomFactor {
+    width: 25em;
+}
+
+.gh-range-confirm {
+    margin-right: -2px;
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
+    background: var(--green);
+    border-radius: 2px;
+    color: #fff;
+    text-align: center;
+    font-size: 10px;
+    line-height: 8px;
+    transition: background 0.1s linear;
+}
+
+.gh-range-confirm:hover,
+.gh-range-confirm:focus {
+    background: color(var(--green) lightness(-10%));
+}

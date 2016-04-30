@@ -45,7 +45,7 @@ test('reports the correct application version', function(assert) {
 test('calls setup if during checkForUpdates', function(assert) {
     let oldRequire = window.requireNode;
     let service = this.subject();
-    
+
     service.set('isLinux', false);
     service.set('environment', 'production');
     service._setup = () => assert.ok(true);
