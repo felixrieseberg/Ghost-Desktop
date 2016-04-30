@@ -125,6 +125,9 @@ const configureGrunt = function (grunt) {
             app: {
                 options: {
                     name: 'Ghost',
+                    maintainer: 'Felix Rieseberg <felix@felixrieseberg.com>',
+                    homepage: 'https://tryghost.com',
+                    genericName: 'Blogging Software',
                     arch: 'amd64',
                     icon: `${__dirname}/assets/icons/ghost-osx.png`,
                     bin: 'Ghost',
