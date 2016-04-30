@@ -89,5 +89,18 @@ export default DS.Model.extend({
                 .then((name) => this.set('name', name))
                 .catch((e) => console.log(e));
         }
+    },
+
+    /**
+     * Delete the password while deleting the blog.
+     * Todo: DeleteRecord isn't persisted, meaning that if we ever
+     * call this and then pretend that we never meant to delete stuff,
+     * the password will still be gone.
+     */
+    deleteRecord() {
+        this._super();
+
+        let keytar = requireKeytar();
+        return (keytar ? keytar.deletePassword(this.get('url'), this.get('identification')) : null);
     }
 });
