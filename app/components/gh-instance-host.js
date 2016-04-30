@@ -161,7 +161,9 @@ export default Component.extend({
         // TODO: Handle notification click
         /*eslint-disable no-unused-vars*/
         if (this.get('preferences.isNotificationsEnabled')) {
-            let errorNotify = new Notification(Phrases.noInternet);
+            let errorNotify = new Notification('Ghost Desktop', {
+                body: Phrases.noInternet
+            });
         }
         /*eslint-enable no-unused-vars*/
     },
