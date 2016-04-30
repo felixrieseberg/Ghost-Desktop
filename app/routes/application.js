@@ -5,8 +5,10 @@ const {Route} = Ember;
 
 export default Route.extend({
     windowMenu: Ember.inject.service(),
+    preferences: Ember.inject.service(),
 
     beforeModel() {
+        this.get('preferences').setupZoom();
         this.get('windowMenu').setup();
         setupContextMenu();
     },

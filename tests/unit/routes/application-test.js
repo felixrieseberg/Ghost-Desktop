@@ -3,7 +3,7 @@ import {autoUpdateMock} from '../../fixtures/auto-update';
 
 moduleFor('route:application', 'Unit | Route | application', {
     // Specify the other units that are required for this test.
-    needs: ['model:blog', 'service:window-menu'],
+    needs: ['model:blog', 'service:window-menu', 'service:preferences'],
     beforeEach: function () {
         this.register('service:auto-update', autoUpdateMock);
         this.inject.service('auto-update', { as: 'autoUpdate' });

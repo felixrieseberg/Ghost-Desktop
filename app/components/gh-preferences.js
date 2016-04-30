@@ -4,6 +4,7 @@ export default Ember.Component.extend({
     classNames: ['gh-preferences'],
     preferences: Ember.inject.service(),
     autoUpdate: Ember.inject.service(),
+    zoomFactor: Ember.computed.oneWay('preferences.preferences.zoomFactor'),
 
     didReceiveAttrs() {
         this._super(...arguments);
@@ -47,6 +48,22 @@ export default Ember.Component.extend({
          */
         installUpdate() {
             this.get('autoUpdate').update();
+        },
+
+        /**
+         * Passes the zoom factor over to the preferences service,
+         * where it will immediatly be used as the zoom factor for
+         * the app
+         */
+        confirmZoom() {
+            this.set('preferences.zoomFactor', this.get('zoomFactor'));
+        },
+
+        /**
+         * Resets the zoom factor to 1.0
+         */
+        resetZoom() {
+            this.set('preferences.zoomFactor', 100);
         }
     }
 });

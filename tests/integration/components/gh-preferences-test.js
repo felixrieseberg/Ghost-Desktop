@@ -15,3 +15,35 @@ test('it renders', function(assert) {
     const containsText = text.includes('Preferences');
     assert.ok(containsText);
 });
+
+test('sets zoom factor', function(assert) {
+    this.render(hbs`{{gh-preferences}}`);
+
+    this.$('input#zoomFactor').val(120);
+    this.$('input#zoomFactor').change();
+
+    Ember.run(() => {
+      this.$('button:contains("Set Zoom")').click();
+
+      const frame = require('web-frame');
+      const zf = frame.getZoomFactor();
+
+      assert.equal(zf, 1.2);
+    });
+});
+
+test('resets zoom factor', function(assert) {
+    this.render(hbs`{{gh-preferences}}`);
+
+    this.$('input#zoomFactor').val(120);
+    this.$('input#zoomFactor').change();
+
+    Ember.run(() => {
+      this.$('button:contains("Reset")').click();
+
+      const frame = require('web-frame');
+      const zf = frame.getZoomFactor();
+
+      assert.equal(zf, 1);
+    });
+});
