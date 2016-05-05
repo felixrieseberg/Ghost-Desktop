@@ -7,7 +7,7 @@ const winStateKeeper = require('electron-window-state');
  */
 
 /**
- * Builds an returns an object consisting of two objects, with the following keys:
+ * Builds and returns an object consisting of two objects, with the following keys:
  * usableState: an object describing how to layout the app window given screen real estate
  * stateKeeper: an object that keeps track of window state change events.
  */

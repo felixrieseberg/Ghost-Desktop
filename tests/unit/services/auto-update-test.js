@@ -42,14 +42,22 @@ test('reports the correct application version', function(assert) {
     window.requireNode = oldRequire;
 });
 
-test('calls setup if during checkForUpdates', function(assert) {
+test('calls setup during online checkForUpdates', function(assert) {
     let oldRequire = window.requireNode;
     let service = this.subject();
+
+    service.isOnline = function () {
+        return new Promise((resolve) => {
+            resolve(true);
+        });
+    }
 
     service.set('isLinux', false);
     service.set('environment', 'production');
     service._setup = () => assert.ok(true);
     service.checkForUpdates();
+
+    window.requireNode = oldRequire;
 });
 
 test('can call checkForUpdates from the wrong environment', function(assert) {
@@ -70,6 +78,12 @@ test('calls Electron\'s autoUpdater for update checking', function(assert) {
     let oldRequire = window.requireNode;
     let service = this.subject();
 
+    service.isOnline = function () {
+        return new Promise((resolve) => {
+            resolve(true);
+        });
+    }
+    
     service.set('environment', 'production');
     service.set('isLinux', false);
     service.set('autoUpdater', {
@@ -79,6 +93,8 @@ test('calls Electron\'s autoUpdater for update checking', function(assert) {
         removeAllListeners() {}
     });
     service.checkForUpdates();
+
+    window.requireNode = oldRequire;
 });
 
 test('update does attempt to update if one is downloaded', function(assert) {
