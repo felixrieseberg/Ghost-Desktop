@@ -6,7 +6,6 @@ form label {
     color: var(--darkgrey);
     font-size: 1.3rem;
     font-weight: bold;
-    user-select: text;
 }
 
 form .word-count {
@@ -18,7 +17,6 @@ fieldset {
     margin: 0 0 3em 0;
     padding: 0;
     border: none;
-    user-select: text;
 }
 
 legend {
@@ -29,7 +27,6 @@ legend {
     color: #b1b1b1;
     font-size: 1.2em;
     line-height: 2.0em;
-    user-select: text;
 }
 
 input {
@@ -49,13 +46,13 @@ input {
     margin-bottom: 1.6em;
     max-width: 500px;
     width: 100%;
-    user-select: text;
 }
 
 .form-group p {
     margin: 4px 0 0 0;
     color: #b1b1b1;
     font-size: 1.3rem;
+    cursor: default;
 }
 
 .form-group h3 {

@@ -36,9 +36,14 @@ export default Component.extend({
             .off('console-message')
             .on('console-message', (e) => this._handleConsole(e));
 
-        // Inject CSS, Update Name
+        // Inject CSS, Update Name, Setup Spellchecker
         this._insertCss();
         this._updateName();
+        this._setupSpellchecker();
+    },
+
+    didInsertElement() {
+        this.get('preferences').on('selectedDictionaryChanged', () => this._setupSpellchecker());
     },
 
     /**
@@ -195,6 +200,18 @@ export default Component.extend({
     _updateName() {
         if (this.get('blog')) {
             this.get('blog').updateName();
+        }
+    },
+
+    /**
+     * Sends the current spellchecker language to the webview
+     */
+    _setupSpellchecker() {
+        let $webviews = this.$('webview');
+        let $webview = ($webviews && $webviews[0]) ? $webviews[0] : undefined;
+
+        if ($webview) {
+            $webview.send('spellchecker', this.get('preferences.spellcheckLanguage'));
         }
     }
 });

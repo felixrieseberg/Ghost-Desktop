@@ -1,8 +1,5 @@
 import {injectCss} from 'ghost-desktop/utils/inject-css';
-import {
-    module, test
-}
-from 'qunit';
+import {module, test} from 'qunit';
 
 module('Unit | Utility | inject css', {
     beforeEach() {

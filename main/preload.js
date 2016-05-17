@@ -5,6 +5,7 @@
  * ⚠ Remember: No jQuery! ⚠
  */
 const remote = require('electron').remote;
+const ipc = require('electron').ipcRenderer;
 
 /**
  * Preload & Error Communication###############################################################################################
@@ -39,7 +40,7 @@ function checkStatus() {
 
 const webFrame = require('electron').webFrame;
 const webContents = remote.getCurrentWebContents();
-const SpellCheckProvider = require('electron-spell-check-provider');
+const spellchecker = require('spellchecker');
 const Menu = remote.Menu;
 const template = [{
         label: 'Undo',
@@ -132,22 +133,28 @@ function resetSelection() {
 /**
  * Initiates the spellchecker
  */
-function setupSpellChecker() {
-    let locale = remote.require('app').getLocale() || 'en-US';
+function setupSpellChecker(data) {
+    // We expect the language in data
+    let language = data || remote.require('app').getLocale() || 'en-US';
 
-    console.log(`Spellchecking setup with locale ${locale}`);
-    webFrame.setSpellCheckProvider(locale, true, new SpellCheckProvider(locale).on('misspelling',
-        function(suggestions) {
-            // Prime the context menu with spelling suggestions _if_ the user has selected text. Electron
-            // may sometimes re-run the spell-check provider for an outdated selection e.g. if the user
-            // right-clicks some misspelled text and then an image.
-            if (window.getSelection().toString()) {
+    spellchecker.setDictionary(data);
+    console.log(`Spellchecking setup with locale ${language}`);
+
+    webFrame.setSpellCheckProvider(language, false, {
+        spellCheck(text) {
+            let textIsMisspelled = spellchecker.isMisspelled(text);
+
+            if (textIsMisspelled && window.getSelection().toString()) {
+                // Prime the context menu with spelling suggestions _if_ the user has selected text. Electron
+                // may sometimes re-run the spell-check provider for an outdated selection e.g. if the user
+                // right-clicks some misspelled text and then an image.
                 selection.isMisspelled = true;
-                // Take the first three suggestions if any.
-                selection.spellingSuggestions = suggestions.slice(0, 3);
+                selection.spellingSuggestions = spellchecker.getCorrectionsForMisspelling(text).slice(0, 3);
             }
-        })
-    );
+
+            return !textIsMisspelled;
+        }
+    });
 
     resetSelection();
 }
@@ -157,7 +164,7 @@ function setupSpellChecker() {
  * If a user adds a link in markedown that doesn't have the
  * correct "target", the app *will* open it in the current
  * webview, which is obviously bad.
- * 
+ *
  * This works together with a CSS animation, which is defined
  * in /public/assets/inject/css/all.css
  */
@@ -181,5 +188,5 @@ function setupLinkExternalizer() {
 setTimeout(checkStatus, 100);
 window.addEventListener('mousedown', resetSelection);
 window.addEventListener('contextmenu', handleContextMenu);
-setupSpellChecker();
 setupLinkExternalizer();
+ipc.on('spellchecker', (sender, data) => setupSpellChecker(data));

@@ -7,7 +7,8 @@ import { blogs } from '../../fixtures/blogs';
  */
 
 moduleForComponent('gh-instance-host', 'Unit | Component | gh instance host', {
-    unit: true
+    unit: true,
+    needs: ['service:preferences']
 });
 
 const path = requireNode('path');

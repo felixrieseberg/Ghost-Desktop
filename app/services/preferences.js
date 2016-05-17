@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import { storageFor } from 'ember-local-storage';
 
-export default Ember.Service.extend({
+export default Ember.Service.extend(Ember.Evented, {
     preferences: storageFor('preferences'),
 
     isNotificationsEnabled: Ember.computed.alias('preferences.isNotificationsEnabled'),
     contributors: Ember.computed.alias('preferences.contributors'),
+    spellcheckLanguage: Ember.computed.alias('preferences.spellcheckLanguage'),
 
     zoomFactor: Ember.computed({
         get() {

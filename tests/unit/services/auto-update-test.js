@@ -83,7 +83,7 @@ test('calls Electron\'s autoUpdater for update checking', function(assert) {
             resolve(true);
         });
     }
-    
+
     service.set('environment', 'production');
     service.set('isLinux', false);
     service.set('autoUpdater', {
