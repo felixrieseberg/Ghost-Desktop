@@ -13,7 +13,7 @@
 export default function setDockMenu(items) {
     let {remote} = requireNode('electron');
     let {app, Menu, MenuItem} = remote;
-    let menu = new Menu;
+    let menu = new Menu();
 
     if (!items || !items.length) {
         return;
