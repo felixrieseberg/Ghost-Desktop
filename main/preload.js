@@ -5,7 +5,7 @@
  * ⚠ Remember: No jQuery! ⚠
  */
 const remote = require('electron').remote;
-const ipc = require('electron').ipcRenderer;
+const ipc    = require('electron').ipcRenderer;
 
 /**
  * Preload & Error Communication###############################################################################################

@@ -18,7 +18,16 @@ module.exports = function(defaults) {
         'es6.properties.shorthand',
         'es6.literals',
         'es6.spec.symbols',
-        'es6.spread'
+        'es6.spread',
+        'es6.parameters',
+        'es6.spec.arrowFunctions',
+        'es6.spec.templateLiterals',
+        'es6.spec.blockScoping',
+        'es6.tailCall',
+        'es6.regex.sticky',
+        'es6.regex.unicode',
+        'es6.objectSuper',
+        'es6.destructuring'
     ];
 
     var app = new EmberApp(defaults, {

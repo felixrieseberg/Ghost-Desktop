@@ -22,11 +22,9 @@ test('reports the correct application version', function(assert) {
         if (target === 'electron') {
             return {
                 remote: {
-                    require(module) {
-                        return {
-                            getVersion() {
-                                return '1.0.0-beta';
-                            }
+                    app: {
+                        getVersion() {
+                            return '1.0.0-beta';
                         }
                     }
                 }
@@ -130,14 +128,12 @@ test('_setup sets the feed url', function(assert) {
         if (target === 'electron') {
             return {
                 remote: {
-                    require(module) {
-                        return {
-                            setFeedURL(url) {
-                                assert.ok(url);
-                            },
-                            on() {},
-                            removeAllListeners() {}
-                        }
+                    autoUpdater: {
+                        setFeedURL(url) {
+                            assert.ok(url);
+                        },
+                        on() {},
+                        removeAllListeners() {}
                     }
                 }
             }
@@ -162,28 +158,26 @@ test('_setup handles autoUpdater events', function(assert) {
         if (target === 'electron') {
             return {
                 remote: {
-                    require(module) {
-                        return {
-                            setFeedURL() {},
-                            on(e, handler) {
-                                if (e === 'checking-for-update') {
-                                    assert.ok(true, 'handles checking-for-update');
-                                }
+                    autoUpdater: {
+                        setFeedURL() {},
+                        on(e, handler) {
+                            if (e === 'checking-for-update') {
+                                assert.ok(true, 'handles checking-for-update');
+                            }
 
-                                if (e === 'update-available') {
-                                    assert.ok(true, 'handles update-available');
-                                }
+                            if (e === 'update-available') {
+                                assert.ok(true, 'handles update-available');
+                            }
 
-                                if (e === 'update-downloaded') {
-                                    assert.ok(true, 'handles update-downloaded');
-                                }
+                            if (e === 'update-downloaded') {
+                                assert.ok(true, 'handles update-downloaded');
+                            }
 
-                                if (e === 'update-not-available') {
-                                    assert.ok(true, 'handles update-not-available');
-                                }
-                            },
-                            removeAllListeners() {}
-                        }
+                            if (e === 'update-not-available') {
+                                assert.ok(true, 'handles update-not-available');
+                            }
+                        },
+                        removeAllListeners() {}
                     }
                 }
             }
@@ -207,16 +201,14 @@ test('autoUpdater\'s update checks is reflected in isCheckingForUpdate', functio
         if (target === 'electron') {
             return {
                 remote: {
-                    require(module) {
-                        return {
-                            setFeedURL() {},
-                            on(e, handler) {
-                                if (e === 'checking-for-update') {
-                                    handler();
-                                }
-                            },
-                            removeAllListeners() {}
-                        }
+                    autoUpdater: {
+                        setFeedURL() {},
+                        on(e, handler) {
+                            if (e === 'checking-for-update') {
+                                handler();
+                            }
+                        },
+                        removeAllListeners() {}
                     }
                 }
             }
@@ -242,16 +234,14 @@ test('autoUpdater\'s update-available is reflected in isUpdateAvailable', functi
         if (target === 'electron') {
             return {
                 remote: {
-                    require(module) {
-                        return {
-                            setFeedURL() {},
-                            on(e, handler) {
-                                if (e === 'update-available') {
-                                    handler();
-                                }
-                            },
-                            removeAllListeners() {}
-                        }
+                    autoUpdater: {
+                        setFeedURL() {},
+                        on(e, handler) {
+                            if (e === 'update-available') {
+                                handler();
+                            }
+                        },
+                        removeAllListeners() {}
                     }
                 }
             }
@@ -277,16 +267,14 @@ test('autoUpdater\'s update-downloaded is reflected in isUpdateDownloaded', func
         if (target === 'electron') {
             return {
                 remote: {
-                    require(module) {
-                        return {
-                            setFeedURL() {},
-                            on(e, handler) {
-                                if (e === 'update-downloaded') {
-                                    handler();
-                                }
-                            },
-                            removeAllListeners() {}
-                        }
+                    autoUpdater: {
+                        setFeedURL() {},
+                        on(e, handler) {
+                            if (e === 'update-downloaded') {
+                                handler();
+                            }
+                        },
+                        removeAllListeners() {}
                     }
                 }
             }
@@ -312,16 +300,14 @@ test('autoUpdater\'s update-not-available is reflected in isUpdateAvailable', fu
         if (target === 'electron') {
             return {
                 remote: {
-                    require(module) {
-                        return {
-                            setFeedURL() {},
-                            on(e, handler) {
-                                if (e === 'update-not-available') {
-                                    handler();
-                                }
-                            },
-                            removeAllListeners() {}
-                        }
+                    autoUpdater: {
+                        setFeedURL() {},
+                        on(e, handler) {
+                            if (e === 'update-not-available') {
+                                handler();
+                            }
+                        },
+                        removeAllListeners() {}
                     }
                 }
             }

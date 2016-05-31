@@ -25,7 +25,7 @@ test('sets zoom factor', function(assert) {
     Ember.run(() => {
       this.$('button:contains("Set Zoom")').click();
 
-      const frame = require('web-frame');
+      const frame = require('electron').webFrame;
       const zf = frame.getZoomFactor();
 
       assert.equal(zf, 1.2);
@@ -41,7 +41,7 @@ test('resets zoom factor', function(assert) {
     Ember.run(() => {
       this.$('button:contains("Reset")').click();
 
-      const frame = require('web-frame');
+      const frame = require('electron').webFrame;
       const zf = frame.getZoomFactor();
 
       assert.equal(zf, 1);

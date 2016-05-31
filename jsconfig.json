@@ -1,13 +1,1 @@
-{
-    "compilerOptions": {
-        "target": "es6",
-        "experimentalDecorators": true
-    },
-    "files": [
-        "app/**/*",
-        "Gruntfile.js",
-        "tests/**/*",
-        "scripts/**/*",
-        "typings/ember/ember.d.ts"
-    ]
-}
+{"compilerOptions":{"target":"es6","experimentalDecorators":true},"files":["app/**/*","Gruntfile.js","tests/**/*","scripts/**/*","typings/ember/ember.d.ts"],"exclude":["node_modules","bower_components","tmp","vendor",".git","dist"]}

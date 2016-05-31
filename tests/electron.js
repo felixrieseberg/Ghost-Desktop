@@ -1,8 +1,9 @@
 /* jshint undef: false */
+"use strict";
 
-var BrowserWindow = require('browser-window');
-var app = require('app');
-var mainWindow = null;
+const electron = require('electron');
+const {BrowserWindow, app} = electron;
+let mainWindow = null;
 
 app.on('window-all-closed', function onWindowAllClosed() {
     if (process.platform !== 'darwin') {
@@ -19,9 +20,9 @@ app.on('ready', function onReady() {
     delete mainWindow.module;
 
     if (process.env.EMBER_ENV === 'test') {
-        mainWindow.loadUrl('file://' + __dirname + '/index.html?coverage');
+        mainWindow.loadURL('file://' + __dirname + '/index.html?coverage');
     } else {
-        mainWindow.loadUrl('file://' + __dirname + '/dist/index.html');
+        mainWindow.loadURL('file://' + __dirname + '/dist/index.html');
     }
 
     mainWindow.on('closed', function onClosed() {

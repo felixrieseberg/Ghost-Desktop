@@ -32,7 +32,7 @@ export default Ember.Service.extend(Ember.Evented, {
     appVersion: Ember.computed({
         get() {
             let {remote} = requireNode('electron');
-            let appVersion = remote.require('app').getVersion();
+            let appVersion = remote.app.getVersion();
 
             return appVersion;
         }
@@ -126,7 +126,7 @@ export default Ember.Service.extend(Ember.Evented, {
      */
     _setup() {
         let {remote} = requireNode('electron');
-        let autoUpdater = remote.require('auto-updater');
+        let {autoUpdater} = remote;
 
         // If we're not running signed code, requiring auto updater will fail
         if (this.get('environment') !== 'production') {
