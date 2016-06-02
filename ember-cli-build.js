@@ -1,9 +1,9 @@
 /*jshint node:true*/
 /* global require, module */
 const EmberApp = require('ember-cli/lib/broccoli/ember-app'),
-    mythCompress = isProduction || environment === 'test',
     environment = EmberApp.env(),
-    isProduction = environment === 'production';
+    isProduction = environment === 'production',
+    mythCompress = isProduction || environment === 'test';
 
 module.exports = function(defaults) {
     const isTest = (process.env.EMBER_ENV || 'development') === 'test';
