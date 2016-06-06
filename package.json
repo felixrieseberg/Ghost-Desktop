@@ -13,8 +13,8 @@
     "start": "grunt shell:fetchContributors && ember electron",
     "test": "grunt validate",
     "codestyle": "grunt codestyle",
-    "build-native-deps-32": "electron-rebuild -a ia32 -w keytar",
-    "build-native-deps-64": "electron-rebuild -a x64 -w keytar",
+    "build-native-deps-32": "electron-rebuild -a ia32",
+    "build-native-deps-64": "electron-rebuild -a x64",
     "build-native-deps": "electron-rebuild",
     "installer": "grunt installer",
     "dmg": "grunt dmg"
