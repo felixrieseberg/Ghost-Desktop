@@ -40,6 +40,7 @@ export default Component.extend({
         this._insertCss();
         this._updateName();
         this._setupSpellchecker();
+        this._setupWindowFocusListeners();
     },
 
     didInsertElement() {
@@ -213,5 +214,18 @@ export default Component.extend({
         if ($webview) {
             $webview.send('spellchecker', this.get('preferences.spellcheckLanguage'));
         }
+    },
+
+    _setupWindowFocusListeners() {
+        let $webviews = this.$('webview');
+        let $webview = ($webviews && $webviews[0]) ? $webviews[0] : undefined;
+
+        window.addEventListener('blur', () => {
+            $webview.blur();
+        });
+
+        window.addEventListener('focus', () => {
+            $webview.focus();
+        });
     }
 });
