@@ -17,6 +17,8 @@
     "build-native-deps-64": "electron-rebuild -a x64",
     "build-native-deps": "electron-rebuild",
     "installer": "grunt installer",
+    "installer-32": "grunt installer-32",
+    "installer-64": "grunt installer-32",
     "dmg": "grunt dmg"
   },
   "repository": "",

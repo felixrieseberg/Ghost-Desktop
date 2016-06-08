@@ -11,7 +11,7 @@ In order to get up and running with Ghost Desktop, follow the guide below to ins
  
  
  ## Prerequisites and Dependencies
- * Node (`v5.1` or newer), since that's the version Electron is using internally. If you're also developing on Ghost, use a tool like [nvm][nvm] or [nvm-windows][nvm-windows] to manage multiple Node versions. 
+ * Node (`v6.0` or newer), since that's the version Electron is using internally. If you're also developing on Ghost, use a tool like [nvm][nvm] or [nvm-windows][nvm-windows] to manage multiple Node versions. 
  * npm (`v3` or newer)
  * Python ([`v2.7.10`][python-v2.7.10] recommended, `v3.x.x` is __*not*__ supported)
     * Make sure that you have a PYTHON environment variable, and it is set to `drive:\path\to\python.exe`, not to a folder
