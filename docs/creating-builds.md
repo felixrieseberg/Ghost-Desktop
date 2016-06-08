@@ -10,3 +10,6 @@ The command will first build the ember app using `ember electron:package`, and t
 `npm run dmg`, executed from a Mac OS X machine. Ensure that your machine [is setup for development and has native build tools](developer-environment.md). 
 
 The command will first build the ember app using `ember electron:package`, and then use `appdmg` and some Python to create dmg image. Once done, find the dmg file in `electron-builds/Ghost-darwin64-installer`.
+
+## Debian
+`npm run debian`, executed from a Ubuntu machine. Ensure that your machine [is setup for development and has native build tools](developer-environment.md). 
