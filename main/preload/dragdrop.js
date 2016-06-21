@@ -15,5 +15,5 @@ function preventImageNavigation() {
     document.addEventListener('dragover', handleDragDropEvent, false);
     document.addEventListener('drop', handleDragDropEvent, false);
 }
- 
+
 preventImageNavigation();

@@ -129,5 +129,5 @@ function setup() {
     window.addEventListener('contextmenu', handleContextMenu);
     ipc.on('spellchecker', (sender, data) => setupSpellChecker(data));
 }
- 
+
 setup();

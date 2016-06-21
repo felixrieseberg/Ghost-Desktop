@@ -30,7 +30,7 @@ module.exports = function(defaults) {
         'es6.destructuring'
     ];
 
-    var app = new EmberApp(defaults, {
+    const app = new EmberApp(defaults, {
         babel: {
             includePolyfill: true,
             blacklist: blacklist,

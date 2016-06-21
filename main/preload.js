@@ -1,5 +1,5 @@
-'use strict';
-
+// Preload various modules before actual loading
+// the individual Ghost blogs
 require('./preload/check-login');
 require('./preload/dragdrop');
 require('./preload/spellchecker');
