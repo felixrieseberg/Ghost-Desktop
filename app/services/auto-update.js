@@ -48,6 +48,11 @@ export default Ember.Service.extend(Ember.Evented, {
                 `http://desktop-updates.ghost.org/update/osx/${this.get('appVersion')}` :
                 `http://desktop-updates.ghost.org/update/win32/${this.get('appVersion')}`;
 
+            // Developer ovverride?
+            if (process.env.GHOST_UPDATER_URL) {
+                updateFeed = process.env.GHOST_UPDATER_URL;
+            }
+
             return updateFeed;
         }
     }),
