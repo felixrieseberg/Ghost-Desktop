@@ -13,3 +13,17 @@ The command will first build the ember app using `ember electron:package`, and t
 
 ## Debian
 `npm run debian`, executed from a Ubuntu machine. Ensure that your machine [is setup for development and has native build tools](developer-environment.md). 
+
+# Creating Alpha/Beta Releases
+Simply create a GitHub release semver-tagged (`0.5.2-alpha-0` - make sure to identify the version of your alpha (0,1, whatever). Then, to test the auto-updater, set the environment variable `GHOST_UPDATER_URL` to `http://desktop-updates.ghost.org/update/osx/0.5.2-alpha`, adjusting for your version and release channel. Then, launch Ghost - the updater service will overwrite the usual updater feed with your new url, hopefully find the new alpha version, and start the automatic update.
+
+To test the updater service, the expected result of calling your service should look like this:
+
+```
+{
+    "url":"http://desktop-updates.ghost.org/download/version/0.5.2-alpha-1/osx_64?filetype=zip",
+    "name":"0.5.2-alpha-1",
+    "notes":"",
+    "pub_date":"2016-06-21T18:58:10.000Z"
+}
+```
