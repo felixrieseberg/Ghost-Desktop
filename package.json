@@ -36,7 +36,7 @@
     "broccoli-asset-rev": "^2.2.0",
     "codecov": "^1.0.1",
     "devtron": "^1.1.0",
-    "electron-prebuilt": "1.2.2",
+    "electron-prebuilt": "1.2.7",
     "electron-rebuild": "^1.1.5",
     "ember-ajax": "0.7.1",
     "ember-cli": "2.4.2",

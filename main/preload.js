@@ -5,3 +5,4 @@ require('./preload/upgrade-notification');
 require('./preload/dragdrop');
 require('./preload/spellchecker');
 require('./preload/external-links');
+require('./preload/devtron');
