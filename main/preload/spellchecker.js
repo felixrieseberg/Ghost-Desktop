@@ -124,9 +124,26 @@ function setupSpellChecker(data) {
     resetSelection();
 }
 
+/**
+ * Handles pasting, temporarily disabling spellcheck to speed things up
+ * @param {PasteEvent} e
+ */
+function handlePaste(e) {
+    if (e.target && e.target.id && e.target.spellcheck) {
+        const elem = document.getElementById(e.target.id);
+        elem.setAttribute('spellcheck', false);
+
+        window.requestIdleCallback(function () {
+            elem.setAttribute('spellcheck', true);
+        })
+    }
+}
+
 function setup() {
     window.addEventListener('mousedown', resetSelection);
     window.addEventListener('contextmenu', handleContextMenu);
+	window.addEventListener('paste', handlePaste);
+
     ipc.on('spellchecker', (sender, data) => setupSpellChecker(data));
 }
 
