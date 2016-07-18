@@ -4,3 +4,4 @@ require('./preload/check-login');
 require('./preload/dragdrop');
 require('./preload/spellchecker');
 require('./preload/external-links');
+require('./preload/devtron');
