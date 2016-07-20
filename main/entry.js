@@ -1,11 +1,10 @@
 'use strict';
 
-const electron             = require('electron');
-const fetchWindowState     = require('./window-state');
-const app                  = electron.app;
-const BrowserWindow        = electron.BrowserWindow;
-const emberAppLocation     = `file://${__dirname}/../dist/index.html`;
-
+const electron = require('electron');
+const fetchWindowState = require('./window-state');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+const emberAppLocation = `file://${__dirname}/../dist/index.html`;
 
 // Before we do anything else, handle Squirrel Events
 if (require('./squirrel')()) {
@@ -61,4 +60,8 @@ app.on('ready', function onReady() {
     mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
 
     mainWindow.on('closed', () => app.quit());
+
+    // Initialize Blog Data IPC
+    require('./blog-data');
+    require('./basic-auth');
 });

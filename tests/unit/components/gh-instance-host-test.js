@@ -8,7 +8,7 @@ import { blogs } from '../../fixtures/blogs';
 
 moduleForComponent('gh-instance-host', 'Unit | Component | gh instance host', {
     unit: true,
-    needs: ['service:preferences']
+    needs: ['service:preferences', 'component:gh-basic-auth', 'storage:preferences']
 });
 
 const path = requireNode('path');
@@ -39,6 +39,18 @@ const blog404 = {
 const blog200 = {
     blog: {
         url: path.join(__dirname, 'tests', 'fixtures', 'static-signin', 'signin.html'),
+        identification: 'testuser',
+        getPassword() {
+            return 'p@ssword';
+        },
+        updateName() {
+            return new Promise((resolve) => resolve());
+        }
+    }
+};
+const blogFile404 = {
+    blog: {
+        url: 'file://hi.com',
         identification: 'testuser',
         getPassword() {
             return 'p@ssword';
@@ -131,7 +143,8 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
     this.render();
     Ember.run.later(() => component._handleLoadFailure(e), 300);
     Ember.run.later(() => {
-        assert.ok(component.get('isInstanceLoaded'));
+        const isErrorPage = this.$('webview').attr('src').includes('load-error');
+        assert.ok(isErrorPage);
         start();
     }, 750);
 });
@@ -141,17 +154,11 @@ test('handleLoadFailure does not redirect for failed file:// loads', function(as
     stop();
 
     const path = requireNode('path');
-    const component = this.subject(blog404);
-    const e = {
-        originalEvent: {
-            validatedURL: 'file://hi.com'
-        }
-    };
+    const component = this.subject(blogFile404);
 
     this.render();
-    Ember.run.later(() => component._handleLoadFailure(e), 300);
     Ember.run.later(() => {
-        assert.equal(component.get('isInstanceLoaded'), false);
+        assert.equal(this.$('webview').attr('src'), 'file://hi.com/');
         start();
     }, 750);
 });

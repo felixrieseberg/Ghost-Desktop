@@ -43,6 +43,7 @@
                                    focusOut=(action "validatePassword" password)}}
                     </span>
                 </div>
+                {{gh-basic-auth isEnabled=isBasicAuth username=basicUsername password=basicPassword}}
                 {{#gh-spin-button disabled=hasError
                                   class="btn btn-blue btn-block add-blog"
                                   type="submit"

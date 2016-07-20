@@ -15,6 +15,8 @@ export default DS.Model.extend({
     iconColor: attr('string', {
         defaultValue: () => getIconColor(null)
     }),
+    basicUsername: attr('string'),
+    basicPassword: attr('string'),
 
     /**
      * Convenience method, marking the blog as selected (and saving)
@@ -102,5 +104,18 @@ export default DS.Model.extend({
 
         let keytar = requireKeytar();
         return (keytar ? keytar.deletePassword(this.get('url'), this.get('identification')) : null);
+    },
+
+    /**
+     * Whenever a blog is updated, we also inform the main thread
+     * - just to ensure that the thread there knows about blogs
+     * too.
+     */
+    save() {
+        const {ipcRenderer} = require('electron');
+        const serializedData = this.toJSON({includeId: true});
+
+        ipcRenderer.send('blog-serialized', serializedData);
+        return this._super(...arguments);
     }
 });
