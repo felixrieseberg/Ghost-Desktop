@@ -1,0 +1,24 @@
+{{#if isEnabled}}
+    <span>{{label}}</span>
+    <div class="basic-auth-username">
+        <span class="input-icon icon-user">
+            {{gh-input class="gh-input email"
+                    type="email"
+                    placeholder="Basic HTTP Username"
+                    name="username"
+                    autocapitalize="off"
+                    autocorrect="off"
+                    value=username}}
+        </span>
+    </div>
+    <div class="basic-auth-password">
+        <span class="input-icon icon-lock">
+            {{gh-input class="password"
+                    type="password"
+                    placeholder="Basic HTTP Password"
+                    name="password"
+                    value=password
+                    autocorrect="off"}}
+        </span>
+    </div>
+{{/if}}

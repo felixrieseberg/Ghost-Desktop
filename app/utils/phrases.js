@@ -5,5 +5,6 @@ export default {
     urlNotReachable: 'We can\'t reach the given URL. Ensure that you are connected to the Internet and that it is spelled correctly!',
     noInternet: 'We failed to load your Ghost blog. Are you connected to the Internet?',
     loginFailed: 'Login failed: Please update your credentials.',
-    updateNow: 'A new version of Ghost was downloaded and can now be installed. Want to install it now?'
+    updateNow: 'A new version of Ghost was downloaded and can now be installed. Want to install it now?',
+    basicAuth: 'This blog is protected with HTTP authentication:'
 };

@@ -2,9 +2,7 @@ import Ember from 'ember';
 import {injectCss} from '../utils/inject-css';
 import Phrases from '../utils/phrases';
 
-const {
-    Component
-} = Ember;
+const {Component} = Ember;
 
 /**
  * The instance host component contains a webview, displaying a Ghost blog
@@ -27,6 +25,8 @@ export default Component.extend({
         // to handle the successful load of the content - and a
         // "new window" request coming from the instance
         this.$('webview')
+            .off('did-start-loading')
+            .on('did-start-loading', () => this._handleStartLoading())
             .off('did-finish-load')
             .on('did-finish-load', () => this._handleLoaded())
             .off('did-fail-load')
@@ -35,12 +35,6 @@ export default Component.extend({
             .on('new-window', (e) => this._handleNewWindow(e))
             .off('console-message')
             .on('console-message', (e) => this._handleConsole(e));
-
-        // Inject CSS, Update Name, Setup Spellchecker
-        this._insertCss();
-        this._updateName();
-        this._setupSpellchecker();
-        this._setupWindowFocusListeners();
     },
 
     didInsertElement() {
@@ -56,7 +50,7 @@ export default Component.extend({
         // To make things "feel" more snappy, we're hiding the loading from the
         // user.
         if (window.QUnit) {
-            return this.set('isInstanceLoaded', true);
+            return Ember.run(() => this.set('isInstanceLoaded', true));
         }
 
         Ember.run.later(() => this.set('isInstanceLoaded', true), 1500);
@@ -111,6 +105,19 @@ export default Component.extend({
     },
 
     /**
+     * The webview started loading, meaning that it moved on from being a simple
+     * HTMLElement to bloom into a beautiful webview (with all the methods we need)
+     */
+    _handleStartLoading() {
+        let $webview = this._getWebView();
+
+        this._insertCss();
+        this._updateName();
+        this._setupSpellchecker($webview);
+        this._setupWindowFocusListeners($webview);
+    },
+
+    /**
      * Handle's the 'did-finish-load' event on the webview hosting the Ghost blog
      */
     _handleLoaded() {
@@ -160,7 +167,7 @@ export default Component.extend({
 
         if ($webviews && $webviews[0]) {
             $webviews[0].loadURL(`file://${errorPage}?error=${errorDescription}`);
-            this.set('isInstanceLoaded', true);
+            this.show();
         }
 
         console.log(`Ghost Instance failed to load. Error Code: ${errorCode}`, errorDescription);
@@ -176,7 +183,7 @@ export default Component.extend({
 
     /**
      * Handles console messages logged in the webview
-     * @param  {Object} e - jQuery Event
+     * @param e {Object} - jQuery Event
      */
     _handleConsole(e) {
         if (e && e.originalEvent && e.originalEvent.message.includes('login-error')) {
@@ -187,11 +194,11 @@ export default Component.extend({
             /*eslint-enable no-unused-vars*/
 
             // TODO: Show "update credentials screen here"
-            return this.set('isInstanceLoaded', true);
+            return this.show();
         }
 
         if (e.originalEvent.message.includes('loaded')) {
-            this.set('isInstanceLoaded', true);
+            this.show();
         }
     },
 
@@ -207,25 +214,31 @@ export default Component.extend({
     /**
      * Sends the current spellchecker language to the webview
      */
-    _setupSpellchecker() {
-        let $webviews = this.$('webview');
-        let $webview = ($webviews && $webviews[0]) ? $webviews[0] : undefined;
-
-        if ($webview) {
-            $webview.send('spellchecker', this.get('preferences.spellcheckLanguage'));
-        }
+    _setupSpellchecker($webview = this._getWebView()) {
+        $webview.send('spellchecker', this.get('preferences.spellcheckLanguage'));
     },
 
-    _setupWindowFocusListeners() {
+    /**
+     * Ensures that Alt-Tab on Ghost Desktop windows doesn't mean that the user
+     * looses focus in the Ghost Admin editor
+     */
+    _setupWindowFocusListeners($webview = this._getWebView()) {
+        window.addEventListener('blur', () => $webview.blur());
+        window.addEventListener('focus', () => $webview.focus());
+    },
+
+    /**
+     * Looks for all webviews on the page, returning the first one
+     * @returns
+     */
+    _getWebView() {
         let $webviews = this.$('webview');
         let $webview = ($webviews && $webviews[0]) ? $webviews[0] : undefined;
 
-        window.addEventListener('blur', () => {
-            $webview.blur();
-        });
+        if (!$webview) {
+            console.log(new Error('Could not find webview containing Ghost blog.'));
+        }
 
-        window.addEventListener('focus', () => {
-            $webview.focus();
-        });
+        return $webview;
     }
 });

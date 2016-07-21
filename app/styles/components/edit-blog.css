@@ -35,3 +35,11 @@
 .gh-edit-blog .gh-flow-content-wrap:first {
     padding-bottom: 0;
 }
+
+.gh-edit-blog.basic-auth {
+    height: 580px;
+}
+
+.basic-auth-username {
+    margin-top: 10px;
+}

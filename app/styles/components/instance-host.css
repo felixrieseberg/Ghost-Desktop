@@ -6,6 +6,11 @@
     visibility: collapse;
 }
 
+#ember-testing .instance-host {
+    display: block;
+    visibility: visible;
+}
+
 .instance-host webview {
     z-index: 10;
 }
@@ -27,6 +32,29 @@
 
 .instance-host webview.host.loaded {
     opacity: 1;
+}
+
+.instance-host .basic-auth {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.instance-host .basic-auth input {
+    width: 200px;
+    margin: 15px 0;
+    display: inline-block;
+}
+
+.instance-host .basic-auth button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 404px;
+}
+
+.instance-host .basic-auth:before {
+    content: "";
+    display: block;
 }
 
 @keyframes fadeIn{

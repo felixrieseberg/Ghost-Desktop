@@ -58,10 +58,7 @@ test('it renders', function (assert) {
 
 test('selecting a new dictionary updates preferences', function (assert) {
     this.render(hbs`{{gh-dictionaries-dropdown}}`);
-
     this.$('select').val('de').change();
-
-    console.log(language);
 
     assert.equal(language, 'de');
 });

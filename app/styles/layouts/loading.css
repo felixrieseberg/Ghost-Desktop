@@ -17,6 +17,11 @@
     align-items: center;
     justify-content: center;
     background: #fff;
+    flex-direction: column;
+}
+
+.gh-loading-content.basic-auth {
+    z-index: 1000;
 }
 
 .gh-loading-spinner {
