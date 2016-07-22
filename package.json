@@ -93,9 +93,6 @@
     "overwrite": true,
     "sign": null,
     "strict-ssl": null,
-    "osx-sign": {
-      "identity": "Felix Rieseberg"
-    },
     "version-string": {
       "CompanyName": "Ghost Foundation",
       "FileDescription": "Ghost for Desktops",
