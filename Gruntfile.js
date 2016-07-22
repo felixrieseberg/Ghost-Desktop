@@ -15,11 +15,13 @@ const configureGrunt = function (grunt) {
     // Find all of the task which start with `grunt-` and load them, rather than explicitly declaring them all
     require('matchdep').filterDev(['grunt-*', '!grunt-cli']).forEach(grunt.loadNpmTasks);
 
+    // Optional, platform specific grunt plugins.
     if (process.platform === 'linux') {
         grunt.loadNpmTasks('grunt-electron-installer-debian');
     }
 
     const config = {
+
         jscs: {
             app: {
                 files: {

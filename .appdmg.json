@@ -1,24 +1,30 @@
 {
     "title": "Ghost",
-    "background": "assets/dmg/background.png",
+    "background": "assets/dmg/installer_background.png",
     "icon": "assets/icons/ghost.icns",
-    "icon-size": 80,
+    "icon-size": 100,
+    "window": {
+        "size": {
+            "width": 600,
+            "height": 571
+        }
+    },
     "contents": [
         {
-            "x": 448,
-            "y": 344,
+            "x": 470,
+            "y": 335,
             "type": "link",
             "path": "/Applications"
         },
         {
-            "x": 192,
-            "y": 344,
+            "x": 130,
+            "y": 335,
             "type": "file",
             "path": "electron-builds/Ghost-darwin-x64/Ghost.app"
         },
         {
-            "x": 512,
-            "y": 128,
+            "x": 300,
+            "y": 490,
             "type": "file",
             "path": "electron-builds/Ghost-darwin-x64/LICENSES.chromium.html"
         }
