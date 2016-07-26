@@ -99,7 +99,7 @@
       "ProductName": "Ghost",
       "InternalName": "Ghost"
     },
-    "version": "1.2.2"
+    "version": "1.2.7"
   },
   "dependencies": {
     "color-scheme": "0.0.5",
