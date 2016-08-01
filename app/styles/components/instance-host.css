@@ -34,6 +34,11 @@
     opacity: 1;
 }
 
+.instance-host .loading-container.loaded {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
 .instance-host .basic-auth {
     margin-top: 100px;
     text-align: center;
