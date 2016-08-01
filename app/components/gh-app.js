@@ -10,6 +10,7 @@ export default Component.extend({
     store: Ember.inject.service(),
     autoUpdate: Ember.inject.service(),
     classNames: ['gh-app'],
+    isFindInViewActive: false,
 
     didReceiveAttrs() {
         this.setup();

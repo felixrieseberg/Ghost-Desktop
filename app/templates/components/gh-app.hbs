@@ -13,14 +13,19 @@
 
 {{!-- Right Side: Main Content Area  --}}
 
-{{#if isEditBlogVisible}}
-    {{gh-edit-blog blogAdded="blogAdded" blog=blogToEdit}}
-{{else if isPreferencesVisible}}
-    {{gh-preferences}}
-{{/if}}
+<div class="content">
+    {{gh-find-in-webview isActive=isFindInViewActive}}
 
-{{#if blogs}}
-    {{#each blogs as |blog|}}
-        {{gh-instance-host blog=blog}}
-    {{/each}}
-{{/if}}
+    {{#if isEditBlogVisible}}
+        {{gh-edit-blog blogAdded="blogAdded" blog=blogToEdit}}
+    {{else if isPreferencesVisible}}
+        {{gh-preferences}}
+    {{/if}}
+
+    {{#if blogs}}
+        {{#each blogs as |blog|}}
+            {{gh-instance-host blog=blog}}
+        {{/each}}
+    {{/if}}
+</div>
+

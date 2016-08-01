@@ -6,17 +6,21 @@ export default Ember.Service.extend({
     blogs: [],
 
     /**
-     * Setups the window menu for the application
+     * The menu can be easily extended by adding an injection to the
+     * service's injections property:
+     *
+     * {
+     *   name: {string}
+     *   injection: function (template) { return template }
+     * }
+     */
+    injections: [],
+
+    /**
+     * Schedules (debounced) the setup of the application menu
      */
     setup() {
-        let {remote} = requireNode('electron');
-        let {Menu} = remote;
-        let template = getMenuTemplate();
-        let withBlogs = this._injectBlogs(template);
-        let withBlogsAndPrefsCallback = this._injectPreferencesCallback(withBlogs);
-        let builtMenu = Menu.buildFromTemplate(withBlogsAndPrefsCallback);
-
-        Menu.setApplicationMenu(builtMenu);
+        Ember.run.debounce(this, this._prepareMenu, 150);
     },
 
     /**
@@ -34,13 +38,28 @@ export default Ember.Service.extend({
     },
 
     /**
+     * Setups the window menu for the application
+     */
+    _prepareMenu() {
+        const {remote} = requireNode('electron');
+        const {Menu} = remote;
+        const template = getMenuTemplate();
+        const withBlogs = this._injectBlogs(template);
+        const withPrefs = this._injectPreferencesCallback(withBlogs);
+        const withInjections = this._processInjections(withPrefs);
+        const builtMenu = Menu.buildFromTemplate(withInjections);
+
+        Menu.setApplicationMenu(builtMenu);
+    },
+
+    /**
      * If blogs are present, they are injected into the menu.
      *
      * @param template - Electron menu template
      * @returns template - Electron menu template
      */
     _injectBlogs(template) {
-        let blogs = this.get('blogs');
+        const blogs = this.get('blogs');
 
         if (template && template.forEach && blogs) {
             template.forEach((item) => {
@@ -88,5 +107,32 @@ export default Ember.Service.extend({
         }
 
         return template;
+    },
+
+    /**
+     * The menu can be easily extended by adding an injection to the
+     * service's injections property:
+     *
+     * {
+     *   name: {string}
+     *   injection: function (template) { return template }
+     * }
+     *
+     * @param {Object} template - Electron Menu template
+     * @returns {Object} template - Electron Menu template
+     */
+    _processInjections(template) {
+        const injections = this.get('injections');
+        let processedTemplate = template;
+
+        if (injections && injections.length > 0) {
+            injections.forEach((item) => {
+                if (item.injection && typeof item.injection === 'function') {
+                    processedTemplate = item.injection(processedTemplate);
+                }
+            });
+        }
+
+        return processedTemplate;
     }
 });
