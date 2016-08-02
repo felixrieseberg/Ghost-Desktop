@@ -2,7 +2,6 @@
 /* ---------------------------------------------------------- */
 @import "../../bower_components/normalize-css/normalize.css";
 
-
 /* Patterns: Groups of Styles
 /* ---------------------------------------------------------- */
 @import "patterns/global.css";
@@ -19,6 +18,8 @@
 @import "components/splitbuttons.css";
 @import "components/edit-blog.css";
 @import "components/preferences.css";
+@import "components/app.css";
+@import "components/find-webview.css";
 
 /* Layouts: Groups of Components
 /* ---------------------------------------------------------- */

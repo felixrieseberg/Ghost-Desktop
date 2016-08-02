@@ -11,12 +11,12 @@ moduleFor('route:application', 'Unit | Route | application', {
 });
 
 test('it exists', function(assert) {
-    let route = this.subject();
+    const route = this.subject();
     assert.ok(route);
 });
 
 test('it returns blogs as a model', function(assert) {
-    let route = this.subject();
+    const route = this.subject();
 
     // stub store on the route
     route.store = {
@@ -32,9 +32,11 @@ test('it returns blogs as a model', function(assert) {
 test('before the model loads, we setup window and context menu', function(assert) {
     assert.expect(3);
 
-    let oldAddEventListener = window.addEventListener;
-    let oldRequire = window.requireNode;
+    const oldAddEventListener = window.addEventListener;
+    const oldRequire = window.requireNode;
+    const oldDebounce = Ember.run.debounce;
 
+    Ember.run.debounce = (target, func) => func.call(target);
     window.addEventListener = () => assert.ok(true);
     window.requireNode = function(target) {
         if (target === 'electron') {
@@ -58,9 +60,37 @@ test('before the model loads, we setup window and context menu', function(assert
         }
     }
 
-    let route = this.subject();
+    const route = this.subject();
     route.beforeModel();
 
     window.addEventListener = oldAddEventListener;
     window.requireNode = oldRequire;
+    Ember.run.debounce = oldDebounce;
+});
+
+test('after the model loads, we tell the main thread about the blogs', function(assert) {
+    assert.expect(2);
+    const oldRequire = window.require;
+
+    window.require = function(target) {
+        if (target === 'electron') {
+            return {
+                ipcRenderer: {
+                    send(channel, data) { 
+                        assert.deepEqual(data, {isTest: true});
+                        assert.equal(channel, 'blog-data');
+                    }
+                }
+            }
+        } else {
+            return oldRequire(...arguments);
+        }
+    }
+
+    const route = this.subject();
+    route.afterModel([{
+        toJSON() { return {isTest: true}}
+    }]);
+
+    window.require = oldRequire;
 });

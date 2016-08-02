@@ -60,8 +60,7 @@ export default Component.extend({
     /**
      * Programmatically attempt to login
      */
-    signin() {
-        let $webviews = this.$('webview');
+    signin($webview = this._getWebView()) {
         let username = this.get('blog.identification');
         let password = this.get('blog').getPassword();
 
@@ -70,7 +69,7 @@ export default Component.extend({
         //
         // TODO: Ask the user for credentials and add them back to the OS
         // keystore
-        if (!username || !password || !$webviews || !$webviews[0]) {
+        if (!username || !password || !$webview) {
             return this.show();
         }
 
@@ -82,7 +81,7 @@ export default Component.extend({
 
         // Execute the commands. Once done, the load handler will
         // be called again, and the instance set to loaded.
-        $webviews[0].executeJavaScript(commands.join(''));
+        $webview.executeJavaScript(commands.join(''));
         this.set('isAttemptedSignin', true);
     },
 
@@ -91,17 +90,13 @@ export default Component.extend({
      *
      * CSS files can be found in /public/assets/inject/css/*
      */
-    _insertCss() {
-        let $webviews = this.$('webview');
-
-        if (!$webviews || !$webviews[0]) {
-            return;
+    _insertCss($webview = this._getWebView()) {
+        if ($webview) {
+            // Inject a CSS file for the specific platform (OS X; Windows)
+            injectCss($webview, process.platform);
+            // Inject a CSS file for all platforms (all.css)
+            injectCss($webview, 'all');
         }
-
-        // Inject a CSS file for the specific platform (OS X; Windows)
-        injectCss($webviews[0], process.platform);
-        // Inject a CSS file for all platforms (all.css)
-        injectCss($webviews[0], 'all');
     },
 
     /**
@@ -121,8 +116,8 @@ export default Component.extend({
      * Handle's the 'did-finish-load' event on the webview hosting the Ghost blog
      */
     _handleLoaded() {
-        let $webviews = this.$('webview');
-        let title = ($webviews && $webviews[0]) ? $webviews[0].getTitle() : '';
+        let $webview = this._getWebView();
+        let title = ($webview) ? $webview.getTitle() : '';
 
         // Check if we're on the sign in page, and if so, attempt to
         // login automatically (without bothering the user)
@@ -155,7 +150,7 @@ export default Component.extend({
      * @param errorDescription {string}
      */
     _handleLoadFailure(e, errorCode, errorDescription = '') {
-        let $webviews = this.$('webview');
+        let $webview = this._getWebView();
         let path = requireNode('path');
         let errorPage = path.join(__dirname, '..', 'main', 'load-error', 'error.html');
         let validatedURL = e.originalEvent.validatedURL || '';
@@ -165,8 +160,8 @@ export default Component.extend({
             return;
         }
 
-        if ($webviews && $webviews[0]) {
-            $webviews[0].loadURL(`file://${errorPage}?error=${errorDescription}`);
+        if ($webview) {
+            $webview.loadURL(`file://${errorPage}?error=${errorDescription}`);
             this.show();
         }
 
