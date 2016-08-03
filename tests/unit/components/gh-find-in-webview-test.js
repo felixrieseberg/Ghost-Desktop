@@ -85,7 +85,7 @@ test('_insertMenuItem() injects no item if already present', function(assert) {
 
 test('_findVisibleWebview() tries to find the first visible webview', function(assert) {
     const component = this.subject();
-    
+
     const oldjQuery = Ember.$;
     Ember.$ = function(selector) {
         if (selector === 'webview:visible') {

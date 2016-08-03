@@ -1,5 +1,4 @@
-<span>Find: </span>
 <div class="ember-power-select-search">
-    {{input action="search" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="combobox" placeholder="Search" value=searchterm}}
+    {{input key-up="keyup" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="combobox" placeholder="Search" value=searchterm}}
     <button {{action "search"}} class="gh-nav-search-button"><i class="icon-search"></i><span class="sr-only">Search</span></button>
 </div>
