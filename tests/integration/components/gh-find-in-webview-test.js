@@ -9,7 +9,7 @@ test('it renders', function(assert) {
 	  this.render(hbs`{{gh-find-in-webview}}`);
 
     const text = this.$().text().trim();
-    const containsText = text.includes('Find:');
+    const containsText = text.includes('Search');
     assert.ok(containsText);
 });
 

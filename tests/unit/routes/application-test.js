@@ -76,7 +76,7 @@ test('after the model loads, we tell the main thread about the blogs', function(
         if (target === 'electron') {
             return {
                 ipcRenderer: {
-                    send(channel, data) { 
+                    send(channel, data) {
                         assert.deepEqual(data, {isTest: true});
                         assert.equal(channel, 'blog-data');
                     }

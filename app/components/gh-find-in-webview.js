@@ -23,6 +23,7 @@ export default Ember.Component.extend({
                 $webview.stopFindInPage('clearSelection');
             }
         } else {
+            this.set('searchterm', '');
             Ember.run.later(() => this.$('input').focus());
         }
     },
@@ -75,6 +76,21 @@ export default Ember.Component.extend({
 
     actions: {
         /**
+         * Handles the "key-up" event of the search input,
+         * determining whether ot search or to cancel.
+         *
+         * @param {String} text
+         * @param {Object} jQuery event object for "keyup"
+         */
+        keyup(text, e) {
+            if (e.keyCode === 27) {
+                this.send('cancel');
+            } else {
+                this.send('search');
+            }
+        },
+
+        /**
          * Performs the search action, using Electron's
          * instance methods on a webview
          */
@@ -84,6 +100,17 @@ export default Ember.Component.extend({
 
             if (searchterm && $webview) {
                 $webview.findInPage(searchterm);
+            }
+        },
+
+        /**
+         * Cancels the current search
+         */
+        cancel() {
+            const $webview = this._findVisibleWebview();
+
+            if ($webview) {
+                $webview.stopFindInPage('clearSelection');
             }
         }
     }
