@@ -11,5 +11,6 @@
     "disallowSpacesInsideObjectBrackets": "all",
     "requireCommentsToIncludeAccess": null,
     "requireSpacesInsideObjectBrackets": null,
-    "disallowConstOutsideModuleScope": null
+    "disallowConstOutsideModuleScope": null,
+    "disallowDirectPropertyAccess": null
 }
