@@ -64,7 +64,7 @@ test('injectMenuItem() adds the correct properties', function(assert) {
                             return template;
                         },
                         setApplicationMenu(menu) {
-                            const expectedMenu = menu[0].submenu;
+                            const expectedMenu = menu[2].submenu;
 
                             assert.equal(expectedMenu[2].type, 'separator', 'does pass separator prop correctly');
                             assert.equal(expectedMenu[3].click(), 'test', 'does pass click callback correclty');
@@ -86,7 +86,7 @@ test('injectMenuItem() adds the correct properties', function(assert) {
 
     const service = this.subject();
     Ember.run(() => service.injectMenuItem({
-        menuName: 'Ghost',
+        menuName: 'View',
         click: () => 'test',
         name: 'test-item',
         label: 'test label',

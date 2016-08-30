@@ -52,8 +52,6 @@ export default Ember.Service.extend({
             name: options.name,
             injection: (template) => {
                 const menu = template.find((item) => item.label === options.menuName);
-                const seperatorPosition = options.position - 1 || menu.submenu.length;
-                const insertPosition = options.position || menu.submenu.length || 0;
                 const newItem = {
                     label: options.label,
                     accelerator: options.accelerator,
@@ -62,8 +60,11 @@ export default Ember.Service.extend({
 
                 // Insert item into the menu
                 if (menu && menu.submenu) {
+                    const sepPosition = options.position - 1 || menu.submenu.length;
+                    const insertPosition = options.position || menu.submenu.length || 0;
+
                     if (options.addSeperator) {
-                        menu.submenu.insertAt(seperatorPosition, {type: 'separator'});
+                        menu.submenu.insertAt(sepPosition, {type: 'separator'});
                     }
 
                     menu.submenu.insertAt(insertPosition, newItem);
