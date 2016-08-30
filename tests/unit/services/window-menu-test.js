@@ -13,7 +13,7 @@ test('it exists', function(assert) {
 test('has an injections property (array)', function(assert) {
     const service = this.subject();
     const injections = service.get('injections');
- 
+
     assert.ok(injections.forEach);
 });
 
@@ -65,7 +65,7 @@ test('injectMenuItem() adds the correct properties', function(assert) {
                         },
                         setApplicationMenu(menu) {
                             const expectedMenu = menu[0].submenu;
-                            
+
                             assert.equal(expectedMenu[2].type, 'separator', 'does pass separator prop correctly');
                             assert.equal(expectedMenu[3].click(), 'test', 'does pass click callback correclty');
                             assert.equal(expectedMenu[3].label, 'test label', 'does pass label prop correctly');
@@ -99,7 +99,7 @@ test('injectMenuItem() adds the correct properties', function(assert) {
 test('injectMenuItem() does not inject if injection already exists', function(assert) {
     const oldRequire = window.requireNode;
     const service = this.subject();
-    
+
     service.set('injections', [{ name: 'test-item' }]);
     service.injectMenuItem({ name: 'test-item'});
 

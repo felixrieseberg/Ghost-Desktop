@@ -6,7 +6,8 @@ Storage.reopenClass({
     initialState() {
         return {
             isNotificationsEnabled: true,
-            spellcheckLanguage: 'en'
+            spellcheckLanguage: 'en',
+            isQuickSwitcherMinimized: false
         };
     }
 });

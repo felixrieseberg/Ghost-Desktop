@@ -4,6 +4,7 @@ import { storageFor } from 'ember-local-storage';
 export default Ember.Service.extend(Ember.Evented, {
     preferences: storageFor('preferences'),
 
+    isQuickSwitcherMinimized: Ember.computed.alias('preferences.isQuickSwitcherMinimized'),
     isNotificationsEnabled: Ember.computed.alias('preferences.isNotificationsEnabled'),
     contributors: Ember.computed.alias('preferences.contributors'),
     spellcheckLanguage: Ember.computed.alias('preferences.spellcheckLanguage'),

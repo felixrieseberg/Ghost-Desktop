@@ -11,6 +11,11 @@
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
     -ms-user-select: none;       /* IE/Edge */
     user-select: none;
+    transition: all linear .25s;
+}
+
+.switcher.is-minimized {
+    width: 0;
 }
 
 .switcher-blog {
