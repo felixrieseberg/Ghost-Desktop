@@ -17,6 +17,7 @@ export default DS.Model.extend({
     }),
     basicUsername: attr('string'),
     basicPassword: attr('string'),
+    isResetRequested: attr('boolean'),
 
     /**
      * Convenience method, marking the blog as selected (and saving)

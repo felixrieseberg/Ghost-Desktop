@@ -9,8 +9,9 @@ const {Component} = Ember;
 export default Component.extend({
     store: Ember.inject.service(),
     classNames: ['gh-edit-blog'],
-    classNameBindings: ['isBasicAuth:basic-auth'],
+    classNameBindings: ['isBasicAuth:basic-auth', 'hasWarning'],
     isBasicAuth: false,
+    hasWarning: Ember.computed.bool('editWarning'),
 
     /**
      * A boolean value that is true if any errors are present
@@ -116,6 +117,10 @@ export default Component.extend({
             if (!record) {
                 // If the blog doesn't already exist, create it
                 record = this.get('store').createRecord('blog', {url});
+            } else {
+                // If it does exist, ensure that everybody knows this is super new
+                // This ensures we update even if only the password field was updated
+                record.set('isResetRequested', true);
             }
 
             record.setProperties({

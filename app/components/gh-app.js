@@ -214,8 +214,9 @@ export default Component.extend({
          *
          * @param blog - Blog to edit
          */
-        showEditBlog(blog) {
+        showEditBlog(blog, editWarning) {
             this.set('blogToEdit', blog);
+            this.set('editWarning', editWarning);
             this.showEditBlogUI();
         },
 
