@@ -33,33 +33,15 @@ export default Ember.Component.extend({
      * using the window menu service
      */
     _insertMenuItem() {
-        const windowMenu = this.get('windowMenu');
-        const injections = windowMenu.get('injections');
-        const hasInjection = injections.find((item) => item.name === 'find-in-webview');
-
-        if (!hasInjection) {
-            injections.pushObject({
-                name: 'find-in-webview',
-                injection: (template) => {
-                    let editMenu = template.find((item) => item.label === 'Edit');
-                    const newItem = {
-                        label: 'Find',
-                        accelerator: 'CmdOrCtrl+F',
-                        click: () => this.handleFind()
-                    };
-
-                    if (editMenu && editMenu.submenu) {
-                        editMenu.submenu.insertAt(2, {type: 'separator'});
-                        editMenu.submenu.insertAt(3, newItem);
-                    }
-
-                    return template;
-                }
-            });
-
-            windowMenu.set('injections', injections);
-            windowMenu.setup();
-        }
+        this.get('windowMenu').injectMenuItem({
+            menuName: 'Edit',
+            click: () => this.handleFind(),
+            name: 'find-in-webview',
+            label: '&Find',
+            accelerator: 'CmdOrCtrl+F',
+            addSeperator: true,
+            position: 3
+        });
     },
 
     /**

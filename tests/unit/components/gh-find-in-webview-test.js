@@ -46,34 +46,17 @@ test('handleFind() stops an active search if a webview is found', function(asser
 });
 
 test('_insertMenuItem() injects an item', function(assert) {
-    assert.expect(3);
+    assert.expect(6);
 
     const component = this.subject({
         windowMenu: new Ember.Object({
-            injections: {
-                find() { return false },
-                pushObject(item) {
-                    assert.equal(item.name, 'find-in-webview');
-                    assert.ok(typeof item.injection === 'function');
-                }
-            },
-            setup() { assert.ok(true) }
-        })
-    });
-
-    Ember.run(() => {
-        this.render();
-    });
-});
-
-test('_insertMenuItem() injects no item if already present', function(assert) {
-    assert.expect(0);
-
-    const component = this.subject({
-        windowMenu: new Ember.Object({
-            injections: {
-                find() { return true },
-                pushObject() { assert.ok(false) }
+            injectMenuItem(params) {
+                assert.equal(params.menuName, 'Edit');
+                assert.equal(params.name, 'find-in-webview');
+                assert.equal(params.label, '&Find');
+                assert.equal(params.accelerator, 'CmdOrCtrl+F');
+                assert.equal(params.addSeperator, true);
+                assert.equal(params.position, 3);
             }
         })
     });
