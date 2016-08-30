@@ -19,6 +19,10 @@
     align-self: center;
 }
 
+.gh-edit-blog.has-warning {
+    height: 420px;
+}
+
 .gh-edit-blog .form-group {
     margin-bottom: 1.5rem;
 }
@@ -42,4 +46,9 @@
 
 .basic-auth-username {
     margin-top: 10px;
+}
+
+.gh-edit-blog .warning {
+    font-size: 0.8em;
+    color: #e25440;
 }

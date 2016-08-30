@@ -13,6 +13,17 @@ export default Component.extend({
     classNameBindings: ['blog.isSelected:selected'],
     preferences: Ember.inject.service(),
 
+    blogObserver: Ember.observer('blog.isResetRequested', function() {
+        const blog = this.get('blog');
+
+        blog.set('isResetRequested', false);
+        blog.save();
+
+        if (this.get('isAttemptedSignin')) {
+            this.reload();
+        }
+    }),
+
     didReceiveAttrs() {
         this._super(...arguments);
         this.set('isInstanceLoaded', false);
@@ -35,6 +46,8 @@ export default Component.extend({
             .on('new-window', (e) => this._handleNewWindow(e))
             .off('console-message')
             .on('console-message', (e) => this._handleConsole(e));
+
+        this.get('blog').set('isResetRequested', false);
     },
 
     didInsertElement() {
@@ -58,6 +71,17 @@ export default Component.extend({
     },
 
     /**
+     * A crude attempt at trying things again.
+     */
+    reload() {
+        this.set('isInstanceLoaded', false);
+        this.set('isAttemptedSignin', false);
+        this.didRender();
+
+        Ember.run.later(() => this.signin());
+    },
+
+    /**
      * Programmatically attempt to login
      */
     signin($webview = this._getWebView()) {
@@ -75,7 +99,9 @@ export default Component.extend({
 
         let commands = [
             `$('input[name="identification"]').val('${username}');`,
+            `$('input[name="identification"]').change();`,
             `$('input[name="password"]').val('${password}');`,
+            `$('input[name="password"]').change();`,
             `$('button.login').click();`
         ];
 
@@ -188,8 +214,7 @@ export default Component.extend({
             }
             /*eslint-enable no-unused-vars*/
 
-            // TODO: Show "update credentials screen here"
-            return this.show();
+            return this.sendAction('showEditBlog', this.get('blog'), Phrases.loginFailed);
         }
 
         if (e.originalEvent.message.includes('loaded')) {

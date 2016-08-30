@@ -22,6 +22,25 @@ function checkStatus() {
 }
 
 /**
+ * We defer to the actual click on the login button
+ * before we check whether or not the login actually
+ * succeeded
+ */
+function init() {
+    const element = document.querySelector('button.login');
+
+    if (element) {
+        element.off('click');
+        element.on('click', () => {
+            console.log('login-check-again');
+            setTimeout(checkStatus, 100);
+        });
+    } else {
+        setTimeout(init, 100);
+    }
+}
+
+/**
  * Init
  */
-setTimeout(checkStatus, 100);
+setTimeout(init, 100);
