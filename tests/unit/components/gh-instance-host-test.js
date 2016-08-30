@@ -109,16 +109,7 @@ test('console message "loaded" eventually shows the webview', function(assert) {
     const component = this.subject();
     const e = { originalEvent: {}};
 
-    e.originalEvent.message = 'login-error'
-    component._handleConsole(e);
-    assert.ok(component.get('isInstanceLoaded'));
-});
-
-test('console message "login-error" eventually shows the webview', function(assert) {
-    const component = this.subject();
-    const e = { originalEvent: {}};
-
-    e.originalEvent.message = 'login-error'
+    e.originalEvent.message = 'loaded'
     component._handleConsole(e);
     assert.ok(component.get('isInstanceLoaded'));
 });

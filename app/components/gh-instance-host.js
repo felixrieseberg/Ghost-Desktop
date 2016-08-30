@@ -16,11 +16,13 @@ export default Component.extend({
     blogObserver: Ember.observer('blog.isResetRequested', function() {
         const blog = this.get('blog');
 
-        blog.set('isResetRequested', false);
-        blog.save();
+        if (blog && blog.get('isResetRequested')) {
+            blog.set('isResetRequested', false);
+            blog.save();
 
-        if (this.get('isAttemptedSignin')) {
-            this.reload();
+            if (this.get('isAttemptedSignin')) {
+                this.reload();
+            }
         }
     }),
 
@@ -46,12 +48,14 @@ export default Component.extend({
             .on('new-window', (e) => this._handleNewWindow(e))
             .off('console-message')
             .on('console-message', (e) => this._handleConsole(e));
-
-        this.get('blog').set('isResetRequested', false);
     },
 
     didInsertElement() {
         this.get('preferences').on('selectedDictionaryChanged', () => this._setupSpellchecker());
+
+        if (this.get('blog.isResetRequested')) {
+            this.set('blog.isResetRequested', false);
+        }
     },
 
     /**
