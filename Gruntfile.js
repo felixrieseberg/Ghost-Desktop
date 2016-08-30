@@ -75,7 +75,7 @@ const configureGrunt = function (grunt) {
                 command: 'node ./scripts/create-osx-build.js'
             },
             fetchContributors: {
-                command: 'node ./scripts/fetch-github-contributors.js'
+                command: 'node ./scripts/fetch-contributors.js'
             },
         },
 

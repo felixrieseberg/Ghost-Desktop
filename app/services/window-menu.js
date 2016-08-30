@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import {setup as getMenuTemplate} from '../utils/window-menu';
+import _ from 'lodash/lodash';
 
 export default Ember.Service.extend({
     preferencesCallback: undefined,
@@ -21,6 +22,63 @@ export default Ember.Service.extend({
      */
     setup() {
         Ember.run.debounce(this, this._prepareMenu, 150);
+    },
+
+    /**
+     * Adds an injection to the app's menu
+     *
+     * @param {any} params
+     * @param {string} params.menuName - Name of the menu to add the item to
+     * @param {string} params.label - Label of the menu item
+     * @param {string} params.name - Name of the menu item
+     * @param {function} params.click - Click callback for the menu item
+     * @param {boolean} params.addSeperator - Should a seperator be added?
+     * @param {number} params.position - Position of the item
+     */
+    injectMenuItem(params = {}) {
+        const defaults = {
+            menuName: 'Ghost',
+            click: () => {},
+            name: 'default-name',
+            label: 'Default label',
+            accelerator: undefined,
+            addSeperator: false,
+            position: undefined
+        };
+        const options = _.defaults(params, defaults);
+        const injections = this.get('injections');
+        const hasInjection = injections.find((item) => (item.name === options.name));
+        const injection = {
+            name: options.name,
+            injection: (template) => {
+                const menu = template.find((item) => item.label === options.menuName);
+                const newItem = {
+                    label: options.label,
+                    accelerator: options.accelerator,
+                    click: options.click
+                };
+
+                // Insert item into the menu
+                if (menu && menu.submenu) {
+                    const sepPosition = options.position - 1 || menu.submenu.length;
+                    const insertPosition = options.position || menu.submenu.length || 0;
+
+                    if (options.addSeperator) {
+                        menu.submenu.insertAt(sepPosition, {type: 'separator'});
+                    }
+
+                    menu.submenu.insertAt(insertPosition, newItem);
+                }
+
+                return template;
+            }
+        };
+
+        if (!hasInjection) {
+            injections.pushObject(injection);
+            this.set('injections', injections);
+            this.setup();
+        }
     },
 
     /**

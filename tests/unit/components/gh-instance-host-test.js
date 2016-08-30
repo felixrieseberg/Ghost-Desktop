@@ -141,12 +141,12 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
     };
 
     this.render();
-    Ember.run.later(() => component._handleLoadFailure(e), 300);
+    Ember.run.later(() => component._handleLoadFailure(e), 1000);
     Ember.run.later(() => {
         const isErrorPage = this.$('webview').attr('src').includes('load-error');
         assert.ok(isErrorPage);
         start();
-    }, 750);
+    }, 1500);
 });
 
 test('handleLoadFailure does not redirect for failed file:// loads', function(assert) {

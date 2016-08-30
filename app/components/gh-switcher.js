@@ -8,13 +8,17 @@ const {Component} = Ember;
  */
 export default Component.extend({
     store: Ember.inject.service(),
+    preferences: Ember.inject.service(),
     windowMenu: Ember.inject.service(),
-    classNames: ['switcher'],
+    classNameBindings: ['isMinimized', ':switcher'],
+    isMinimized: Ember.computed.alias('preferences.isQuickSwitcherMinimized'),
 
     didRender() {
         this._super(...arguments);
+
         this._setupContextMenu();
         this._setupQuickSwitch();
+        this._setupMenuItem();
     },
 
     /**
@@ -100,6 +104,23 @@ export default Component.extend({
     },
 
     /**
+     * Inserts the MenuItem for the toggle action into the app's menu,
+     * using the window menu service
+     */
+    _setupMenuItem() {
+        const windowMenu = this.get('windowMenu');
+
+        windowMenu.injectMenuItem({
+            menuName: 'View',
+            click: () => this.send('toggle'),
+            name: 'toggle-quick-switcher',
+            label: 'Toggle Quick Switcher',
+            accelerator: 'CmdOrCtrl+Alt+Q',
+            position: 2
+        });
+    },
+
+    /**
      * Gives a blog a random color
      *
      * @param id - Ember Data id of the blog to change the color of.
@@ -171,6 +192,14 @@ export default Component.extend({
          */
         showPreferences() {
             this.sendAction('showPreferences');
+        },
+
+        /**
+         * Toggles the width of the quickswitcher (keeping all elements
+         * otherwise alive and well)
+         */
+        toggle() {
+            this.toggleProperty('isMinimized');
         }
     }
 });
