@@ -34,7 +34,7 @@
     font-weight: bold;
     background-color: var(--lightgrey);
     border-radius: 3px;
-    opacity: 0.4;
+    opacity: 0.6;
     transition: box-shadow 0.7s ease;
 }
 
