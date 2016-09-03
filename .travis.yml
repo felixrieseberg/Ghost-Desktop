@@ -19,11 +19,11 @@ matrix:
           - libgnome-keyring-dev
           - g++-4.8
       env:
-        - NODE_VERSION=5.1 TARGET_ARCH=x64 OS=LINUX
+        - NODE_VERSION=6.3 TARGET_ARCH=x64 OS=LINUX
     - os: osx
       osx_image: xcode7
       env:
-        - NODE_VERSION=5.1 TARGET_ARCH=x64 OS=DARWIN
+        - NODE_VERSION=6.3 TARGET_ARCH=x64 OS=DARWIN
 
 before_install:
   # OS X ---------------------------------------------------------------------
