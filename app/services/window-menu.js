@@ -102,12 +102,104 @@ export default Ember.Service.extend({
         const {remote} = requireNode('electron');
         const {Menu} = remote;
         const template = getMenuTemplate();
-        const withBlogs = this._injectBlogs(template);
-        const withPrefs = this._injectPreferencesCallback(withBlogs);
-        const withInjections = this._processInjections(withPrefs);
-        const builtMenu = Menu.buildFromTemplate(withInjections);
 
-        Menu.setApplicationMenu(builtMenu);
+        this._injectBlogs(template);
+        this._injectPreferencesCallback(template);
+        this._injectShortcuts(template);
+        this._processInjections(template);
+
+        Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    },
+
+    /**
+     * Adds webview-specific shortcuts to the menu.
+     *
+     * @param template - Electron menu template
+     * @returns template - Electron menu template
+     */
+    _injectShortcuts(template) {
+        const shortcuts = this.get('webviewShortcuts');
+
+        if (template && template.forEach && shortcuts) {
+            template.forEach((item) => {
+                if (item && item.label && item.label === 'View') {
+                    item.submenu.insertAt(2, {
+                        type: 'separator'
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'Labs',
+                        accelerator: 'CmdOrCtrl+Alt+L',
+                        name: 'open-labs',
+                        click: () => shortcuts.openSettingsLabs()
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'Apps',
+                        accelerator: 'CmdOrCtrl+Alt+A',
+                        name: 'open-apps',
+                        click: () => shortcuts.openSettingsApps()
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'Code Injection',
+                        accelerator: 'CmdOrCtrl+Alt+C+I',
+                        name: 'open-code-injection',
+                        click: () => shortcuts.openSettingsCodeInjection()
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'Tags',
+                        accelerator: 'CmdOrCtrl+Alt+T',
+                        name: 'open-tags',
+                        click: () => shortcuts.openSettingsTags()
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'Navigation',
+                        accelerator: 'CmdOrCtrl+Alt+N',
+                        name: 'open-navigation',
+                        click: () => shortcuts.openSettingsNavigation()
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'General',
+                        accelerator: 'CmdOrCtrl+Alt+G',
+                        name: 'open-general',
+                        click: () => shortcuts.openSettingsGeneral()
+                    });
+                    item.submenu.insertAt(2, {
+                        type: 'separator'
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'Team',
+                        accelerator: 'CmdOrCtrl+Alt+T',
+                        name: 'open-team',
+                        click: () => shortcuts.openTeam()
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'Content',
+                        accelerator: 'CmdOrCtrl+Alt+L',
+                        name: 'open-content',
+                        click: () => shortcuts.openContent()
+                    });
+                    item.submenu.insertAt(2, {
+                        label: 'New Post',
+                        accelerator: 'CmdOrCtrl+Alt+C',
+                        name: 'open-new-post',
+                        click: () => shortcuts.openNewPost()
+                    });
+                    item.submenu.insertAt(2, {
+                        type: 'separator'
+                    });
+                }
+
+                if (item && item.label && item.label === 'Edit') {
+                    item.submenu.insertAt(2, {
+                        label: 'Open Preview',
+                        accelerator: 'CmdOrCtrl+P',
+                        name: 'open-preview',
+                        click: () => shortcuts.openPreview()
+                    });
+                }
+            });
+        }
+
+        return template;
     },
 
     /**
