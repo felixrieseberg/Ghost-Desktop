@@ -38,6 +38,7 @@ before_install:
   - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then export CXX=g++-4.8; fi
   # Continue with our normally scheduled program -----------------------------
   - "npm config set spin false"
+  - "npm install -g node-gyp"
   - "npm install -g grunt-cli"
   - "npm install -g bower"
 
