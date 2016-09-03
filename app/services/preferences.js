@@ -22,11 +22,15 @@ export default Ember.Service.extend(Ember.Evented, {
         }
     }),
 
-    setupContributors: function () {
+    init() {
+        this.setupContributors();
+    },
+
+    setupContributors() {
         Ember.$.getJSON('contributors.json').then(
             (data) => this.set('preferences.contributors', data)
         );
-    }.on('init'),
+    },
 
     setupZoom() {
         this.set('zoomFactor', this.get('zoomFactor'));

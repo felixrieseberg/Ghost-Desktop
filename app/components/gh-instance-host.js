@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'ghost-desktop/config/environment';
 import {injectCss} from '../utils/inject-css';
 import Phrases from '../utils/phrases';
 
@@ -194,6 +195,10 @@ export default Component.extend({
         // Don't try this at home
         if (validatedURL.includes('file://')) {
             return;
+        }
+
+        if (ENV.environment === 'test') {
+            errorPage = path.join(process.cwd(), 'main', 'load-error', 'error.html');
         }
 
         if ($webview) {

@@ -32,14 +32,14 @@ test('queryAndClick() clicks an element', function (assert) {
             assert.equal(e.originalEvent.message, 'test-a');
             done();
         });
-    
+
     service.queryAndClick('a#test-a');
 });
 
 test('openNewPost() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -53,7 +53,7 @@ test('openNewPost() clicks the correct link', function (assert) {
 test('openContent() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -67,7 +67,7 @@ test('openContent() clicks the correct link', function (assert) {
 test('openTeam() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -81,7 +81,7 @@ test('openTeam() clicks the correct link', function (assert) {
 test('openSettingsGeneral() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -95,7 +95,7 @@ test('openSettingsGeneral() clicks the correct link', function (assert) {
 test('openSettingsNavigation() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -109,7 +109,7 @@ test('openSettingsNavigation() clicks the correct link', function (assert) {
 test('openSettingsTags() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -123,7 +123,7 @@ test('openSettingsTags() clicks the correct link', function (assert) {
 test('openSettingsCodeInjection() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -137,7 +137,7 @@ test('openSettingsCodeInjection() clicks the correct link', function (assert) {
 test('openSettingsApps() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -151,7 +151,7 @@ test('openSettingsApps() clicks the correct link', function (assert) {
 test('openSettingsLabs() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {
@@ -165,7 +165,7 @@ test('openSettingsLabs() clicks the correct link', function (assert) {
 test('openPreview() clicks the correct link', function (assert) {
     const done = assert.async();
     const service = this.subject();
-    
+
     $('#gh-test-webview')
         .off('console-message')
         .on('console-message', (e) => {

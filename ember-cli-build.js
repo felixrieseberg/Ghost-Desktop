@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* jshint node:true */
 /* global require, module */
 const EmberApp = require('ember-cli/lib/broccoli/ember-app'),
     environment = EmberApp.env(),

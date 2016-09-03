@@ -92,16 +92,14 @@ test('signing attempts to signin', function(assert) {
 });
 
 test('handleLoaded eventually shows the webview', function(assert) {
-    // Testing async, ensuring that the webview had enough time to setup
-    stop();
-
+    const done = assert.async();
     const component = this.subject();
 
     this.render();
     Ember.run.later(() => component._handleLoaded(), 500);
     Ember.run.later(() => {
         assert.ok(component.get('isInstanceLoaded'));
-        start();
+        done();
     }, 750);
 });
 
@@ -120,9 +118,7 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
         return assert.ok(true);
     }
 
-    // Testing async, ensuring that the webview had enough time to setup
-    stop();
-
+    const done = assert.async();
     const path = requireNode('path');
     const component = this.subject(blog404);
     const e = {
@@ -136,20 +132,18 @@ test('handleLoadFailure redirects the webview to the error page', function(asser
     Ember.run.later(() => {
         const isErrorPage = this.$('webview').attr('src').includes('load-error');
         assert.ok(isErrorPage);
-        start();
+        done();
     }, 1500);
 });
 
 test('handleLoadFailure does not redirect for failed file:// loads', function(assert) {
-    // Testing async, ensuring that the webview had enough time to setup
-    stop();
-
+    const done = assert.async();
     const path = requireNode('path');
     const component = this.subject(blogFile404);
 
     this.render();
     Ember.run.later(() => {
-        assert.equal(this.$('webview').attr('src'), 'file://hi.com/');
-        start();
+        assert.equal(this.$('webview').attr('src'), 'file://hi.com');
+        done();
     }, 750);
 });
