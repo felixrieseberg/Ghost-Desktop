@@ -191,10 +191,6 @@ export function setup() {
                 {
                     label: 'Repository',
                     click: openRepository
-                },
-                {
-                    label: 'Report Issues',
-                    click: openReportIssues
                 }
             ]
         },
@@ -205,6 +201,10 @@ export function setup() {
                 {
                     label: 'Learn More',
                     click: openRepository
+                },
+                {
+                    label: 'Report Issues',
+                    click: openReportIssues
                 }
             ]
         }

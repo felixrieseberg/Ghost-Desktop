@@ -3,7 +3,7 @@ import { test, moduleForComponent } from 'ember-qunit';
 moduleForComponent('gh-find-in-webview', 'Unit | Component | gh find in webview', {
         unit: true,
         // specify the other units that are required for this test
-        needs: ['service:window-menu']
+        needs: ['service:window-menu', 'util:find-visible-webview']
     }
 );
 
@@ -30,18 +30,23 @@ test('handleFind() toggles the find ui', function(assert) {
 });
 
 test('handleFind() stops an active search if a webview is found', function(assert) {
-    const component = this.subject({
-        isActive: true,
-        _findVisibleWebview: () => {
-            return {
+    const component = this.subject({ isActive: true });
+    const oldjQuery = Ember.$;
+
+    Ember.$ = function(selector) {
+        if (selector === 'webview:visible') {
+            return [{
                 stopFindInPage: (action) => assert.equal(action, 'clearSelection')
-            }
+            }]
+        } else {
+            return oldjQuery(...arguments);
         }
-    });
+    }
 
     Ember.run(() => {
         this.render();
         component.handleFind();
+        Ember.$ = oldjQuery;
     });
 });
 
@@ -64,24 +69,4 @@ test('_insertMenuItem() injects an item', function(assert) {
     Ember.run(() => {
         this.render();
     });
-});
-
-test('_findVisibleWebview() tries to find the first visible webview', function(assert) {
-    const component = this.subject();
-
-    const oldjQuery = Ember.$;
-    Ember.$ = function(selector) {
-        if (selector === 'webview:visible') {
-            return [{
-                isWebview: true
-            }]
-        } else {
-            return oldjQuery(...arguments);
-        }
-    }
-
-    const webview = component._findVisibleWebview();
-    assert.ok(webview.isWebview);
-
-    Ember.$ = oldjQuery;
 });

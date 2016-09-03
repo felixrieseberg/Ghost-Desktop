@@ -13,6 +13,12 @@ export default Component.extend({
     classNameBindings: ['blog.isSelected:selected'],
     preferences: Ember.inject.service(),
 
+    /**
+     * Observes the 'isResetRequested' property, resetting the instance if
+     * it is set to true. This is our way of being able to refresh the blog
+     * if properties changed that are not part of the cleartext model (like
+     * the password, for instance)
+     */
     blogObserver: Ember.observer('blog.isResetRequested', function() {
         const blog = this.get('blog');
 

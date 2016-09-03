@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import findVisibleWebview from '../utils/find-visible-webview';
 
 export default Ember.Component.extend({
     classNames: ['find-webview'],
@@ -18,7 +19,7 @@ export default Ember.Component.extend({
         this.toggleProperty('isActive');
 
         if (!this.get('isActive')) {
-            const $webview = this._findVisibleWebview();
+            const $webview = findVisibleWebview();
             if ($webview && $webview.stopFindInPage) {
                 $webview.stopFindInPage('clearSelection');
             }
@@ -44,18 +45,6 @@ export default Ember.Component.extend({
         });
     },
 
-    /**
-     * Looks for a visible webviews on the page, returning the first one
-     *
-     * @returns {Object} Visible Webview (jQuery)
-     */
-    _findVisibleWebview() {
-        const $visibleWebviews = Ember.$('webview:visible');
-        const $webview = ($visibleWebviews.length > 0) ? $visibleWebviews[0] : undefined;
-
-        return $webview;
-    },
-
     actions: {
         /**
          * Handles the "key-up" event of the search input,
@@ -75,10 +64,11 @@ export default Ember.Component.extend({
         /**
          * Performs the search action, using Electron's
          * instance methods on a webview
+         *
+         * @param $webview {DOMElement} - jQuery DOMElement Webview
          */
-        search() {
+        search($webview = findVisibleWebview()) {
             const searchterm = this.get('searchterm');
-            const $webview = this._findVisibleWebview();
 
             if (searchterm && $webview) {
                 $webview.findInPage(searchterm);
@@ -87,10 +77,10 @@ export default Ember.Component.extend({
 
         /**
          * Cancels the current search
+         *
+         * @param $webview {DOMElement} - jQuery DOMElement Webview
          */
-        cancel() {
-            const $webview = this._findVisibleWebview();
-
+        cancel($webview = findVisibleWebview()) {
             if ($webview) {
                 $webview.stopFindInPage('clearSelection');
             }
