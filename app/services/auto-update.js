@@ -8,10 +8,17 @@ export default Ember.Service.extend(Ember.Evented, {
     isUpdateDownloaded: null,
     isLatestVersion: null,
 
-    isLinux: Ember.computed({
+    isSupportedEnvironment: Ember.computed({
         get() {
-            return (this.get('environment') === 'production'
-                && process.platform === 'linux');
+            if (process.platform === 'linux' || process.mas) {
+                return false;
+            }
+
+            if (this.get('environment') !== 'production') {
+                return false;
+            }
+
+            return true;
         }
     }),
 
@@ -68,7 +75,7 @@ export default Ember.Service.extend(Ember.Evented, {
             }
 
             // Makes sure the environment we're in is supported.
-            if (!this.isSupportedEnvironment()) {
+            if (!this.get('isSupportedEnvironment')) {
                 return;
             }
 
@@ -85,22 +92,6 @@ export default Ember.Service.extend(Ember.Evented, {
                 this.get('autoUpdater').checkForUpdates();
             }
         });
-    },
-
-    /**
-     * Linux auto-updating isn't available yet.
-     * In addition, we only support auto updating in production.
-     */
-    isSupportedEnvironment() {
-        if (this.get('isLinux')) {
-            return false;
-        }
-
-        if (this.get('environment') !== 'production') {
-            return false;
-        }
-
-        return true;
     },
 
     /**

@@ -45,19 +45,6 @@ const configureGrunt = function (grunt) {
             }
         },
 
-        eslint: {
-            configFile: '.eslintrc.json',
-            target: [
-                'main/**/*.js',
-                'app/**/*.js',
-                '!node_modules/**/*.js',
-                '!bower_components/**/*.js',
-                '!tests/**/*.js',
-                '!tmp/**/*.js',
-                '!dist/**/*.js'
-            ]
-        },
-
         shell: {
             test: {
                 command: 'ember electron:test'
@@ -68,6 +55,9 @@ const configureGrunt = function (grunt) {
             build32: {
                 command: `ember electron:package --environment production --arch ia32 --platform ${process.platform} --app-version ${package.version} --overwrite`
             },
+            mas: {
+                command: `ember electron:package --environment production --arch x64 --platform mas --app-version ${package.version} --overwrite --app-bundle-id com.ghostfoundation.ghost`
+            },
             logCoverage: {
                 command: 'node ./scripts/log-coverage.js'
             },
@@ -77,6 +67,9 @@ const configureGrunt = function (grunt) {
             fetchContributors: {
                 command: 'node ./scripts/fetch-contributors.js'
             },
+            lint: {
+                command: 'npm run lint'
+            }
         },
 
         clean: {
@@ -155,12 +148,13 @@ const configureGrunt = function (grunt) {
 
     grunt.initConfig(config);
 
-    grunt.registerTask('codestyle', 'Test Code Style', ['trimtrailingspaces', 'eslint', 'jscs:app']);
+    grunt.registerTask('codestyle', 'Test Code Style', ['trimtrailingspaces', 'shell:lint', 'jscs:app']);
     grunt.registerTask('validate', 'Test Code Style and App', ['codestyle', 'shell:test', 'shell:logCoverage']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:fetchContributors', 'shell:build']);
     grunt.registerTask('installer-32', ['clean:builds32', 'shell:fetchContributors', 'shell:build32', 'create-windows-installer:ia32'])
     grunt.registerTask('installer-64', ['clean:builds64', 'shell:fetchContributors', 'shell:build', 'create-windows-installer:x64'])
     grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['installer-32', 'installer-64']);
+    grunt.registerTask('mas', ['clean:builds64', 'shell:fetchContributors', 'shell:mas']);
     grunt.registerTask('debian', ['clean:builds64', 'shell:fetchContributors', 'shell:build', 'electron-installer-debian']);
     grunt.registerTask('dmg', 'Create an OS X dmg for Ghost', ['shell:fetchContributors', 'shell:build', 'shell:dmg']);
 };
