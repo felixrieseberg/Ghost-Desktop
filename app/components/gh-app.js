@@ -11,6 +11,7 @@ export default Component.extend({
     autoUpdate: Ember.inject.service(),
     classNames: ['gh-app'],
     isFindInViewActive: false,
+    isMac: !!(process.platform === 'darwin'),
 
     didReceiveAttrs() {
         this.setup();

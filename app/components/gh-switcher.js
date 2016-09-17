@@ -10,8 +10,9 @@ export default Component.extend({
     store: Ember.inject.service(),
     preferences: Ember.inject.service(),
     windowMenu: Ember.inject.service(),
-    classNameBindings: ['isMinimized', ':switcher'],
+    classNameBindings: ['isMinimized', 'isMac:mac', ':switcher'],
     isMinimized: Ember.computed.alias('preferences.isQuickSwitcherMinimized'),
+    isMac: !!(process.platform === 'darwin'),
 
     didRender() {
         this._super(...arguments);

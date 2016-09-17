@@ -1,7 +1,11 @@
+{{#if isMac}}
+    {{gh-drag-region width="100%" height="16px"}}
+{{/if}}
+
 {{!-- Left "Quick Swich" Area  --}}
 
 {{#if blogs}}
-    {{gh-switcher 
+    {{gh-switcher
         blogs=blogs
         switchToBlog="switchToBlog"
         showAddBlog="showAddBlog"
