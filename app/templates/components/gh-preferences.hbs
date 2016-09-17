@@ -8,25 +8,25 @@
     <section class="view-content">
         <form id="settings-general">
             <fieldset>
-                <div class="form-group for-checkbox">
-                    <label>Automatic Updates</label>
-                    {{#if autoUpdate.isLinux}}
-                        <p>Automatic Updates are not yet available for Linux. Stay tuned!</p>
-                    {{else if autoUpdate.isCheckingForUpdate}}
-                        <p>Ghost is currently looking for updates.</p>
-                    {{else if autoUpdate.isUpdateDownloaded}}
-                        <p>An Update was downloaded and will automatically be installed the next time you start Ghost Desktop.</p>
-                        <button {{action "installUpdate"}} type="button" class="btn btn-green">Install Update Now</button>
-                    {{else if autoUpdate.isUpdateAvailable}}
-                        <p>An Update is available and is currently being downloaded.</p>
-                        <button type="button" class="btn btn-green" disabled>Install Update Now</button>
-                    {{else if autoUpdate.isLatestVersion}}
-                        <p>You're running the latest version of Ghost Desktop!</p>
-                    {{else}}
-                        <p>Ghost will periodically check for updates and automatically install new versions.</p>
-                    {{/if}}
-                    <p>You are currently running Ghost Desktop <strong>{{autoUpdate.appVersion}}</strong>.</p>
-                </div>
+                {{#if autoUpdate.isSupportedEnvironment}}
+                    <div class="form-group for-checkbox">
+                        <label>Automatic Updates</label>
+                        {{#if autoUpdate.isCheckingForUpdate}}
+                            <p>Ghost is currently looking for updates.</p>
+                        {{else if autoUpdate.isUpdateDownloaded}}
+                            <p>An Update was downloaded and will automatically be installed the next time you start Ghost Desktop.</p>
+                            <button {{action "installUpdate"}} type="button" class="btn btn-green">Install Update Now</button>
+                        {{else if autoUpdate.isUpdateAvailable}}
+                            <p>An Update is available and is currently being downloaded.</p>
+                            <button type="button" class="btn btn-green" disabled>Install Update Now</button>
+                        {{else if autoUpdate.isLatestVersion}}
+                            <p>You're running the latest version of Ghost Desktop!</p>
+                        {{else}}
+                            <p>Ghost will periodically check for updates and automatically install new versions.</p>
+                        {{/if}}
+                        <p>You are currently running Ghost Desktop <strong>{{autoUpdate.appVersion}}</strong>.</p>
+                    </div>
+                {{/if}}
                 <div class="form-group for-checkbox">
                     <label for="isNotificationsEnabled">Enable Notifications</label>
                     <label class="checkbox" for="isNotificationsEnabled">
