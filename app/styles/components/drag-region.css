@@ -1,0 +1,11 @@
+.drag-region {
+    position: fixed;
+}
+
+.is-draggable {
+  -webkit-app-region: drag;
+}
+
+.is-not-draggable {
+  -webkit-app-region: no-drag;
+}
