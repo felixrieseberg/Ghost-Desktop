@@ -21,11 +21,13 @@
     {{gh-find-in-webview isActive=isFindInViewActive}}
 
     {{#if isEditBlogVisible}}
-        {{gh-edit-blog
-            blogAdded="blogAdded"
-            blog=blogToEdit
-            editWarning=editWarning
-        }}
+        <div class="center-host">
+            {{gh-edit-blog
+                blogAdded="blogAdded"
+                blog=blogToEdit
+                editWarning=editWarning
+            }}
+        </div>
     {{else if isPreferencesVisible}}
         {{gh-preferences}}
     {{/if}}
