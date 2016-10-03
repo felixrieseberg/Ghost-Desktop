@@ -4,3 +4,11 @@
     display: flex;
     flex-direction: column;
 }
+
+.center-host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 20px);
+    width: 100%;
+}
