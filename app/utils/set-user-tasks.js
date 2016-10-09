@@ -10,12 +10,12 @@
  * @export
  * @param items - Items to add
  */
-export default function setUserTasks(items) {
+export default function setUserTasks(items = []) {
     let {remote} = requireNode('electron');
     let {app} = remote;
     let tasks = [];
 
-    if (!items || !items.length) {
+    if (!items || !items.length || items.length === 0) {
         return;
     }
 

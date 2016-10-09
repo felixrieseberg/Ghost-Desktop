@@ -27,6 +27,7 @@ export default Component.extend({
      * the preferences pane.
      */
     _setupQuickSwitch() {
+        let he = requireNode('he');
         let blogMenuItems = [{type: 'separator'}];
 
         // The first 9 blogs are added to the 'View' menu.
@@ -36,7 +37,7 @@ export default Component.extend({
                 blogMenuItems.push({
                     accelerator: `CmdOrCtrl+${i + 1}`,
                     click: () => this.send('switchToBlog', blog),
-                    label: blog.get('name')
+                    label: he.decode(blog.get('name') || '')
                 });
             });
 
