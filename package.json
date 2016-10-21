@@ -10,8 +10,9 @@
   "homepage": "https://github.com/tryghost/ghost-desktop",
   "scripts": {
     "build": "grunt build",
-    "start": "grunt shell:fetchContributors && ember electron",
+    "start": "node ./scripts/fetch-contributors.js && ember electron",
     "test": "grunt validate",
+    "install": "npm run rebuild",
     "codestyle": "grunt codestyle",
     "rebuild-32": "electron-rebuild -a ia32",
     "rebuild-64": "electron-rebuild -a x64",
@@ -25,7 +26,7 @@
   },
   "repository": "",
   "engines": {
-    "node": ">= 5.0"
+    "node": ">= 6.0"
   },
   "author": "",
   "license": "MIT",
@@ -36,9 +37,9 @@
     "babel-eslint": "^6.1.0",
     "broccoli-asset-rev": "^2.2.0",
     "codecov": "^1.0.1",
-    "devtron": "^1.3.0",
-    "electron-prebuilt": "1.3.5",
-    "electron-rebuild": "^1.2.1",
+    "devtron": "^1.4.0",
+    "electron": "1.3.8",
+    "electron-rebuild": "^1.3.0",
     "ember-ajax": "0.7.1",
     "ember-cli": "2.8.0",
     "ember-cli-app-version": "^1.0.0",
@@ -55,7 +56,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.8.0",
     "ember-disable-proxy-controllers": "^1.0.1",
-    "ember-electron": "^1.9.0",
+    "ember-electron": "^1.10.8",
     "ember-export-application-global": "^1.0.5",
     "ember-inspector": "^2.0.1",
     "ember-load-initializers": "^0.5.0",
