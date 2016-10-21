@@ -28,13 +28,19 @@ function checkStatus() {
  */
 function init() {
     const element = document.querySelector('button.login');
+    const $element = (window.$) ? window.$(element) : null;
+    const clickHandler = () => {
+        console.log('login-check-again');
+        setTimeout(checkStatus, 100);
+    };
 
-    if (element) {
-        element.off('click');
-        element.on('click', () => {
-            console.log('login-check-again');
-            setTimeout(checkStatus, 100);
-        });
+
+    if ($element) {
+        $element.off('click');
+        $element.on('click', clickHandler);
+    } else if (element) {
+        element.removeEventListener('click', clickHandler);
+        element.addEventListener('click', clickHandler);
     } else {
         setTimeout(init, 100);
     }
