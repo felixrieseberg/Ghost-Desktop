@@ -27,6 +27,12 @@ export default Component.extend({
         return (b && b.content && b.content.length && b.content.length > 0);
     }),
 
+    blogsObserver: Ember.observer('hasBlogs', function () {
+        if (!this.get('hasBlogs')) {
+            this.send('showAddBlog');
+        }
+    }),
+
     /**
      * Setup method, determining which blog to display.
      */
