@@ -39,7 +39,7 @@
     "codecov": "^1.0.1",
     "cross-env": "^3.1.3",
     "devtron": "^1.4.0",
-    "electron": "1.3.8",
+    "electron": "1.4.4",
     "electron-packager": "^8.1.0",
     "electron-rebuild": "^1.3.0",
     "ember-ajax": "^2.5.0",
@@ -105,11 +105,11 @@
       "ProductName": "Ghost",
       "InternalName": "Ghost"
     },
-    "version": "1.3.5"
+    "version": "1.4.4"
   },
   "dependencies": {
-    "electron-window-state": "^3.0.3",
-    "he": "^0.5.0",
+    "electron-window-state": "^3.1.0",
+    "he": "^1.1.0",
     "hexrgb": "0.0.2",
     "is-reachable": "^1.3.0",
     "keytar": "^3.0.0",
