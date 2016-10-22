@@ -46,7 +46,7 @@ export default DS.Model.extend({
     /**
      * Convenience method, generates a nice icon color for this blog.
      */
-    randomIconColor(excluding=null) {
+    randomIconColor(excluding = null) {
         let newColor = getIconColor(excluding);
 
         if (newColor === this.get('iconColor')) {

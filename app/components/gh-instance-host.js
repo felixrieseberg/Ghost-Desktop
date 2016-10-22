@@ -154,7 +154,13 @@ export default Component.extend({
      */
     _handleLoaded() {
         let $webview = this._getWebView();
-        let title = ($webview) ? $webview.getTitle() : '';
+        let title = '';
+
+        try {
+            title = $webview.getTitle();
+        } catch (e) {
+            console.warn('Error while trying to to get web view title:', e);
+        }
 
         // Check if we're on the sign in page, and if so, attempt to
         // login automatically (without bothering the user)
