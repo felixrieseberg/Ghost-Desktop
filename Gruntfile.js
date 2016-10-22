@@ -46,9 +46,6 @@ const configureGrunt = function (grunt) {
         },
 
         shell: {
-            test: {
-                command: 'ember electron:test'
-            },
             build: {
                 command: `ember electron:package --environment production --arch x64 --platform ${process.platform} --app-version ${package.version} --overwrite`
             },
@@ -66,9 +63,6 @@ const configureGrunt = function (grunt) {
             },
             fetchContributors: {
                 command: 'node ./scripts/fetch-contributors.js'
-            },
-            lint: {
-                command: 'npm run lint'
             }
         },
 
@@ -148,7 +142,6 @@ const configureGrunt = function (grunt) {
 
     grunt.initConfig(config);
 
-    grunt.registerTask('validate', 'Test Code Style and App', ['codestyle', 'shell:test', 'shell:logCoverage']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:fetchContributors', 'shell:build']);
     grunt.registerTask('installer-32', ['clean:builds32', 'shell:fetchContributors', 'shell:build32', 'create-windows-installer:ia32'])
     grunt.registerTask('installer-64', ['clean:builds64', 'shell:fetchContributors', 'shell:build', 'create-windows-installer:x64'])
