@@ -96,11 +96,11 @@ test('handleLoaded eventually shows the webview', function(assert) {
     const component = this.subject();
 
     this.render();
-    Ember.run.later(() => component._handleLoaded(), 500);
+    Ember.run.later(() => component._handleLoaded(), 1000);
     Ember.run.later(() => {
         assert.ok(component.get('isInstanceLoaded'));
         done();
-    }, 750);
+    }, 1500);
 });
 
 test('console message "loaded" eventually shows the webview', function(assert) {

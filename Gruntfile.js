@@ -148,7 +148,6 @@ const configureGrunt = function (grunt) {
 
     grunt.initConfig(config);
 
-    grunt.registerTask('codestyle', 'Test Code Style', ['trimtrailingspaces', 'shell:lint', 'jscs:app']);
     grunt.registerTask('validate', 'Test Code Style and App', ['codestyle', 'shell:test', 'shell:logCoverage']);
     grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:fetchContributors', 'shell:build']);
     grunt.registerTask('installer-32', ['clean:builds32', 'shell:fetchContributors', 'shell:build32', 'create-windows-installer:ia32'])
