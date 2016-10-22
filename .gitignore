@@ -24,3 +24,5 @@ coverage.json
 # C++ stuff
 browse.VC.db
 .vscode
+
+yarn.lock

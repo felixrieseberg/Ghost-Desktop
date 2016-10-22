@@ -45,9 +45,7 @@ test('calls setup during online checkForUpdates', function(assert) {
     let service = this.subject();
 
     service.isOnline = function () {
-        return new Promise((resolve) => {
-            resolve(true);
-        });
+        return Promise.resolve(true);
     }
 
     service.set('isLinux', false);

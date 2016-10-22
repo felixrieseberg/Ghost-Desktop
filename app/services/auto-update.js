@@ -7,10 +7,11 @@ export default Ember.Service.extend(Ember.Evented, {
     isUpdateAvailable: null,
     isUpdateDownloaded: null,
     isLatestVersion: null,
+    isLinux: process.platform === 'linux',
 
     isSupportedEnvironment: Ember.computed({
         get() {
-            if (process.platform === 'linux' || process.mas) {
+            if (this.get('isLinux') || process.mas) {
                 return false;
             }
 
@@ -100,6 +101,7 @@ export default Ember.Service.extend(Ember.Evented, {
     isOnline() {
         return new Promise((resolve) => {
             let isReachable = requireNode('is-reachable');
+
             isReachable(this.get('updateFeedUrl'), (err, reachable) => {
                 resolve(reachable);
             });

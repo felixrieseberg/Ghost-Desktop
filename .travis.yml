@@ -53,5 +53,6 @@ script:
   - npm test
 
 after_success:
+  # Todo: Fix this
   # Report code coverage
-  - node ./node_modules/.bin/codecov
+  # - node ./node_modules/.bin/codecov
