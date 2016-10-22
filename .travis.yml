@@ -50,7 +50,7 @@ install:
   - npm run build-native-deps
 
 script:
-  - cross-env COVERAGE=true npm test
+  - npm test
 
 after_success:
   # Todo: Fix this

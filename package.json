@@ -12,7 +12,7 @@
     "build": "grunt build",
     "start": "node ./scripts/fetch-contributors.js && ember electron",
     "test": "npm run test:lint && npm run test:unit",
-    "test:unit": "cross-env COVERAGE=true ember electron:test",
+    "test:unit": "ember electron:test",
     "test:lint": "grunt trimtrailingspaces && eslint './main/**/*.js' './app/**/*.js'",
     "install": "npm run rebuild",
     "rebuild": "electron-rebuild",
