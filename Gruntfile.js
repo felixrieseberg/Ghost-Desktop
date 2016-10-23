@@ -6,7 +6,6 @@
 //
 // **Debug tip:** If you have any problems with any Grunt tasks, try running them with the `--verbose` command
 
-const package = require('./package.json');
 const winTools = require('./scripts/create-windows-build');
 
 const configureGrunt = function (grunt) {
@@ -21,68 +20,6 @@ const configureGrunt = function (grunt) {
     }
 
     const config = {
-
-        jscs: {
-            app: {
-                files: {
-                    src: [
-                        'app/**/*.js',
-                        '!node_modules/**/*.js',
-                        '!bower_components/**/*.js',
-                        '!tests/**/*.js',
-                        '!tmp/**/*.js',
-                        '!dist/**/*.js'
-                    ]
-                }
-            },
-
-            tests: {
-                files: {
-                    src: [
-                        'tests/**/*.js'
-                    ]
-                }
-            }
-        },
-
-        shell: {
-            build: {
-                command: `ember electron:package --environment production --arch x64 --platform ${process.platform} --app-version ${package.version} --overwrite`
-            },
-            build32: {
-                command: `ember electron:package --environment production --arch ia32 --platform ${process.platform} --app-version ${package.version} --overwrite`
-            },
-            mas: {
-                command: `ember electron:package --environment production --arch x64 --platform mas --app-version ${package.version} --overwrite --app-bundle-id com.ghostfoundation.ghost`
-            },
-            logCoverage: {
-                command: 'node ./scripts/log-coverage.js'
-            },
-            dmg: {
-                command: 'node ./scripts/create-osx-build.js'
-            },
-            fetchContributors: {
-                command: 'node ./scripts/fetch-contributors.js'
-            }
-        },
-
-        clean: {
-            builds32: [
-                'electron-builds/Ghost-win32-ia32-installer/**/*',
-                'electron-builds/Ghost-win32-ia32/**/*',
-                'electron-builds/Ghost-linux-ia32-installer/**/*',
-                'electron-builds/Ghost-linux-ia32/**/*',
-                'electron-builds/Ghost-darwin-ia32/**/*'
-                ],
-            builds64: [
-                'electron-builds/Ghost-win32-x64-installer/**/*',
-                'electron-builds/Ghost-win32-x64/**/*',
-                'electron-builds/Ghost-linux-x64-installer/**/*',
-                'electron-builds/Ghost-linux-x64/**/*',
-                'electron-builds/Ghost-darwin-x64/**/*'
-                ],
-        },
-
         'create-windows-installer': {
             ia32: {
                 appDirectory: './electron-builds/Ghost-win32-ia32',
@@ -137,18 +74,9 @@ const configureGrunt = function (grunt) {
                 }
             }
         }
-
     };
 
     grunt.initConfig(config);
-
-    grunt.registerTask('build', 'Compile Ghost Desktop for the current platform', ['shell:fetchContributors', 'shell:build']);
-    grunt.registerTask('installer-32', ['clean:builds32', 'shell:fetchContributors', 'shell:build32', 'create-windows-installer:ia32'])
-    grunt.registerTask('installer-64', ['clean:builds64', 'shell:fetchContributors', 'shell:build', 'create-windows-installer:x64'])
-    grunt.registerTask('installer', 'Create Windows Installers for Ghost', ['installer-32', 'installer-64']);
-    grunt.registerTask('mas', ['clean:builds64', 'shell:fetchContributors', 'shell:mas']);
-    grunt.registerTask('debian', ['clean:builds64', 'shell:fetchContributors', 'shell:build', 'electron-installer-debian']);
-    grunt.registerTask('dmg', 'Create an OS X dmg for Ghost', ['shell:fetchContributors', 'shell:build', 'shell:dmg']);
 };
 
 module.exports = configureGrunt;
