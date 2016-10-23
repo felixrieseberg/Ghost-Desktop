@@ -1,7 +1,7 @@
 {
   "name": "ghost-desktop",
-  "version": "1.0.0-beta.1",
-  "build": "1000b1",
+  "version": "1.0.0",
+  "build": "1000",
   "description": "Desktop Client for Ghost",
   "private": true,
   "directories": {
