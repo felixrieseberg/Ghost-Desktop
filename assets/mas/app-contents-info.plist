@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>Ghost</string>
+	<key>CFBundleExecutable</key>
+	<string>Ghost</string>
+	<key>CFBundleIconFile</key>
+	<string>electron.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.ghostfoundation.ghost</string>
+	<key>ElectronTeamID</key>
+	<string>6RKE5ET24A</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Ghost</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${CFBundleShortVersionString}</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>${CFBundleVersion}</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.8.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSAppleScriptEnabled</key>
+	<string>YES</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>AtomApplication</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright (c) 2016 Ghost Foundation</string>
+	<true/>
+</dict>
+</plist>
