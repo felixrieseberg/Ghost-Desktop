@@ -15,6 +15,7 @@
     "build:macos": "npm run build -- --platform darwin --arch x64",
     "build:mas": "npm run build -- --platform mas --app-bundle-id com.ghostfoundation.ghost",
     "build:contrib": "node ./scripts/fetch-contributors.js",
+    "build:macosicons": "node ./scripts/create-iconset.js",
     "clean:builds": "rimraf ./electron-builds",
     "clean:builds64": "rimraf ./electron-builds/Ghost*x64*/",
     "clean:builds32": "rimraf ./electron-builds/Ghost*ia32*/",
