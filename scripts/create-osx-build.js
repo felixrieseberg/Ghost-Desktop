@@ -15,6 +15,7 @@ function signAppBundle() {
     const nm = path.join(app, 'Contents/Resources/app/node_modules');
     const platform = 'darwin';
     const identity = '6RKE5ET24A';
+    const requirements = path.join(__dirname, '../assets/dmg/requirements');
     const binaries = [
         path.join(nm, 'keytar/Build/Release/keytar.node'),
         path.join(nm, 'spellchecker/Build/Release/hunspell.a'),
@@ -26,7 +27,8 @@ function signAppBundle() {
             app,
             binaries,
             identity,
-            platform
+            platform,
+            requirements
         }, (err, result) => {
             if (err) return reject(err);
             resolve(result);
