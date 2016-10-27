@@ -1,7 +1,6 @@
 {
   "name": "ghost-desktop",
   "version": "1.0.0",
-  "build": "1000",
   "description": "Desktop Client for Ghost",
   "private": true,
   "directories": {
@@ -13,6 +12,7 @@
     "build": "ember electron:package --environment production --app-version $npm_package_version --overwrite",
     "build:win": "npm run clean:builds32 && npm run build -- --platform win32 --arch ia32",
     "build:macos": "npm run build -- --platform darwin --arch x64",
+    "build:linux": "npm run build -- --platform linux --arch x64",
     "build:mas": "npm run build -- --platform mas --app-bundle-id com.ghostfoundation.ghost",
     "build:contrib": "node ./scripts/fetch-contributors.js",
     "build:macosicons": "node ./scripts/create-iconset.js",
@@ -27,11 +27,9 @@
     "rebuild": "electron-rebuild",
     "rebuild:32": "electron-rebuild -a ia32",
     "rebuild:64": "electron-rebuild -a x64",
-    "installer": "grunt installer",
-    "installer:32": "npm run clean:builds32 && npm run build:contrib && grunt create-windows-installer:ia32",
-    "installer:64": "npm run clean:builds64 && npm run build:contrib && grunt create-windows-installer:x64",
-    "installer:debian": "npm run clean:builds64 && npm run build:contrib && npm run build && grunt electron-installer-debian",
-    "installer:dmg": "npm run build:contrib && npm run build && node ./scripts/create-osx-build.js",
+    "installer:win": "npm run clean:builds32 && npm run build:contrib && npm run build:win && grunt create-windows-installer:ia32",
+    "installer:debian": "npm run clean:builds64 && npm run build:contrib && npm run build:linux && grunt electron-installer-debian",
+    "installer:dmg": "npm run clean:builds64 && npm run build:contrib && npm run build:macos && node ./scripts/create-osx-build.js",
     "installer:mas": "npm run clean:builds64 && npm run build:contrib && npm run build:mas && node ./scripts/create-mas-build.js"
   },
   "repository": "",
@@ -97,13 +95,14 @@
   },
   "main": "main/entry.js",
   "ember-electron": {
+    "build-version": 1001,
     "copy-files": [
       "package.json",
       "main/*"
     ],
     "name": "Ghost",
     "app-bundle-id": "com.ghostfoundation.ghost",
-    "app-category-type": null,
+    "app-category-type": "public.app-category.productivity",
     "app-copyright": "Copyright (c) 2016 Ghost Foundation",
     "helper-bundle-id": null,
     "icon": "assets/icons/ghost",
