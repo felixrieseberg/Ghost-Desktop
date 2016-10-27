@@ -55,7 +55,7 @@ const configureGrunt = function (grunt) {
                     homepage: 'https://tryghost.com',
                     genericName: 'Blogging Software',
                     arch: 'amd64',
-                    icon: `${__dirname}/assets/icons/ghost-osx.png`,
+                    icon: `${__dirname}/assets/icons/ghost-macos.png`,
                     bin: 'Ghost',
                     productDescription: 'A beautiful desktop application enabling you to easily manage multiple Ghost blogs and work without distractions.'
                 },
