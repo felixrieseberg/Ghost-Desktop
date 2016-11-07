@@ -80,7 +80,7 @@ function main() {
         return;
     }
 
-    signAppBundle().then(() => createDmg());
+    createDmg();
 }
 
 main();
