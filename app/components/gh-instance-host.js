@@ -2,6 +2,7 @@ import Ember from 'ember';
 import ENV from 'ghost-desktop/config/environment';
 import {injectCss} from '../utils/inject-css';
 import Phrases from '../utils/phrases';
+import escapeString from '../utils/escape-string';
 
 const {Component} = Ember;
 
@@ -109,9 +110,9 @@ export default Component.extend({
         }
 
         let commands = [
-            `$('input[name="identification"]').val('${username}');`,
+            `$('input[name="identification"]').val('${escapeString(username)}');`,
             `$('input[name="identification"]').change();`,
-            `$('input[name="password"]').val('${password}');`,
+            `$('input[name="password"]').val('${escapeString(password)}');`,
             `$('input[name="password"]').change();`,
             `$('button.login').click();`
         ];
