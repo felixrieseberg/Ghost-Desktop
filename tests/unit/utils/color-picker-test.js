@@ -9,4 +9,4 @@ test('it generates a color for the icon', function (assert) {
     assert.ok(
       /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color)
     );
-})
+});
