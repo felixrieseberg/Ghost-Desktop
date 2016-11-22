@@ -9,7 +9,7 @@ const {Component} = Ember;
 export default Component.extend({
     store: Ember.inject.service(),
     autoUpdate: Ember.inject.service(),
-    classNames: ['gh-app'],
+    classNameBindings: ['isMac:mac', ':gh-app'],
     isFindInViewActive: false,
     isMac: !!(process.platform === 'darwin'),
 

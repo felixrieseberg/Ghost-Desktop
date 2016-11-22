@@ -27,7 +27,7 @@ app.on('ready', function onReady() {
         stateKeeper = windowState.stateKeeper;
 
         mainWindow = new BrowserWindow(
-            Object.assign(usableState, {show: false, titleBarStyle: titleBarStyle})
+            Object.assign(usableState, {show: false, titleBarStyle, vibrancy: 'dark'})
         );
     } catch (error) {
         // Window state keeper failed, let's still open a window
@@ -36,7 +36,8 @@ app.on('ready', function onReady() {
             show: false,
             height: 800,
             width: 1000,
-            titleBarStyle: titleBarStyle
+            titleBarStyle,
+            vibrancy: 'dark'
         });
     }
 
