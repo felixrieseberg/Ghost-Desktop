@@ -11,4 +11,9 @@
     justify-content: center;
     height: calc(100% - 20px);
     width: 100%;
+    background-color: rgba(255, 255, 255, .15);
+}
+
+.mac .center-host {
+    height: 100%;
 }

@@ -2,10 +2,6 @@
 /* ---------------------------------------------------------- */
 
 .gh-edit-blog {
-    text-align: center;
-}
-
-.gh-edit-blog {
     position: relative;
     padding: 40px;
     max-width: 500px;
@@ -16,6 +12,7 @@
     text-align: left;
     height: 380px;
     align-self: center;
+    text-align: center;
 }
 
 .gh-edit-blog.has-warning {

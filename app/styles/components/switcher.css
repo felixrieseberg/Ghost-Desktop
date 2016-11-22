@@ -14,6 +14,10 @@
     transition: all linear .25s;
 }
 
+.switcher.is-vibrant {
+    background-color: inherit;
+}
+
 .switcher.mac {
     padding-top: 25px;
 }

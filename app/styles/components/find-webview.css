@@ -6,11 +6,11 @@
     justify-content: flex-end;
     padding-right: 20px;
     align-items: center;
-    border-bottom: #dfe1e3 1px solid;
     transition: height .25s linear;
 }
 
 .find-webview.active {
     height: 40px;
     opacity: 1;
+    border-bottom: #dfe1e3 1px solid;
 }
