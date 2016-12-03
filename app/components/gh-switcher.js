@@ -11,7 +11,7 @@ export default Component.extend({
     store: Ember.inject.service(),
     preferences: Ember.inject.service(),
     windowMenu: Ember.inject.service(),
-    classNameBindings: ['isMinimized', 'isMac:mac', 'isVibrant', ':switcher'],
+    classNameBindings: ['isMinimized', 'isMac:mac', 'isVibrant', ':switcher', ':win-height-adjusted'],
     isMinimized: Ember.computed.alias('preferences.isQuickSwitcherMinimized'),
     isMac: !!(process.platform === 'darwin'),
     isVibrant: getIsYosemiteOrHigher(),

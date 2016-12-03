@@ -18,7 +18,7 @@ test('it sets the window title', function(assert) {
                         getFocusedWindow() {
                             return {
                                 setTitle(title) {
-                                    assert.equal(title, `Ghost - ${decodedTitle}`);
+                                    assert.equal(title, decodedTitle);
                                 }
                             }
                         }

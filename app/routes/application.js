@@ -10,7 +10,16 @@ export default Route.extend({
     beforeModel() {
         this.get('preferences').setupZoom();
         this.get('windowMenu').setup();
+        this.setupTeardown();
         setupContextMenu();
+    },
+
+    setupTeardown() {
+        const browserWindow = require('electron').remote.getCurrentWindow();
+
+        window.onbeforeunload = function () {
+            browserWindow.removeAllListeners();
+        }
     },
 
     model() {

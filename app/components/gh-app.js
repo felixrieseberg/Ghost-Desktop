@@ -9,9 +9,10 @@ const {Component} = Ember;
 export default Component.extend({
     store: Ember.inject.service(),
     autoUpdate: Ember.inject.service(),
-    classNameBindings: ['isMac:mac', ':gh-app'],
+    classNameBindings: ['isMac:mac', 'isWindows:win',':gh-app'],
     isFindInViewActive: false,
     isMac: !!(process.platform === 'darwin'),
+    isWindows: !!(process.platform === 'win32'),
 
     didReceiveAttrs() {
         this.setup();
@@ -31,6 +32,10 @@ export default Component.extend({
         if (!this.get('hasBlogs')) {
             this.send('showAddBlog');
         }
+    }),
+
+    titleObserver: Ember.observer('title', function () {
+        setWindowTitle(this.get('title'));
     }),
 
     /**
@@ -161,7 +166,7 @@ export default Component.extend({
 
         if (blog) {
             blog.select();
-            setWindowTitle(blog.get('name'));
+            this.set('title', `Ghost - ${blog.get('name')}`);
             this.set('selectedBlog', blog);
         }
 

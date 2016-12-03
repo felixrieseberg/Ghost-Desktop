@@ -1,7 +1,7 @@
 const he = require('he');
 
 /**
- * Sets the title on the currently focussed Window (or the first found window)
+ * Sets the title on the currently focused Window (or the first found window)
  *
  * @export
  * @param {string} [title='Ghost'] - New title
@@ -14,6 +14,6 @@ export default function setWindowTitle(title = 'Ghost') {
 
     // We should always have only one Window
     if (currentWindow) {
-        currentWindow.setTitle(`Ghost - ${decodedTitle}`);
+        currentWindow.setTitle(decodedTitle);
     }
 }

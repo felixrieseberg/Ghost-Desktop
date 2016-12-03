@@ -14,8 +14,9 @@ if (require('./squirrel')()) {
 let mainWindow = null;
 
 app.on('ready', function onReady() {
+    const titleBarStyle = (process.platform === 'darwin') ? 'hidden' : 'default';
+    const frame = !(process.platform === 'win32');
     let windowState, usableState, stateKeeper;
-    let titleBarStyle = (process.platform === 'darwin') ? 'hidden' : 'default';
 
     // Greetings
     console.log('Welcome to Ghost 👻');
@@ -27,7 +28,7 @@ app.on('ready', function onReady() {
         stateKeeper = windowState.stateKeeper;
 
         mainWindow = new BrowserWindow(
-            Object.assign(usableState, {show: false, titleBarStyle, vibrancy: 'dark'})
+            Object.assign(usableState, {show: false, titleBarStyle, vibrancy: 'dark', frame})
         );
     } catch (error) {
         // Window state keeper failed, let's still open a window
@@ -37,7 +38,8 @@ app.on('ready', function onReady() {
             height: 800,
             width: 1000,
             titleBarStyle,
-            vibrancy: 'dark'
+            vibrancy: 'dark',
+            frame
         });
     }
 

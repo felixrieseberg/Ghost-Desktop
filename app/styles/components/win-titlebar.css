@@ -1,0 +1,96 @@
+.win-titlebar {
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+    align-content: center;
+    align-items: center;
+    background-color: rgb(23, 25, 27);
+    cursor: default;
+    display: flex;
+    height: 31px;
+    position: fixed;
+    width: calc(100% - 2px);
+    z-index: 1000;
+}
+
+.win-title {
+    color: #fff;
+    flex: 0 1 auto;
+    font-size: 12px;
+    height: 31px;
+    justify-content: center;
+    line-height: 33px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+}
+
+.win-title img.logo {
+    width: 52px;
+    margin-top: 10px;
+}
+
+.win-icon {
+    height: 10px;
+    width: 10px;
+}
+
+.win-spacer {
+    flex: 1 1 auto;
+}
+
+.win-button {
+    -webkit-app-region: no-drag;
+    -webkit-user-select: none;
+    align-items: center;
+    background-color: inherit;
+    border: inherit;
+    cursor: default;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    line-height: 0;
+    outline: none;
+    width: 46px;
+}
+
+.win-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: inherit;
+    outline: none;
+    transition: background-color 0.1s;
+}
+
+.win-button:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: inherit;
+    outline: none;
+    transition: background-color 0.1s;
+}
+
+.win-button:focus {
+    background-color: inherit;
+    border: inherit;
+    outline: none;
+}
+
+.win-controls {
+    display: flex;
+    height: 100%;
+    justify-content: flex-end;
+    width: 140px;
+}
+
+.win-hamburger {
+    display: flex;
+    height: 100%;
+    justify-content: flex-start;
+    width: 140px;
+}
+
+.win .win-height-adjusted {
+    height: calc(100% - 31px);
+    margin-top: 31px;
+}
+
+.maximized .win-titlebar {
+    width: 100%;
+}

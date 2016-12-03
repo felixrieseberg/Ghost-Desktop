@@ -1,9 +1,10 @@
 {{#if isMac}}
     {{gh-drag-region width="100%" height="16px"}}
+{{else if isWindows}}
+    {{gh-win-titlebar title=title}}
 {{/if}}
 
 {{!-- Left "Quick Swich" Area  --}}
-
 {{#if blogs}}
     {{gh-switcher
         blogs=blogs
@@ -16,8 +17,7 @@
 {{/if}}
 
 {{!-- Right Side: Main Content Area  --}}
-
-<div class="content">
+<div class="content win-height-adjusted">
     {{gh-find-in-webview isActive=isFindInViewActive}}
 
     {{#if isEditBlogVisible}}

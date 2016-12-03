@@ -24,6 +24,12 @@ export default Ember.Service.extend({
         Ember.run.debounce(this, this._prepareMenu, 150);
     },
 
+    popup() {
+        if (this.menu) {
+            this.menu.popup();
+        }
+    },
+
     /**
      * Adds an injection to the app's menu
      *
@@ -108,7 +114,9 @@ export default Ember.Service.extend({
         this._injectShortcuts(template);
         this._processInjections(template);
 
-        Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+        this.menu = Menu.buildFromTemplate(template);
+
+        Menu.setApplicationMenu(this.menu);
     },
 
     /**
