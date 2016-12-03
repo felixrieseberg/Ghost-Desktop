@@ -179,7 +179,7 @@ export default Component.extend({
          * Validates the url given by the user. It should be a properly formatted url.
          */
         validateUrl(input) {
-            let urlPattern = /^http(s?)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]*(\/\S*)?/gi;
+            let urlPattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,3000}(\.[a-z]{0,20})?\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
             let invalid = !urlPattern.test(sanitizeUrl(input));
 
             this.set('isUrlInvalid', invalid);
