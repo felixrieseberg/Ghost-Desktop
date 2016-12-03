@@ -11,10 +11,20 @@ export default Ember.Component.extend({
     didInsertElement() {
         this._super(...arguments);
 
-        browserWindow.on('enter-full-screen', () => this.set('isMaximized', true));
-        browserWindow.on('maximize', () => this.set('isMaximized', true));
-        browserWindow.on('leave-full-screen', () => this.set('isMaximized', false));
-        browserWindow.on('unmaximize', () => this.set('isMaximized', false));
+        browserWindow.on('enter-full-screen', () => this.setMaximized(true));
+        browserWindow.on('maximize', () => this.setMaximized(true));
+        browserWindow.on('leave-full-screen', () => this.setMaximized(false));
+        browserWindow.on('unmaximize', () => this.setMaximized(false));
+    },
+
+    setMaximized(isMaximized) {
+        this.set('isMaximized', isMaximized);
+
+        if (isMaximized) {
+            document.body.classList.add('maximized');
+        } else {
+            document.body.classList.remove('maximized');
+        }
     },
 
     actions: {

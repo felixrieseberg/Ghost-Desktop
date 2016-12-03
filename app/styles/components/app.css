@@ -20,6 +20,14 @@
     height: 100%;
 }
 
+.maximized .win {
+    border: 0px;
+}
+
+.maximized .win .content {
+    width: 100%;
+}
+
 .win {
     border: 1px solid #383838;
     background-color: #383838;

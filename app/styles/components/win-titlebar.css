@@ -90,3 +90,7 @@
     height: calc(100% - 31px);
     margin-top: 31px;
 }
+
+.maximized .win-titlebar {
+    width: 100%;
+}
