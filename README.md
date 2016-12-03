@@ -2,7 +2,7 @@
   <img align="right" src="https://codecov.io/github/TryGhost/Ghost-Desktop/coverage.svg?branch=master" alt="Coverage via Codecov" />
 </a>
 
-![Ghost Screenshot](https://cloud.githubusercontent.com/assets/1426799/13665768/fb6df440-e6e8-11e5-87db-e27527a7e4b4.jpg)
+![Ghost Screenshot](https://cloud.githubusercontent.com/assets/1426799/20859020/b54c8e5c-b985-11e6-850c-ba0ea07dfab7.png)
 
 ![Ghost is a simple, powerful publishing platform that allows you to share your stories with the world.](https://cloud.githubusercontent.com/assets/120485/6626501/b2bb072c-c8ff-11e4-8e1a-2e78e68fd5c3.png)
 
