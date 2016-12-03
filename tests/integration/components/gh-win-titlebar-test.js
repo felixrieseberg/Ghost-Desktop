@@ -1,24 +1,38 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
+const browserWindow = requireNode('electron').remote.getCurrentWindow();
+
 moduleForComponent('gh-win-titlebar', 'Integration | Component | gh win titlebar', {
   integration: true
 });
 
 test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
   this.render(hbs`{{gh-win-titlebar}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(this.$('button[title="Minimize"]'));
+});
 
-  // Template block usage:
-  this.render(hbs`
-    {{#gh-win-titlebar}}
-      template block text
-    {{/gh-win-titlebar}}
-  `);
+test('minimizes the window', function(assert) {
+  this.render(hbs`{{gh-win-titlebar}}`);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  this.$('button[title="Minimize"]').click();
+
+  assert.ok(browserWindow.isMinimized())
+});
+
+test('maximizes the window', function(assert) {
+  this.render(hbs`{{gh-win-titlebar}}`);
+
+  this.$('button[title="maximize"]').click();
+
+  assert.ok(browserWindow.isMaximized())
+});
+
+test('unmaxizimes the window', function(assert) {
+  this.render(hbs`{{gh-win-titlebar}}`);
+
+  this.$('button[title="unmaximize"]').click();
+
+  assert.equal(browserWindow.isMaximized(), false)
 });
