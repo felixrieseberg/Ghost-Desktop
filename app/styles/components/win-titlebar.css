@@ -23,6 +23,11 @@
     margin-left: 5px;
 }
 
+.win-title img.logo {
+    width: 52px;
+    margin-top: 10px;
+}
+
 .win-icon {
     height: 10px;
     width: 10px;
@@ -79,10 +84,6 @@
     height: 100%;
     justify-content: flex-start;
     width: 140px;
-}
-
-.isMaximized .Windows-Titlebar {
-    width: 100%;
 }
 
 .win .win-height-adjusted {
