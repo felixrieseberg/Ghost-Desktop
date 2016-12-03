@@ -1,8 +1,8 @@
-import Ember           from 'ember';
-import getIsGhost      from '../utils/get-is-ghost';
-import getBlogName     from '../utils/get-blog-name';
-import {sanitizeUrl}   from '../utils/sanitize-url';
-import Phrases         from '../utils/phrases';
+import Ember                       from 'ember';
+import getIsGhost                  from '../utils/get-is-ghost';
+import getBlogName                 from '../utils/get-blog-name';
+import {sanitizeUrl, isValidUrl}   from '../utils/sanitize-url';
+import Phrases                     from '../utils/phrases';
 
 const {Component} = Ember;
 
@@ -179,8 +179,7 @@ export default Component.extend({
          * Validates the url given by the user. It should be a properly formatted url.
          */
         validateUrl(input) {
-            let urlPattern = /^http(s?)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]*(\/\S*)?/gi;
-            let invalid = !urlPattern.test(sanitizeUrl(input));
+            let invalid = !isValidUrl(sanitizeUrl(input));
 
             this.set('isUrlInvalid', invalid);
             this.set('urlError', invalid ? Phrases.urlInvalid : undefined);

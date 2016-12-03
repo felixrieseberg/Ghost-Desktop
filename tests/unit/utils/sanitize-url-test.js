@@ -1,4 +1,4 @@
-import {sanitizeUrl} from 'ghost-desktop/utils/sanitize-url';
+import { sanitizeUrl, isValidUrl } from 'ghost-desktop/utils/sanitize-url';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | sanitize url');
@@ -36,4 +36,38 @@ test('adds a http:// if required', function(assert) {
 test('does correctly identify https as not-to-be-replaced', function(assert) {
     let result = sanitizeUrl('https://testblog.com/ghost-blogs/myblog/ghost/');
     assert.equal(result, 'https://testblog.com/ghost-blogs/myblog/ghost/');
+});
+
+module('Unit | Utility | isValidUrl');
+
+test('Approves http://localhost:3000', function(assert) {
+    assert.ok(isValidUrl('http://localhost:3000'));
+});
+
+test('Approves https://localhost:3000', function(assert) {
+    assert.ok(isValidUrl('https://localhost:3000'));
+});
+
+test('Approves http://my.blog.com', function(assert) {
+    assert.ok(isValidUrl('http://my.blog.com'));
+});
+
+test('Approves http://my.blog.com/ghost', function(assert) {
+    assert.ok(isValidUrl('http://my.blog.com/ghost'));
+});
+
+test('Approves http://my.blog.com/ghost/', function(assert) {
+    assert.ok(isValidUrl('http://my.blog.com/ghost/'));
+});
+
+test('Approves http://my.blog.com/ghost:3000', function(assert) {
+    assert.ok(isValidUrl('http://my.blog.com/ghost:3000'));
+});
+
+test('Approves https://my.blog.com/ghost:3000', function(assert) {
+    assert.ok(isValidUrl('https://my.blog.com/ghost:3000'));
+});
+
+test('Approves http://ghost.local:3000', function(assert) {
+    assert.ok(isValidUrl('http://ghost.local:3000'));
 });

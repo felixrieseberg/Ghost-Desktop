@@ -88,7 +88,7 @@ test('marks an incorrect url as invalid', function(assert) {
     this.render(hbs`{{gh-edit-blog}}`);
 
     this.$('input[name="url"]').focus();
-    this.$('input[name="url"]').val('https://not-a-url');
+    this.$('input[name="url"]').val('/not-a-url');
     this.$('input[name="url"]').change();
     this.$('input[name="identification"]').focus();
 
