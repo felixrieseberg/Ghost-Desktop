@@ -264,8 +264,25 @@ export function setup() {
                 }
             ]
         });
-    } else {
-        // Windows and Linux
+    } else if (process.platform === 'linux') {
+        template.find((i) => i.label === 'Window').submenu.splice(1, 0, {
+            label: 'Maximize',
+            click(item, focusedWindow) {
+                if (focusedWindow) {
+                    focusedWindow.maximize();
+                }
+            }
+        });
+
+        template.unshift({
+            label: 'File',
+            submenu: [{
+                // The click action gets injected from gh-switcher.
+                label: 'Preferences',
+                accelerator: 'CmdOrCtrl+,'
+            }]
+        });
+    } else if (process.platform === 'win32') {
         template.unshift({
             label: 'File',
             submenu: [{
