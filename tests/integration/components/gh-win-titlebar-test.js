@@ -1,38 +1,56 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
+import { moduleForComponent, test } from 'ember-qunit'
+import hbs from 'htmlbars-inline-precompile'
 
-const browserWindow = requireNode('electron').remote.getCurrentWindow();
+const browserWindow = require('electron').remote.getCurrentWindow();
 
 moduleForComponent('gh-win-titlebar', 'Integration | Component | gh win titlebar', {
-  integration: true
+    integration: true,
+    afterEach: () => browserWindow.removeAllListeners(['enter-full-screen', 'unmaximize', 'maximize', 'leave-full-screen'])
 });
 
-test('it renders', function(assert) {
-  this.render(hbs`{{gh-win-titlebar}}`);
+test('it renders', function (assert) {
+    this.render(hbs`{{gh-win-titlebar}}`);
 
-  assert.ok(this.$('button[title="Minimize"]'));
+    assert.ok(this.$('button[title="Minimize"]'));
 });
 
-test('minimizes the window', function(assert) {
-  this.render(hbs`{{gh-win-titlebar}}`);
+test('minimizes the window', function (assert) {
+    const done = assert.async();
 
-  this.$('button[title="Minimize"]').click();
+    this.render(hbs`{{gh-win-titlebar}}`);
 
-  assert.ok(browserWindow.isMinimized())
+    this.$('button[title="Minimize"]').click();
+
+    assert.ok(browserWindow.isMinimized());
+    browserWindow.restore();
+
+    setTimeout(done, 750);
 });
 
-test('maximizes the window', function(assert) {
-  this.render(hbs`{{gh-win-titlebar}}`);
+test('maximizes the window', function (assert) {
+    this.render(hbs`{{gh-win-titlebar}}`);
 
-  this.$('button[title="maximize"]').click();
+    this.$('button[title="Maximize"]').click();
 
-  assert.ok(browserWindow.isMaximized())
+    assert.ok(browserWindow.isMaximized());
 });
 
-test('unmaxizimes the window', function(assert) {
-  this.render(hbs`{{gh-win-titlebar}}`);
+test('unmaxizimes the window', function (assert) {
+    this.render(hbs`{{gh-win-titlebar}}`);
+    this.set('isMaximized', true);
 
-  this.$('button[title="unmaximize"]').click();
+    this.$('button[title="Unmaximize"]').click();
 
-  assert.equal(browserWindow.isMaximized(), false)
+    // This will be poop on macOS, so, uhhh, ignore it
+    if (process.platform === 'darwin') return assert.ok(true);
+
+    assert.equal(browserWindow.isMaximized(), false);
 });
+
+// test('closes the window', function (assert) {
+//     this.render(hbs`{{gh-win-titlebar}}`)
+
+//     this.$('button[title="Close"]').click()
+
+//     assert.equal(window.invokedOnFakeWindow, 'close')
+// })

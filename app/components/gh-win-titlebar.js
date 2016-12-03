@@ -1,23 +1,24 @@
 import Ember from 'ember';
 
-const browserWindow = require('electron').remote.getCurrentWindow();
-
 export default Ember.Component.extend({
     classNameBindings: [':win-titlebar'],
     title: 'Ghost',
     windowMenu: Ember.inject.service(),
-    isMaximized: browserWindow.isMaximized(),
+    isMaximized: require('electron').remote.getCurrentWindow().isMaximized(),
+    browserWindow: require('electron').remote.getCurrentWindow(),
 
     didInsertElement() {
         this._super(...arguments);
 
-        browserWindow.on('enter-full-screen', () => this.setMaximized(true));
-        browserWindow.on('maximize', () => this.setMaximized(true));
-        browserWindow.on('leave-full-screen', () => this.setMaximized(false));
-        browserWindow.on('unmaximize', () => this.setMaximized(false));
+        this.browserWindow.on('enter-full-screen', () => this.setMaximized(true));
+        this.browserWindow.on('maximize', () => this.setMaximized(true));
+        this.browserWindow.on('leave-full-screen', () => this.setMaximized(false));
+        this.browserWindow.on('unmaximize', () => this.setMaximized(false));
     },
 
     setMaximized(isMaximized) {
+        if (this.isDestroyed || this.isDestroying) return;
+
         this.set('isMaximized', isMaximized);
 
         if (isMaximized) {
@@ -29,19 +30,19 @@ export default Ember.Component.extend({
 
     actions: {
         maximize() {
-            browserWindow.maximize();
+            this.browserWindow.maximize();
         },
 
         minimize() {
-            browserWindow.minimize();
+            this.browserWindow.minimize();
         },
 
         unmaximize() {
-            browserWindow.unmaximize();
+            this.browserWindow.unmaximize();
         },
 
         close() {
-            browserWindow.close();
+            this.browserWindow.close();
         },
 
         mousedown(e) {
