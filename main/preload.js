@@ -6,3 +6,4 @@ require('./preload/dragdrop');
 require('./preload/spellchecker');
 require('./preload/external-links');
 require('./preload/devtron');
+require('./preload/interactions');

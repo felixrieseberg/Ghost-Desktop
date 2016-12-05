@@ -28,10 +28,11 @@ function setupListeners() {
 
     if (process.platform === 'darwin') {
         mainWindow.on('closed', () => {
-            mainWindow.removeAllListeners();
             debug('Main window closed, closing application');
             app.quit();
         });
+
+        app.on('window-all-closed', () => app.quit())
     }
 }
 

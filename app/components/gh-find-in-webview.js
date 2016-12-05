@@ -20,6 +20,8 @@ export default Ember.Component.extend({
 
         if (!this.get('isActive')) {
             const $webview = findVisibleWebview();
+            console.log('heeeeeeelo');
+            console.log($webview);
             if ($webview && $webview.stopFindInPage) {
                 $webview.stopFindInPage('clearSelection');
             }

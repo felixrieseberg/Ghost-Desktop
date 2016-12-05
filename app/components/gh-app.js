@@ -3,6 +3,7 @@ import setWindowTitle from '../utils/set-window-title';
 import setDockMenu from '../utils/set-dock-menu';
 import setUsertasks from '../utils/set-user-tasks';
 import getCurrentWindow from '../utils/get-current-window';
+import {sanitizeUrl} from '../utils/sanitize-url';
 
 const {Component, inject, computed, observer} = Ember;
 
@@ -44,7 +45,8 @@ export default Component.extend({
      *
      * @param {String} url
      */
-    handleOpenBlogEvent(url) {
+    handleOpenBlogEvent(rawUrl) {
+        const url = sanitizeUrl(rawUrl);
         const blogs = this.get('blogs');
         const matchedBlog = blogs ? blogs.find((b) => b.get('url') === url) : null;
 
@@ -56,10 +58,7 @@ export default Component.extend({
     },
 
     handleCreateDraftEvent({title, content} = {title: '', content: ''}) {
-        if (this.get('blog') && this.get('blog').isSelected) {
-            // Insert into the editor window
-            this.get('webviewShortcuts').openNewPost({title, content});
-        }
+        this.get('webviewShortcuts').openNewPost({title, content});
     },
 
     /**

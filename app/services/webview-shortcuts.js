@@ -52,13 +52,11 @@ export default Ember.Service.extend({
             .then(() => {
                 if (title || content) {
                     const escape = require('js-string-escape');
-                    const $webview = findVisibleWebview();
+                    const $wv = findVisibleWebview();
 
-                    let cmd = '';
-                    cmd += title ? `$('h2 > input').val('${escape(title)}');` : '';
-                    cmd += content ? `$('main textarea').val('${escape(content)}');` : '';
-
-                    $webview && $webview.executeJavaScript(cmd);
+                    if ($wv) {
+                        $wv.executeJavaScript(`GhostDesktop.addToEditor('${escape(title)}', '${escape(content)}')`);
+                    }
                 }
             })
     },
