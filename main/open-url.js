@@ -4,7 +4,7 @@ const debug = require('debug-electron')('ghost-desktop:main:open-url');
 const queryString = require('query-string');
 
 const urlMatchers = {
-    openBlog: /ghost:\/\/open-blog\/(\S*)/,
+    openBlog: /ghost:\/\/open-blog\/\?(\S*)/,
     createDraft: /ghost:\/\/create-draft\/\?(\S*)/
 };
 let instance;
