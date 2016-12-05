@@ -2,7 +2,10 @@ const {app, BrowserWindow} = require('electron');
 const stateManager = require('./state-manager');
 const debug = require('debug-electron')('ghost-desktop:main:open-url');
 
-const urlMatcher = /ghost:\/\/open-blog\/(\S*)/;
+const urlMatchers = {
+    openBlog: /ghost:\/\/open-blog\/(\S*)/,
+    createDraft: /ghost:\/\/open-blog\/(\S*)/
+};
 let instance;
 
 class OpenUrlManager {
@@ -16,27 +19,48 @@ class OpenUrlManager {
 
         debug(`Received open-url event with url ${url}`);
 
-        if (urlMatcher.test(url)) {
+        if (urlMatchers.openBlog.test(url)) {
             return this.handleOpenBlogUrl(url);
+        }
+
+        if (urlMatchers.createDraft.test(url)) {
+            return this.handleCreateDraftUrl(url);
         }
     }
 
     handleOpenBlogUrl(url = '') {
-        const [, blogUrl] = url.match(urlMatcher);
+        const [, blogUrl] = url.match(urlMatchers.openBlog);
 
         debug(`Received open-blog event with blog url ${blogUrl}`);
+        this.sendToMainWindow('open-blog', blogUrl);
+    }
 
-        // Wait for the app to be ready
-        stateManager.on('set-main-window-ready', () => {
-            const win = BrowserWindow.fromId(stateManager.state.mainWindowId);
-            if (win) win.webContents.send('open-blog', blogUrl);
-        });
+    handleCreateDraftUrl(url = '') {
+        const [, rawDetails] = url.match(urlMatchers.createDraft);
+        let details;
+
+        debug(`Received create-draft event with url ${rawDetails}`);
+
+        try {
+            details = JSON.parse(details);
+        } catch (e) {
+            debug('Failed to JSON.parse create-draft url');
+        }
+
+        this.sendToMainWindow('create-draft', details);
     }
 
     registerAsProtocolHandler() {
         if (process.platform === 'win32') {
             app.setAsDefaultProtocolClient('ghost');
         }
+    }
+
+    sendToMainWindow(channel, args) {
+        stateManager.on('set-main-window-ready', () => {
+            const win = BrowserWindow.fromId(stateManager.state.mainWindowId);
+            if (win) win.webContents.send(channel, args);
+        });
     }
 }
 

@@ -10,6 +10,7 @@ export default Component.extend({
     store: inject.service(),
     autoUpdate: inject.service(),
     ipc: inject.service(),
+    webviewShortcuts: inject.service(),
     classNameBindings: ['isMac:mac', 'isWindows:win',':gh-app'],
     isFindInViewActive: false,
     isMac: !!(process.platform === 'darwin'),
@@ -31,11 +32,19 @@ export default Component.extend({
      * Called when the element of the view has been inserted into the DOM.
      */
     didInsertElement() {
-        this.get('ipc').notifyReady();
-        this.get('ipc').on('open-blog', (...args) => this.handleOpenBlogEvent(...args));
+        const ipc = this.get('ipc');
+
+        ipc.notifyReady();
+        ipc.on('open-blog', (blogUrl) => this.handleOpenBlogEvent(blogUrl));
+        ipc.on('create-draft', (details) => this.handleCreateDraftEvent(details));
     },
 
-    handleOpenBlogEvent(sender, url) {
+    /**
+     * Open a blog. If it doesn't exist yet, open the "add blog" UI.
+     *
+     * @param {String} url
+     */
+    handleOpenBlogEvent(url) {
         const blogs = this.get('blogs');
         const matchedBlog = blogs ? blogs.find((b) => b.get('url') === url) : null;
 
@@ -43,6 +52,13 @@ export default Component.extend({
             this.send('switchToBlog', matchedBlog);
         } else {
             this.send('showAddBlog', { url });
+        }
+    },
+
+    handleCreateDraftEvent({title, content} = {title: '', content: ''}) {
+        if (this.get('blog') && this.get('blog').isSelected) {
+            // Insert into the editor window
+            this.get('webviewShortcuts').openNewPost({title, content});
         }
     },
 

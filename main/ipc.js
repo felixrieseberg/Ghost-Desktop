@@ -1,4 +1,4 @@
-const {ipcMain} = require('electron');
+const {ipcMain, BrowserWindow} = require('electron');
 const {state} = require('./state-manager');
 const debug = require('debug-electron')('ghost-desktop:main:ipc');
 
@@ -25,3 +25,13 @@ ipcMain.on('main-window-ready', (event, data) => {
 
     debug(`Main window ready: ${data}`);
 })
+
+ipcMain.on('shutdown-requested', (event) => {
+    if (event.sender) {
+        const win = BrowserWindow.fromWebContents(event.sender);
+
+        setTimeout(() => {
+            if (win && !win.isDestroyed()) win.destroy();
+        }, 300);
+    }
+});

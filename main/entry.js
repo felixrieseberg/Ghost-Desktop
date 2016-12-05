@@ -26,7 +26,13 @@ function setupListeners() {
     // app impossible to use without restarting. These events should be prevented.
     mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
 
-    mainWindow.on('closed', () => app.quit());
+    if (process.platform === 'darwin') {
+        mainWindow.on('closed', () => {
+            mainWindow.removeAllListeners();
+            debug('Main window closed, closing application');
+            app.quit();
+        });
+    }
 }
 
 function setupWindowProperties() {
@@ -68,8 +74,6 @@ app.on('ready', function onReady() {
 
     // Greetings
     console.log('\n ⚡️  Welcome to Ghost  👻\n');
-
-    // Setup ipc
 
     // If you want to open up dev tools programmatically, call
     // mainWindow.openDevTools();
