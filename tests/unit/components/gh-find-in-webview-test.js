@@ -39,7 +39,9 @@ test('handleFind() stops an active search if a webview is found', function(asser
                 stopFindInPage: (action) => assert.equal(action, 'clearSelection')
             }]
         } else {
-            return oldjQuery(...arguments);
+            return {
+                height: () => 20
+            }
         }
     }
 

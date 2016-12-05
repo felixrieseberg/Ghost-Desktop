@@ -30,8 +30,8 @@ export default Component.extend({
      */
     didReceiveAttrs() {
         if (this.get('blog')) {
-            let blog = this.get('blog');
-            let isBasicAuth = (blog.get('basicUsername') || blog.get('basicPassword'));
+            const blog = this.get('blog');
+            const isBasicAuth = (blog.get('basicUsername') || blog.get('basicPassword'));
 
             this.setProperties({
                 url: blog.get('url'),
@@ -40,6 +40,16 @@ export default Component.extend({
                 basicUsername: blog.get('basicUsername'),
                 basicPassword: blog.get('basicPassword'),
                 isBasicAuth
+            });
+        } else if (this.get('preFillValues')) {
+            const preFillValues = this.get('preFillValues');
+
+            this.setProperties({
+                url: preFillValues.url || '',
+                identification: preFillValues.identification || '',
+                password: preFillValues.password || '',
+                basicUsername: preFillValues.basicUsername || '',
+                basicPassword: preFillValues.basicPassword || ''
             });
         }
     },

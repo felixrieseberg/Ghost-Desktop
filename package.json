@@ -19,7 +19,7 @@
     "clean:builds": "rimraf ./electron-builds",
     "clean:builds64": "rimraf ./electron-builds/Ghost*x64*/",
     "clean:builds32": "rimraf ./electron-builds/Ghost*ia32*/",
-    "start": "node ./scripts/fetch-contributors.js && ember electron",
+    "start": "node ./scripts/fetch-contributors.js && cross-env DEBUG=ghost-desktop:* ember electron",
     "test": "npm run test:lint && npm run test:unit",
     "test:unit": "ember electron:test",
     "test:lint": "grunt trimtrailingspaces && eslint './main/**/*.js' './app/**/*.js'",
@@ -49,7 +49,7 @@
     "devtron": "^1.4.0",
     "electron": "1.4.10",
     "electron-osx-sign": "^0.3.2",
-    "electron-packager": "^8.1.0",
+    "electron-packager": "^8.3.0",
     "electron-rebuild": "^1.3.0",
     "ember-ajax": "^2.5.0",
     "ember-cli": "2.9.1",
@@ -66,7 +66,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.9.0",
     "ember-disable-proxy-controllers": "^1.0.1",
-    "ember-electron": "^1.10.8",
+    "ember-electron": "^1.11.5",
     "ember-export-application-global": "^1.0.5",
     "ember-inspector": "^2.0.1",
     "ember-load-initializers": "^0.5.0",
@@ -116,6 +116,10 @@
     ],
     "sign": null,
     "strict-ssl": null,
+    "protocol": [
+      "ghost"
+    ],
+    "protocol-name": "Ghost Desktop",
     "win32metadata": {
       "CompanyName": "Ghost Foundation",
       "FileDescription": "Ghost for Desktops",
@@ -125,11 +129,14 @@
     "version": "1.4.10"
   },
   "dependencies": {
+    "debug-electron": "0.0.3",
     "electron-window-state": "^3.1.0",
     "he": "^1.1.0",
     "hexrgb": "0.0.2",
     "is-reachable": "^1.3.0",
+    "js-string-escape": "^1.0.1",
     "keytar": "^3.0.0",
+    "query-string": "^4.2.3",
     "randomcolor": "0.4.4",
     "spellchecker": "3.3.1"
   }

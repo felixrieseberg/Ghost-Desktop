@@ -2,7 +2,6 @@ import Ember from 'ember';
 import findVisibleWebview from '../utils/find-visible-webview';
 
 export default Ember.Service.extend({
-
     /**
      * Returns a JavaScript command (as string) that selects
      * all elements from a given query selector - and clicks
@@ -11,7 +10,7 @@ export default Ember.Service.extend({
      * @param {string} [selector='']
      * @param {string} [innerText='']
      * @param {Object} [$webview=findVisibleWebview()]
-     * @returns {string} command
+     * @returns {Promise} command
      */
     queryAndClick(selector = '', innerText = '', $webview = findVisibleWebview()) {
         const cmd = [];
@@ -22,7 +21,11 @@ export default Ember.Service.extend({
             cmd.push(`.slice(0,1)`);
             cmd.push(`.every(el => el.click())`);
 
-            $webview.executeJavaScript(cmd.join(''));
+            return new Promise((resolve) => {
+                $webview.executeJavaScript(cmd.join(''), () => resolve());
+            });
+        } else {
+            return Promise.reject();
         }
     },
 
@@ -42,8 +45,20 @@ export default Ember.Service.extend({
      * webview. Does nothing if such a link does
      * not exist.
      */
-    openNewPost() {
-        this.queryAndClick(`a[href*='/ghost/editor/']`, 'New Post');
+    openNewPost({title, content} = {title: '', content: ''}) {
+        window.openNewPost = this.openNewPost.bind(this);
+
+        this.queryAndClick(`a[href*='/ghost/editor/']`, 'New Post')
+            .then(() => {
+                if (title || content) {
+                    const escape = require('js-string-escape');
+                    const $wv = findVisibleWebview();
+
+                    if ($wv) {
+                        $wv.executeJavaScript(`GhostDesktop.addToEditor('${escape(title)}', '${escape(content)}')`);
+                    }
+                }
+            })
     },
 
     /**

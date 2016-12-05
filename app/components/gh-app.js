@@ -3,17 +3,26 @@ import setWindowTitle from '../utils/set-window-title';
 import setDockMenu from '../utils/set-dock-menu';
 import setUsertasks from '../utils/set-user-tasks';
 import getCurrentWindow from '../utils/get-current-window';
+import {sanitizeUrl} from '../utils/sanitize-url';
 
-const {Component} = Ember;
+const {Component, inject, computed, observer} = Ember;
 
 export default Component.extend({
-    store: Ember.inject.service(),
-    autoUpdate: Ember.inject.service(),
+    store: inject.service(),
+    autoUpdate: inject.service(),
+    ipc: inject.service(),
+    webviewShortcuts: inject.service(),
     classNameBindings: ['isMac:mac', 'isWindows:win',':gh-app'],
     isFindInViewActive: false,
     isMac: !!(process.platform === 'darwin'),
     isWindows: !!(process.platform === 'win32'),
 
+    /**
+     * Called when the attributes passed into the component have been updated.
+     * Called both during the initial render of a container and during a rerender.
+     * Can be used in place of an observer; code placed here will be executed
+     * every time any attribute updates.
+     */
     didReceiveAttrs() {
         this.setup();
         this.createSingleInstance();
@@ -21,20 +30,50 @@ export default Component.extend({
     },
 
     /**
+     * Called when the element of the view has been inserted into the DOM.
+     */
+    didInsertElement() {
+        const ipc = this.get('ipc');
+
+        ipc.notifyReady();
+        ipc.on('open-blog', (blogUrl) => this.handleOpenBlogEvent(blogUrl));
+        ipc.on('create-draft', (details) => this.handleCreateDraftEvent(details));
+    },
+
+    /**
+     * Open a blog. If it doesn't exist yet, open the "add blog" UI.
+     *
+     * @param {String} url
+     */
+    handleOpenBlogEvent(rawUrl) {
+        const url = sanitizeUrl(rawUrl);
+        const blogs = this.get('blogs');
+        const matchedBlog = blogs ? blogs.find((b) => b.get('url') === url) : null;
+
+        if (matchedBlog) {
+            this.send('switchToBlog', matchedBlog);
+        } else {
+            this.send('showAddBlog', { url });
+        }
+    },
+
+    handleCreateDraftEvent({title, content} = {title: '', content: ''}) {
+        this.get('webviewShortcuts').openNewPost({title, content});
+    },
+
+    /**
      * Boolean value that returns true if there are any blogs
      */
-    hasBlogs: Ember.computed('blogs', function () {
-        let b = this.get('blogs');
+    hasBlogs: computed('blogs', function () {
+        const b = this.get('blogs');
         return (b && b.content && b.content.length && b.content.length > 0);
     }),
 
-    blogsObserver: Ember.observer('hasBlogs', function () {
-        if (!this.get('hasBlogs')) {
-            this.send('showAddBlog');
-        }
+    blogsObserver: observer('hasBlogs', function () {
+        if (!this.get('hasBlogs')) this.send('showAddBlog');
     }),
 
-    titleObserver: Ember.observer('title', function () {
+    titleObserver: observer('title', function () {
         setWindowTitle(this.get('title'));
     }),
 
@@ -54,18 +93,13 @@ export default Component.extend({
      * Ensures Ghost runs as a single instance.
      */
     createSingleInstance() {
-        let {remote} = requireNode('electron');
-        let {app} = remote;
+        const {remote} = requireNode('electron');
+        const {app} = remote;
 
-        if (!this.appWindow) {
-            this.appWindow = getCurrentWindow();
-        }
+        if (!this.appWindow) this.appWindow = getCurrentWindow();
 
-        let shouldQuit = app.makeSingleInstance(this.onInstanceCheck.bind(this));
-
-        if (shouldQuit) {
-            app.quit();
-        }
+        const shouldQuit = app.makeSingleInstance(this.onInstanceCheck.bind(this));
+        if (shouldQuit) app.quit();
     },
 
     /**
@@ -76,21 +110,14 @@ export default Component.extend({
      */
     onInstanceCheck(argv) {
         if (argv.length >= 2) {
-            let [ , url] = argv;
+            const [ , url] = argv;
+            const blog = this.get('blogs').find((blog) => blog.get('url') === url);
 
-            let blog = this.get('blogs').find((blog) => {
-                return blog.get('url') === url;
-            });
-
-            if (blog) {
-                this.send('switchToBlog', blog);
-            }
+            if (blog) this.send('switchToBlog', blog);
         }
 
         if (this.appWindow) {
-            if (this.appWindow.isMinimized()) {
-                this.appWindow.restore();
-            }
+            if (this.appWindow.isMinimized()) this.appWindow.restore();
             this.appWindow.focus();
         }
     },
@@ -102,9 +129,9 @@ export default Component.extend({
      * On all: Window Menu
      */
     createMenus() {
-        let he    = requireNode('he');
-        let blogs = this.get('blogs');
-        let menu  = [];
+        const he = requireNode('he');
+        const blogs = this.get('blogs');
+        let menu = [];
 
         blogs.forEach((blog) => {
             menu.push({
@@ -113,28 +140,19 @@ export default Component.extend({
             });
         });
 
-        if (process.platform === 'darwin') {
-            setDockMenu(menu);
-        }
-
-        if (process.platform === 'win32') {
-            setUsertasks(menu);
-        }
+        if (process.platform === 'darwin') setDockMenu(menu);
+        if (process.platform === 'win32') setUsertasks(menu);
     },
 
     /**
      * Finds the first blog marked as "selected"
      *
-     * @returns {Object} blog
+     * @returns {Object|null} blog
      */
     findSelectedBlog() {
-        if (!this.get('hasBlogs')) {
-            return null;
-        }
+        if (!this.get('hasBlogs')) return null;
 
-        return this.get('blogs').find((blog) => {
-            return blog.get('isSelected');
-        });
+        return this.get('blogs').find((blog) =>  blog.get('isSelected'));
     },
 
     /**
@@ -158,7 +176,7 @@ export default Component.extend({
      * @param {DS.Model} [options.blog] - Blog to display
      */
     setScreenVisibility({showAddBlog = true, showPreferences = false, blog = null}) {
-        let selectedBlog = this.get('selectedBlog');
+        const selectedBlog = this.get('selectedBlog');
 
         if ((!blog && selectedBlog) || (selectedBlog && blog && selectedBlog !== blog)) {
             selectedBlog.unselect();
@@ -216,8 +234,9 @@ export default Component.extend({
          * Clears the "blogToEdit" property, turning the
          * edit blog UI into an "add blog" UI
          */
-        showAddBlog() {
+        showAddBlog(preFillValues) {
             this.set('blogToEdit', undefined);
+            this.set('preFillValues', preFillValues);
             this.showEditBlogUI();
         },
 
@@ -229,6 +248,7 @@ export default Component.extend({
         showEditBlog(blog, editWarning) {
             this.set('blogToEdit', blog);
             this.set('editWarning', editWarning);
+            this.set('preFillValues', null);
             this.showEditBlogUI();
         },
 

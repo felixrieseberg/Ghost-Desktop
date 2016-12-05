@@ -92,7 +92,7 @@ export function openRepository() {
  * @returns {Electron.Menu} - Built Menu
  */
 export function setup() {
-    let {remote} = requireNode('electron');
+    let {remote, ipcRenderer} = requireNode('electron');
     let browserWindow = remote.getCurrentWindow();
 
     let template = [
@@ -259,6 +259,7 @@ export function setup() {
                     label: 'Quit',
                     accelerator: 'Command+Q',
                     click() {
+                        ipcRenderer.send('shutdown-requested', true);
                         browserWindow.close();
                     }
                 }
