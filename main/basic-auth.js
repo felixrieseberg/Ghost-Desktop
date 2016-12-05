@@ -1,9 +1,9 @@
 const {app} = require('electron');
-const blogs = require('./blog-data');
+const {state} = require('./state-manager');
 
 app.on('login', (event, webContents, request, authInfo, callback) => {
-    if (blogs && blogs.length > 0 && request && request.url) {
-        blogs.forEach(blog => {
+    if (state.blogs && state.blogs.length > 0 && request && request.url) {
+        state.blogs.forEach(blog => {
             if (blog.url.includes(request.url)) {
                 const username = blog.basicUsername;
                 const password = blog.basicPassword;

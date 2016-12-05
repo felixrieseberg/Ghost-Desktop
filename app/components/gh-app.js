@@ -32,13 +32,25 @@ export default Component.extend({
      */
     didInsertElement() {
         this.get('ipc').notifyReady();
+        this.get('ipc').on('open-blog', (...args) => this.handleOpenBlogEvent(...args));
+    },
+
+    handleOpenBlogEvent(sender, url) {
+        const blogs = this.get('blogs');
+        const matchedBlog = blogs ? blogs.find((b) => b.get('url') === url) : null;
+
+        if (matchedBlog) {
+            this.send('switchToBlog', matchedBlog);
+        } else {
+            this.send('showAddBlog', { url });
+        }
     },
 
     /**
      * Boolean value that returns true if there are any blogs
      */
     hasBlogs: computed('blogs', function () {
-        let b = this.get('blogs');
+        const b = this.get('blogs');
         return (b && b.content && b.content.length && b.content.length > 0);
     }),
 
@@ -207,8 +219,9 @@ export default Component.extend({
          * Clears the "blogToEdit" property, turning the
          * edit blog UI into an "add blog" UI
          */
-        showAddBlog() {
+        showAddBlog(preFillValues) {
             this.set('blogToEdit', undefined);
+            this.set('preFillValues', preFillValues);
             this.showEditBlogUI();
         },
 
@@ -220,6 +233,7 @@ export default Component.extend({
         showEditBlog(blog, editWarning) {
             this.set('blogToEdit', blog);
             this.set('editWarning', editWarning);
+            this.set('preFillValues', null);
             this.showEditBlogUI();
         },
 

@@ -5,8 +5,8 @@
  */
 
 const path = require('path');
-const spawn = require('child_process').spawn;
-const app = require('electron').app;
+const {spawn} = require('child_process');
+const {app} = require('electron');
 
 function run(args, done) {
     let updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
