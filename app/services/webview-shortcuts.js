@@ -9,46 +9,63 @@ export default Ember.Service.extend({
      *
      * @param {string} [selector='']
      * @param {string} [innerText='']
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      * @param {Object} [$webview=findVisibleWebview()]
      * @returns {Promise} command
      */
-    queryAndClick(selector = '', innerText = '', $webview = findVisibleWebview()) {
+    queryAndClick(selector = '', innerText = '', waitForWebview = false, $webview = findVisibleWebview()) {
         const cmd = [];
 
-        if ($webview) {
-            cmd.push(`[].slice.call(document.querySelectorAll("${selector}"))`);
-            cmd.push(innerText ? `.filter(el => el.innerText === "${innerText}")` : '');
-            cmd.push(`.slice(0,1)`);
-            cmd.push(`.every(el => el.click())`);
+        if (!$webview) return Promise.reject();;
 
-            return new Promise((resolve) => {
-                $webview.executeJavaScript(cmd.join(''), () => resolve());
-            });
-        } else {
-            return Promise.reject();
-        }
+        cmd.push(`[].slice.call(document.querySelectorAll("${selector}"))`);
+        cmd.push(innerText ? `.filter(el => el.innerText === "${innerText}")` : '');
+        cmd.push(`.slice(0,1)`);
+        cmd.push(`.every(el => el.click())`);
+
+        return new Promise((resolve) => {
+            const run = () => $webview.executeJavaScript(cmd.join(''), () => resolve());
+
+            if (waitForWebview && $webview.isLoading()) {
+                // This is a bit ghetto, but it should work
+                // until we have the time to give this some
+                // polish ✨
+                let intervalCount = 0;
+
+                const checker = setInterval(() => {
+                    if (!$webview.isLoading() || intervalCount > 400) {
+                        setTimeout(() => run(), 1100);
+                        clearInterval(checker);
+                    }
+
+                    intervalCount = intervalCount + 1;
+                }, 300);
+            } else {
+                run();
+            }
+        });
     },
 
     /**
-     * Programmatically clicks the "preview" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "preview" link in either a given or the
+     * currently visible webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openPreview() {
-        this.queryAndClick(`a[href*='/p/']`, 'Preview');
+    openPreview(waitForWebview) {
+        this.queryAndClick(`a[href*='/p/']`, 'Preview', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "New Post" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "New Post" link in either a given or the
+     * currently visible webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openNewPost({title, content} = {title: '', content: ''}) {
+    openNewPost(waitForWebview, {title, content} = {title: '', content: ''}) {
         window.openNewPost = this.openNewPost.bind(this);
 
-        this.queryAndClick(`a[href*='/ghost/editor/']`, 'New Post')
+        this.queryAndClick(`a[href*='/ghost/editor/']`, 'New Post', waitForWebview)
             .then(() => {
                 if (title || content) {
                     const escape = require('js-string-escape');
@@ -62,82 +79,82 @@ export default Ember.Service.extend({
     },
 
     /**
-     * Programmatically clicks the "Content" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "Content" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openContent() {
-        this.queryAndClick(`a[href='/ghost/']`, 'Content');
+    openContent(waitForWebview) {
+        this.queryAndClick(`a[href='/ghost/']`, 'Content', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "Team" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "Team" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openTeam() {
-        this.queryAndClick(`a[href*='/ghost/team/']`, 'Team');
+    openTeam(waitForWebview) {
+        this.queryAndClick(`a[href*='/ghost/team/']`, 'Team', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "General" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "General" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openSettingsGeneral() {
-        this.queryAndClick(`a[href*='/ghost/settings/general/']`, 'General');
+    openSettingsGeneral(waitForWebview) {
+        this.queryAndClick(`a[href*='/ghost/settings/general/']`, 'General', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "Navigation" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "Navigation" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openSettingsNavigation() {
-        this.queryAndClick(`a[href*='/ghost/settings/navigation/']`, 'Navigation');
+    openSettingsNavigation(waitForWebview) {
+        this.queryAndClick(`a[href*='/ghost/settings/navigation/']`, 'Navigation', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "Tags" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "Tags" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openSettingsTags() {
-        this.queryAndClick(`a[href*='/ghost/settings/tags/']`, 'Tags');
+    openSettingsTags(waitForWebview) {
+        this.queryAndClick(`a[href*='/ghost/settings/tags/']`, 'Tags', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "Code Injection" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "Code Injection" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openSettingsCodeInjection() {
-        this.queryAndClick(`a[href*='/ghost/settings/code-injection/']`, 'Code Injection');
+    openSettingsCodeInjection(waitForWebview) {
+        this.queryAndClick(`a[href*='/ghost/settings/code-injection/']`, 'Code Injection', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "Apps" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "Apps" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openSettingsApps() {
-        this.queryAndClick(`a[href*='/ghost/settings/apps/']`, 'Apps');
+    openSettingsApps(waitForWebview) {
+        this.queryAndClick(`a[href*='/ghost/settings/apps/']`, 'Apps', waitForWebview);
     },
 
     /**
-     * Programmatically clicks the "Labs" link
-     * in either a given or the currently visible
-     * webview. Does nothing if such a link does
-     * not exist.
+     * Programmatically clicks the "Labs" link in either a given or the currently visible
+     * webview. Does nothing if such a link does not exist.
+     *
+     * @param {boolean} [waitForWebview] Should we wait for the webview to load?
      */
-    openSettingsLabs() {
-        this.queryAndClick(`a[href*='/ghost/settings/labs/']`, 'Labs');
+    openSettingsLabs(waitForWebview) {
+        this.queryAndClick(`a[href*='/ghost/settings/labs/']`, 'Labs', waitForWebview);
     }
 });

@@ -58,7 +58,7 @@ export default Component.extend({
     },
 
     handleCreateDraftEvent({title, content} = {title: '', content: ''}) {
-        this.get('webviewShortcuts').openNewPost({title, content});
+        this.get('webviewShortcuts').openNewPost(true, {title, content});
     },
 
     /**
