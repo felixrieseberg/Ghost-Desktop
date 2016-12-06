@@ -6,7 +6,7 @@ Ghost Desktop currently supports the following deeplinks:
 Opens the blog if already registered with the app. If it isn't, it'll open the "Add Blog" UI with the URL prefilled.
 
 ```
-ghost://open-blog/?blog=http://address-of-my-blog.com
+ghost://open-blog/?url=http://address-of-my-blog.com&user=me@ghost.org
 ```
 
 #### Create Draft

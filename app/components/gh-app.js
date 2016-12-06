@@ -36,24 +36,26 @@ export default Component.extend({
         const ipc = this.get('ipc');
 
         ipc.notifyReady();
-        ipc.on('open-blog', (blogUrl) => this.handleOpenBlogEvent(blogUrl));
+        ipc.on('open-blog', (details) => this.handleOpenBlogEvent(details));
         ipc.on('create-draft', (details) => this.handleCreateDraftEvent(details));
     },
 
     /**
      * Open a blog. If it doesn't exist yet, open the "add blog" UI.
      *
-     * @param {String} url
+     * @param {Object} details
+     * @property {string} user - Email address of the user (for prefill)
+     * @property {string} url - Url of the blog
      */
-    handleOpenBlogEvent(rawUrl) {
-        const url = sanitizeUrl(rawUrl);
+    handleOpenBlogEvent({url, user} = {url: '', user: ''}) {
+        const sanitizedUrl = sanitizeUrl(url);
         const blogs = this.get('blogs');
-        const matchedBlog = blogs ? blogs.find((b) => b.get('url') === url) : null;
+        const matchedBlog = blogs ? blogs.find((b) => b.get('url') === sanitizedUrl) : null;
 
         if (matchedBlog) {
             this.send('switchToBlog', matchedBlog);
         } else {
-            this.send('showAddBlog', { url });
+            this.send('showAddBlog', { url: sanitizedUrl, user });
         }
     },
 
