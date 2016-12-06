@@ -181,13 +181,13 @@ export default Ember.Service.extend({
                     });
                     item.submenu.insertAt(2, {
                         label: 'Content',
-                        accelerator: 'CmdOrCtrl+Alt+L',
+                        accelerator: 'CmdOrCtrl+Alt+C',
                         name: 'open-content',
                         click: () => shortcuts.openContent()
                     });
                     item.submenu.insertAt(2, {
                         label: 'New Post',
-                        accelerator: 'CmdOrCtrl+Alt+C',
+                        accelerator: 'CmdOrCtrl+N',
                         name: 'open-new-post',
                         click: () => shortcuts.openNewPost()
                     });
