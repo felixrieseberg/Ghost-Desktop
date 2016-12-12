@@ -2,7 +2,6 @@ import Ember from 'ember';
 import setWindowTitle from '../utils/set-window-title';
 import setDockMenu from '../utils/set-dock-menu';
 import setUsertasks from '../utils/set-user-tasks';
-import getCurrentWindow from '../utils/get-current-window';
 import {sanitizeUrl} from '../utils/sanitize-url';
 
 const {Component, inject, computed, observer} = Ember;
