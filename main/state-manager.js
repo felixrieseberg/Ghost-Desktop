@@ -68,4 +68,6 @@ class StateManager extends EventEmitter {
     }
 }
 
-module.exports = new StateManager();
+const stateManager = new StateManager();
+
+module.exports = {state: stateManager.state, stateManager};

@@ -25,7 +25,6 @@ export default Component.extend({
      */
     didReceiveAttrs() {
         this.setup();
-        this.createSingleInstance();
         this.get('autoUpdate').checkForUpdates();
     },
 
@@ -86,39 +85,6 @@ export default Component.extend({
             this.createMenus();
         } else {
             this.set('isEditBlogVisible', true);
-        }
-    },
-
-    /**
-     * Ensures Ghost runs as a single instance.
-     */
-    createSingleInstance() {
-        const {remote} = requireNode('electron');
-        const {app} = remote;
-
-        if (!this.appWindow) this.appWindow = getCurrentWindow();
-
-        const shouldQuit = app.makeSingleInstance(this.onInstanceCheck.bind(this));
-        if (shouldQuit) app.quit();
-    },
-
-    /**
-     * Checks if the instance was supplied with a blog url as a parameter, if so, switch to it.
-     *
-     * @param {Array} argv - Arguments used to start the instance
-     * @param {string} workingDirectory - The working directory when the instance was created.
-     */
-    onInstanceCheck(argv) {
-        if (argv.length >= 2) {
-            const [ , url] = argv;
-            const blog = this.get('blogs').find((blog) => blog.get('url') === url);
-
-            if (blog) this.send('switchToBlog', blog);
-        }
-
-        if (this.appWindow) {
-            if (this.appWindow.isMinimized()) this.appWindow.restore();
-            this.appWindow.focus();
         }
     },
 
