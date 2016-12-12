@@ -30,17 +30,17 @@ class OpenUrlManager {
     }
 
     handleOpenBlogUrl(url = '') {
-        const [, rawblogUrl] = url.match(urlMatchers.openBlog);
-        let blogUrl;
+        const [, rawDetails] = url.match(urlMatchers.openBlog);
+        let details;
 
         try {
-            blogUrl = queryString.parse(rawblogUrl);
+            details = queryString.parse(rawDetails);
         } catch (e) {
             return debug('Failed to queryString.parse open-blog url');
         }
 
-        debug(`Received open-blog event with blog url ${blogUrl.blog}`);
-        this.sendToMainWindow('open-blog', blogUrl.blog);
+        debug(`Received open-blog event with blog url ${JSON.stringify(details)}`);
+        this.sendToMainWindow('open-blog', details);
     }
 
     handleCreateDraftUrl(url = '') {
