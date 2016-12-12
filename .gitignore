@@ -23,6 +23,7 @@ coverage.json
 
 # C++ stuff
 browse.VC.db
-.vscode
+.vscode/**
+!.vscode/settings.json
 
 yarn.lock
