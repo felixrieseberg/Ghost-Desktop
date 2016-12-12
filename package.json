@@ -9,7 +9,7 @@
   },
   "homepage": "https://github.com/tryghost/ghost-desktop",
   "scripts": {
-    "build": "ember electron:package --environment production --app-version $npm_package_version --overwrite",
+    "build": "ember electron:package --environment production --app-version 1.1.2 --overwrite",
     "build:win": "npm run clean:builds32 && npm run build -- --platform win32 --arch ia32",
     "build:macos": "npm run build -- --platform darwin --arch x64",
     "build:linux": "npm run build -- --platform linux --arch x64",
@@ -93,7 +93,7 @@
     "rimraf": "latest",
     "tmp": "0.0.29"
   },
-  "main": "main/entry.js",
+  "main": "main/app.js",
   "ember-electron": {
     "build-version": 1001,
     "copy-files": [

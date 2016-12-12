@@ -1,20 +1,17 @@
-'use strict';
-
 const {app, BrowserWindow} = require('electron');
-const fetchWindowState = require('./window-state');
-const OpenUrlManager = require('./open-url');
+const debug = require('debug-electron')('ghost-desktop:main:app');
+
+const {fetchWindowState} = require('./window-state');
 const {state} = require('./state-manager');
+const {ensureSingleInstance} = require('./single-instance');
+const {parseArguments} = require('./parse-arguments');
+
 const emberAppLocation = `file://${__dirname}/../dist/index.html`;
-const debug = require('debug-electron')('ghost-desktop:main:entry');
 
 // Before we do anything else, handle Squirrel Events
-if (require('./squirrel')()) {
-    return;
-}
+if (require('./squirrel')()) return;
 
 let mainWindow = null;
-
-const openUrlManager = new OpenUrlManager();
 
 function setupListeners() {
     // If a loading operation goes wrong, we'll send Electron back to
@@ -34,6 +31,15 @@ function setupListeners() {
 
         app.on('window-all-closed', () => app.quit())
     }
+
+
+    // Close stuff a bit harder than usual
+    app.on('before-quit', () => {
+        mainWindow.removeAllListeners();
+        mainWindow.close();
+
+        setTimeout(() => app.exit(), 2000);
+    });
 }
 
 function setupWindowProperties() {
@@ -71,10 +77,16 @@ function setupWindowProperties() {
 }
 
 app.on('ready', function onReady() {
+    ensureSingleInstance();
     setupWindowProperties();
+    parseArguments();
 
     // Greetings
-    console.log('\n ⚡️  Welcome to Ghost  👻\n');
+    if (process.platform === 'win32') {
+        console.log('\n Welcome to Ghost \n');
+    } else {
+        console.log('\n ⚡️  Welcome to Ghost  👻\n');
+    }
 
     // If you want to open up dev tools programmatically, call
     // mainWindow.openDevTools();
@@ -87,5 +99,4 @@ app.on('ready', function onReady() {
     require('./basic-auth');
 });
 
-app.on('open-url', (...args) => openUrlManager.handleOpenUrlEvent(...args));
-
+module.exports = {mainWindow};

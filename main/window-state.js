@@ -1,4 +1,3 @@
-'use strict';
 const electron = require('electron');
 const winStateKeeper = require('electron-window-state');
 
@@ -51,4 +50,4 @@ function fetchWindowState() {
     };
 };
 
-module.exports = fetchWindowState;
+module.exports = {fetchWindowState};

@@ -1,5 +1,5 @@
 const {app, BrowserWindow} = require('electron');
-const stateManager = require('./state-manager');
+const {stateManager} = require('./state-manager');
 const debug = require('debug-electron')('ghost-desktop:main:open-url');
 const queryString = require('query-string');
 
@@ -12,11 +12,16 @@ let instance;
 class OpenUrlManager {
     constructor() {
         if (instance) return instance;
+
+        this.registerAsProtocolHandler();
+
         instance = this;
     }
 
     handleOpenUrlEvent(event, url = '') {
-        event.preventDefault();
+        if (event) {
+            event.preventDefault();
+        }
 
         debug(`Received open-url event with url ${url}`);
 
@@ -60,6 +65,8 @@ class OpenUrlManager {
     }
 
     registerAsProtocolHandler() {
+        app.on('open-url', (...args) => this.handleOpenUrlEvent(...args));
+
         if (process.platform === 'win32') {
             app.setAsDefaultProtocolClient('ghost');
         }
@@ -73,5 +80,6 @@ class OpenUrlManager {
     }
 }
 
+const openUrlManager = new OpenUrlManager();
 
-module.exports = OpenUrlManager;
+module.exports = {openUrlManager};
