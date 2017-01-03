@@ -47,7 +47,7 @@
     "codecov": "^1.0.1",
     "cross-env": "^3.1.3",
     "devtron": "^1.4.0",
-    "electron": "1.4.10",
+    "electron": "1.4.12",
     "electron-osx-sign": "^0.3.2",
     "electron-packager": "^8.3.0",
     "electron-rebuild": "^1.3.0",
@@ -126,17 +126,17 @@
       "ProductName": "Ghost",
       "InternalName": "Ghost"
     },
-    "version": "1.4.10"
+    "version": "1.4.12"
   },
   "dependencies": {
-    "debug-electron": "0.0.3",
-    "electron-window-state": "^3.1.0",
-    "he": "^1.1.0",
+    "debug-electron": "0.0.4",
+    "electron-window-state": "^4.0.0",
+    "he": "1.1.0",
     "hexrgb": "0.0.2",
-    "is-reachable": "^1.3.0",
-    "js-string-escape": "^1.0.1",
-    "keytar": "^3.0.0",
-    "query-string": "^4.2.3",
+    "is-reachable": "2.0.0",
+    "js-string-escape": "1.0.1",
+    "keytar": "3.0.2",
+    "query-string": "4.2.3",
     "randomcolor": "0.4.4",
     "spellchecker": "3.3.1"
   }
